@@ -1,0 +1,10 @@
+{
+"compilerOptions": {
+"module": "commonjs",
+"target": "es2020",
+"rootDir": "src",
+"outDir": "dist",
+"esModuleInterop": true,
+"strict": true
+}
+}

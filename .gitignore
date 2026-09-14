@@ -1,7 +1,5 @@
-BACKEND
 backend/node_modules/
 backend/.env/
 
-FRONTEND
 frontend/node_modules/
 frontend/build/
