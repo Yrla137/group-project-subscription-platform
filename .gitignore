@@ -1,4 +1,6 @@
-backend/node_modules/
-backend/.env/
-
-frontend/node_modules/
+.env
+.env.*
+node_modules/
+.DS_Store
+Thumbs.db
+.env*
