@@ -30,14 +30,8 @@ interface UpdateUser {
     password?: string;
 }
 
-// Login User //
-interface LoginUser {
-    email: string;
-    password: string;
-}
-
 // Public User //
 type PublicUser = Omit<User, 'password_hash'>;
 // Omit means that the PublicUser type will have all the properties of the User type except for the password_hash property.
 
-export type { Role, User, CreateUser, UpdateUser, LoginUser, PublicUser };
+export type { Role, User, CreateUser, UpdateUser, PublicUser };
