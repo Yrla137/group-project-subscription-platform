@@ -1,6 +1,4 @@
 import express from "express";
-// import requireAuth from "../middlewares/requireAuth";
-// import requireAdmin from "../middlewares/requireAdmin";
 import {
     loginController,
     registerController
@@ -11,7 +9,7 @@ const router = express.Router();
 
 
 // GET - just to check if the route is working (can be removed later)
-router.get("/", (req, res) => {
+router.get("/", (_req, res) => {
     return res.json({ message: "Auth route is working" });
 });
 
@@ -19,7 +17,7 @@ router.get("/", (req, res) => {
 router.post("/login", loginController);
 
 // POST logout - logs out a user (this can be implemented on the frontend by simply deleting the token, so no need for a backend route later)
-router.post("/logout", (req, res) => {
+router.post("/logout", (_req, res) => {
   return res.json({ message: "Logged out" });
 });
 

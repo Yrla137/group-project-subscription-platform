@@ -2,7 +2,7 @@ import { z } from "zod";
 
 // Login schema for checking incoming data from the user
 const loginSchema = z.object({
-    email: z.email(),
+    email: z.email({ message: "Invalid email address" }),
     password: z.string()
 });
 

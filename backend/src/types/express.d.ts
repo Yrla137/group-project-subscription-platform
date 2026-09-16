@@ -1,6 +1,6 @@
 import type { AuthPayload } from "./authType";
 
-// decleare global means that the AuthPayload in this case will be available globally in the project so it dosen't need to be imported in every file where it is used.
+// Extends the Express Request type so req.user can be used throughout the project.
 declare global {
     namespace Express {
         interface Request {
