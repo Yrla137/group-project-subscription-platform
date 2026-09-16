@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import { pool } from "./config/db";
 import seminarsRouter from "./routes/seminarsRoute";
+import authRoute from "./routes/authRoute";
+import usersRoute from "./routes/usersRoute";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,6 +12,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/seminars", seminarsRouter);
+app.use("/auth", authRoute);
+app.use("/users", usersRoute);
 
 const testDatabaseConnection = async () => {
   try {

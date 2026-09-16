@@ -61,12 +61,12 @@ export const updateUserController = async (req: Request, res: Response) => {
 
         if (!updatedUser) {
             return res.status(404).json({
-                message: "User profile could not be updated"
+                message: "User information could not be updated"
             });
         }
 
         return res.status(200).json({
-            message: "Profile updated successfully"
+            message: "User information updated successfully"
         });
     } catch (error) {
         console.error("Update user error:", error);

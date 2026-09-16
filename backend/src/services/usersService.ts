@@ -56,20 +56,10 @@ const deleteUser = async (id: number): Promise<void> => {
         // Start a transaction
         await client.query('BEGIN');
 
-        // Delete tasks belonging to the user's todo lists
+        // Delete tasks belonging to the user
         await client.query(
             `DELETE FROM tasks
-             WHERE todo_list_id IN (
-                SELECT id
-                FROM todo_list
-                WHERE user_id = $1
-             )`,
-            [id]
-        );
-
-        // Delete user's todo lists
-        await client.query(
-            'DELETE FROM todo_list WHERE user_id = $1',
+                WHERE user_id = $1`,
             [id]
         );
 
