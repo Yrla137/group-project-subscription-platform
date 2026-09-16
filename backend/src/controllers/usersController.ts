@@ -4,7 +4,6 @@ import type { Request, Response } from "express";
 // GET - gets all users from the database (only for admin)
 export const getAllUsersController = async (_req: Request, res: Response) => {
     const users = await usersService.getAllUsers();
-
     return res.status(200).json({
         message: "Users fetched successfully",
         data: users

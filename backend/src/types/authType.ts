@@ -1,4 +1,4 @@
-import type { Role } from "./users-type";
+import type { Role } from "./usersType";
 
 // Login User //
 interface LoginUser {
