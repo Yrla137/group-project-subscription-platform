@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import type { Seminar, CreateSeminar, UpdateSeminar } from "../types/SeminarsTypes";
+import type { Seminar, CreateSeminar, UpdateSeminar, CreateSeminarInput } from "../types/SeminarsTypes";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
@@ -42,7 +42,7 @@ export function useSeminars(): UseSeminarsResult {
         fetchSeminars();
     }, [fetchSeminars]);
 
-    const createSeminar = useCallback(async (data: CreateSeminar): Promise<Seminar | null> => {
+    const createSeminar = useCallback(async (data: CreateSeminarInput): Promise<Seminar | null> => {
         try {
             const res = await fetch(`${API_URL}/seminars`, {
                 method: "POST",

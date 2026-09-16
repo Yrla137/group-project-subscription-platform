@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { format, parseISO } from "date-fns";
 import { sv } from "date-fns/locale";
 import { useSeminars } from "../hooks/useSeminars";
-import type { Seminar, CreateSeminarInput, UpdateSeminar } from "../types/seminars-type";
+import type { Seminar, CreateSeminarInput, UpdateSeminar } from "../types/SeminarsTypes";
 import "./ManageSeminarsPage.css"
 
 const emptyForm: CreateSeminarInput = {
@@ -19,6 +19,9 @@ export default function ManageSeminars() {
     const [editingId, setEditingId] = useState<number | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [deletingId, setDeletingId] = useState<number | null>(null);
+
+    const formRef = useRef<HTMLFormElement>(null);
+    const titleInputRef = useRef<HTMLInputElement>(null);
 
     function handleChange(
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -38,6 +41,9 @@ export default function ManageSeminars() {
             seminar_date: format(parseISO(seminar.seminar_date), "yyyy-MM-dd'T'HH:mm"),
             tier_id: seminar.tier_id,
         });
+
+        formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        titleInputRef.current?.focus();
     }
 
     function cancelEdit() {
@@ -82,11 +88,18 @@ export default function ManageSeminars() {
         <div className="manage-seminars">
             <h2>Hantera seminarier</h2>
 
-            <form className="seminar-form" onSubmit={handleSubmit}>
+            <form ref={formRef} className="seminar-form" onSubmit={handleSubmit}>
                 <div className="form-field">
                     <label htmlFor="seminar_title">Titel</label>
-                    <input id="seminar_title" name="seminar_title" type="text"
-                        value={formData.seminar_title} onChange={handleChange} required />
+                    <input
+                        ref={titleInputRef}
+                        id="seminar_title"
+                        name="seminar_title"
+                        type="text"
+                        value={formData.seminar_title}
+                        onChange={handleChange}
+                        required
+                    />
                 </div>
 
                 <div className="form-field">

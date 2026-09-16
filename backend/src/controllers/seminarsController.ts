@@ -46,7 +46,8 @@ export const updateSeminarController = async (req: Request, res: Response) => {
     }
 
     return res.status(200).json({
-        message: "Seminar updated successfully"
+        message: "Seminar updated successfully",
+        data: updatedSeminar
     });
 };
 

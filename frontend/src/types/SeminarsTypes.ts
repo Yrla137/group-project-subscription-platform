@@ -3,7 +3,7 @@ interface Seminar {
     id: number;
     seminar_title: string;
     seminar_description: string | null;
-    seminar_date: Date;
+    seminar_date: string;
     tier_id: number;
     created_by: number | null;
     created_at: Date;
@@ -13,7 +13,7 @@ interface Seminar {
 interface CreateSeminar {
     seminar_title: string;
     seminar_description?: string;
-    seminar_date: Date;
+    seminar_date: string;
     tier_id: number;
     created_by: number;
 }
@@ -22,7 +22,7 @@ interface CreateSeminar {
 interface UpdateSeminar {
     seminar_title?: string;
     seminar_description?: string;
-    seminar_date?: Date;
+    seminar_date?: string;
     tier_id?: number;
 }
 
@@ -34,4 +34,4 @@ interface CreateSeminarInput {
     tier_id: number;
 }
 
-export type { Seminar, CreateSeminar, UpdateSeminar };
+export type { Seminar, CreateSeminar, UpdateSeminar, CreateSeminarInput };
