@@ -1,0 +1,57 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import logo from "../assets/logo.png"
+
+interface HeaderProps {
+  userName?: string;
+  userTier?: string;
+  avatarUrl?: string;
+  onLogout?: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({
+  userName = "Linnea",
+  userTier = "Focus Pass",
+  avatarUrl = "https://via.placeholder.com/40",
+  onLogout = () => console.log("Loggar ut..."),
+}) => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  return (
+    <header className="app-header">
+
+      <div className="header-left">
+        <Link to="/" className="logo-container">
+
+          <span className="logo-icon"><img src={logo} alt="Lifesync-logo" height="40px" /></span>
+        </Link>
+      </div>
+
+      <div className="header-right">
+        <div 
+          className="user-profile-menu" 
+          onClick={() => setDropdownOpen(!dropdownOpen)}
+        >
+          <img src={avatarUrl} alt="Användaravatar" className="user-avatar" />
+          <div className="user-info">
+            <span className="user-name">{userName}</span>
+            <span className="user-tier-badge">{userTier}</span>
+          </div>
+        </div>
+
+        {dropdownOpen && (
+          <div className="dropdown-popup">
+            <Link to="/membership" className="dropdown-item">
+              ⭐ Mitt medlemskap
+            </Link>
+            <button onClick={onLogout} className="dropdown-item logout-btn">
+              🚪 Logga ut
+            </button>
+          </div>
+        )}
+      </div>
+    </header>
+  );
+};
+
+export default Header;
