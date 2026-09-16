@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.png"
+import logo from "../assets/logo.png";
+import userpic from "../assets/userpic.jpg";
 
 interface HeaderProps {
   userName?: string;
@@ -32,7 +33,7 @@ const Header: React.FC<HeaderProps> = ({
           className="user-profile-menu" 
           onClick={() => setDropdownOpen(!dropdownOpen)}
         >
-          <img src={avatarUrl} alt="Användaravatar" className="user-avatar" />
+          <img src={userpic} alt="Användaravatar" className="user-avatar" />
           <div className="user-info">
             <span className="user-name">{userName}</span>
             <span className="user-tier-badge">{userTier}</span>
