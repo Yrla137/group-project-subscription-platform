@@ -2,14 +2,28 @@ import { format } from "date-fns";
 import { sv } from "date-fns/locale";
 
 type TodoProps = {
-    date: string;
+    todoListId: number|undefined;
+    date: Date;
 }
 
-const Todo = ({ date }: TodoProps) => {
+const Todo = ({ todoListId, date }: TodoProps) => {
+
+    if (!todoListId) {
+        return (
+            <div>
+                <p>{format(date, "EEEE d MMMM", { locale: sv })}</p>
+                <p>Ingen todo-lista för det här datumet ännu.</p>
+            </div>
+        )
+    }
+
     return (
-        
-        <p>{format(date, "EEEE d MMMM", { locale: sv })}</p>
-    )
+        <div>
+            <p>{format(date, "EEEE d MMMM", { locale: sv })}</p>
+            <p>Idag har vi en lista</p>
+            {/* hämta och visa tasks kopplade till todoListId här */}
+        </div>
+    );
 }
 
 

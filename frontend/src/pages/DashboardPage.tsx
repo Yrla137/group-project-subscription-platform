@@ -1,9 +1,9 @@
-import React from 'react'
+import Calendar from '../components/Calendar'
 
 const DashboardPage = () => {
   return (
     <div>
-      
+      <Calendar />
     </div>
   )
 }
