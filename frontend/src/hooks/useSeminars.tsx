@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import type { Seminar, CreateSeminar, UpdateSeminar } from "../types/seminars-type";
+import type { Seminar, CreateSeminar, UpdateSeminar } from "../types/SeminarsTypes";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
