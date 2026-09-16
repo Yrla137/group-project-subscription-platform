@@ -43,26 +43,16 @@ CREATE TABLE payments (
     FOREIGN KEY (tier_id) REFERENCES tiers(id)
 );
 
--- TODO LIST TABLE
-CREATE TABLE todo_list (
-    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    user_id INT NOT NULL,
-    todo_date DATE NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
-
+Uppdaterad tasks - de tidigare tabellernas SQL finns sparade utifall att något går fel.
 -- TASKS TABLE
 CREATE TABLE tasks (
-    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    todo_list_id INT NOT NULL,
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     task_title VARCHAR(255) NOT NULL,
     task_description TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    task_date DATE NOT NULL,          -- Datumet då tasken ska utföras
     is_completed BOOLEAN DEFAULT FALSE,
-
-    FOREIGN KEY (todo_list_id) REFERENCES todo_list(id)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- HABITS TABLE
@@ -104,3 +94,4 @@ CREATE TABLE seminars (
     FOREIGN KEY (tier_id) REFERENCES tiers(id),
     FOREIGN KEY (created_by) REFERENCES users(id)
 );
+
