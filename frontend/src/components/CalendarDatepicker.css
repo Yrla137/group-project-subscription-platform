@@ -102,3 +102,12 @@
 .week-day--active .week-day-dot {
     background-color: #ffffff;
 }
+
+.today-btn {
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.375rem;
+    border: 1px solid currentColor;
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.875rem;
+}

@@ -22,10 +22,10 @@ const getAllSeminars = async (): Promise<Seminar[]> => {
 }
 
 // GET - gets all seminars from the database based on current user tier
-const getSeminarsByTier = async (tier: string) => {
+const getSeminarsByTier = async (tier_id: string) => {
     const result = await pool.query(
-        "SELECT * FROM seminars WHERE tier = $1",
-        [tier]
+        "SELECT * FROM seminars WHERE tier_id = $1",
+        [tier_id]
     );
     return result.rows;
 };

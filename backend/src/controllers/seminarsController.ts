@@ -23,12 +23,14 @@ export const getAllSeminarsController = async (_req: Request, res: Response) => 
 
 // GET - gets all seminars matching the logged-in user's current_tier
 export const getSeminarsByUserTierController = async (req: Request, res: Response) => {
-  
-    //const currentTier = req.user?.current_tier;
+    // TODO: byt ut mot req.user?.id när auth är på plats
+    //const userId = 4;
+
+    //const currentTier = await usersService.getUserTier(userId);
     const currentTier = "1";
 
     if (!currentTier) {
-        return res.status(401).json({ message: "User not authenticated or missing tier" });
+        return res.status(401).json({ message: "User not found or missing tier" });
     }
 
     const seminars = await seminarsService.getSeminarsByTier(currentTier);

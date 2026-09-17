@@ -45,9 +45,9 @@ export default function CalendarDatepicker({
                     ‹
                 </button>
 
-                <button type="button" className="week-range-label" onClick={goToToday}>
+                <span className="week-range-label">
                     {format(weekStart, "d MMM", { locale: sv })} – {format(weekEnd, "d MMM", { locale: sv })}
-                </button>
+                </span>
 
                 <button
                     type="button"
@@ -56,6 +56,10 @@ export default function CalendarDatepicker({
                     aria-label="Nästa vecka"
                 >
                     ›
+                </button>
+
+                <button type="button" className="today-btn" onClick={goToToday}>
+                    Idag
                 </button>
             </div>
 

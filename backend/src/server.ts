@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-app.use("/seminars", seminarsRouter);
+app.use("/api/seminars", seminarsRouter);
 
 const testDatabaseConnection = async () => {
   try {

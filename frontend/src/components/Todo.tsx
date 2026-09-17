@@ -1,18 +1,23 @@
 import { format } from "date-fns";
 import { sv } from "date-fns/locale";
 
+import type { CalendarEvent } from "../types/CalendarTypes";
+
 type TodoProps = {
-    todoListId: number|undefined;
+    events: CalendarEvent[];
     date: Date;
 }
 
-const Todo = ({ todoListId, date }: TodoProps) => {
+const Todo = ({ events, date }: TodoProps) => {
 
-    if (!todoListId) {
+    const tasks = events.filter((event) => event.type === "task");
+    const seminars = events.filter((event) => event.type === "seminar");
+
+    if (events.length === 0) {
         return (
             <div>
                 <p>{format(date, "EEEE d MMMM", { locale: sv })}</p>
-                <p>Ingen todo-lista för det här datumet ännu.</p>
+                <p>Inget planerat för det här datumet ännu.</p>
             </div>
         )
     }
@@ -20,11 +25,30 @@ const Todo = ({ todoListId, date }: TodoProps) => {
     return (
         <div>
             <p>{format(date, "EEEE d MMMM", { locale: sv })}</p>
-            <p>Idag har vi en lista</p>
-            {/* hämta och visa tasks kopplade till todoListId här */}
+
+            {tasks.length > 0 && (
+                <div>
+                    <h3>Tasks</h3>
+                    <ul>
+                        {tasks.map((task) => (
+                            <li key={task.id}>{task.title}</li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
+            {seminars.length > 0 && (
+                <div>
+                    <h3>Seminarier</h3>
+                    <ul>
+                        {seminars.map((seminar) => (
+                            <li key={seminar.id}>{seminar.title}</li>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </div>
     );
 }
-
 
 export default Todo

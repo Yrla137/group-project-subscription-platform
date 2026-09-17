@@ -90,6 +90,14 @@ export interface Seminar {
     created_at: string; // ISO timestamp
 }
 
+// ---------- CalendarEvents ----------
+export type CalendarEvent = {
+    id: number;
+    title: string;
+    date: string; // ISO date string
+    type: "task" | "seminar";
+};
+
 // ---------- Praktiska "joined" hjälptyper ----------
 // Användbara i React när ni redan har hämtat och kopplat ihop data,
 // t.ex. via en Supabase-query med .select("*, tasks(*)").
