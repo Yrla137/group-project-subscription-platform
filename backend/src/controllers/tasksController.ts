@@ -1,6 +1,16 @@
 import * as tasksService from "../services/tasksService";
 import type { Request, Response } from "express";
 
+// POST - create a new task
+export const createTaskController = async (req: Request, res: Response) => {
+    const newTask = await tasksService.createTask(req.body);
+
+    return res.status(201).json({
+        message: "Task created successfully",
+        data: newTask
+    });
+};
+
 // GET - gets all tasks from the database
 export const getAllTasksController = async (_req: Request, res: Response) => {
     const tasks = await tasksService.getAllTasks();

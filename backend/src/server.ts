@@ -4,6 +4,7 @@ import { pool } from "./config/db";
 import seminarsRouter from "./routes/seminarsRoute";
 import authRoute from "./routes/authRoute";
 import usersRoute from "./routes/usersRoute";
+import tasksRouter from "./routes/tasksRoute";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use("/seminars", seminarsRouter);
 app.use("/auth", authRoute);
 app.use("/users", usersRoute);
+app.use("/tasks", tasksRouter);
 
 const testDatabaseConnection = async () => {
   try {
