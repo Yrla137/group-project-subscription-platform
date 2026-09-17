@@ -20,7 +20,7 @@ const getAllSeminars = async (): Promise<Seminar[]> => {
     const result = await pool.query(`
         SELECT
             seminars.*,
-            tiers.level AS tier_level
+            tiers.level_number AS tier_level
         FROM seminars
         JOIN tiers ON seminars.tier_id = tiers.id
     `);
