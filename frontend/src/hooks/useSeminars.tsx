@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Seminar, CreateSeminar, UpdateSeminar, CreateSeminarInput } from "../types/SeminarsTypes";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
 interface UseSeminarsResult {
     seminars: Seminar[];
