@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { pool } from "./config/db";
 import seminarsRouter from "./routes/seminarsRoute";
+import tasksRoute from "./routes/tasksRoute"
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -9,7 +10,8 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-app.use("/seminars", seminarsRouter);
+app.use("/api/seminars", seminarsRouter);
+app.use("/api/tasks", tasksRoute);
 
 const testDatabaseConnection = async () => {
   try {
