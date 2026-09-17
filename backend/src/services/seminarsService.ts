@@ -21,6 +21,15 @@ const getAllSeminars = async (): Promise<Seminar[]> => {
     return result.rows;
 }
 
+// GET - gets all seminars from the database based on current user tier
+const getSeminarsByTier = async (tier: string) => {
+    const result = await pool.query(
+        "SELECT * FROM seminars WHERE tier = $1",
+        [tier]
+    );
+    return result.rows;
+};
+
 // GET id - gets a seminar with a specific id from the database
 const getSeminarById = async (id: number): Promise<Seminar | null> => {
     const result = await pool.query('SELECT id, seminar_title, seminar_description, seminar_date, tier_id, created_by, created_at FROM seminars WHERE id = $1', [id]);
@@ -54,6 +63,7 @@ const deleteSeminar = async (id: number): Promise<void> => {
 export {
     createSeminar,
     getAllSeminars,
+    getSeminarsByTier,
     getSeminarById,
     updateSeminar,
     deleteSeminar
