@@ -1,20 +1,18 @@
 import { pool } from "../config/db";
 import bcrypt from "bcrypt";
-import type { UpdateUser, PublicUser } from './../types/users-type';
+import type { UpdateUser, PublicUser } from '../types/usersType';
 
 // GET - gets all users from the database (only for admin)
- const getAllUsers = async (): Promise<PublicUser[]> => {
+const getAllUsers = async (): Promise<PublicUser[]> => {
     const result = await pool.query('SELECT id, first_name, last_name, email, role, current_tier_id, created_at FROM users');
     return result.rows;
-}
-
+};
  
-// GET id - gets a user with a specific id from the database (only for admin)
- const getUserById = async (id: number): Promise<PublicUser | null> => {
+// GET id - gets a user with a specific id from the database
+const getUserById = async (id: number): Promise<PublicUser | null> => {
     const result = await pool.query('SELECT id, first_name, last_name, email, role, current_tier_id, created_at FROM users WHERE id = $1', [id]);
     return result.rows[0] || null;
  };
- 
 
 // PATCH - update user information
 const updateUser = async (id: number, data: UpdateUser): Promise<PublicUser | null> => {
@@ -58,20 +56,10 @@ const deleteUser = async (id: number): Promise<void> => {
         // Start a transaction
         await client.query('BEGIN');
 
-        // Delete tasks belonging to the user's todo lists
+        // Delete tasks belonging to the user
         await client.query(
             `DELETE FROM tasks
-             WHERE todo_list_id IN (
-                SELECT id
-                FROM todo_list
-                WHERE user_id = $1
-             )`,
-            [id]
-        );
-
-        // Delete user's todo lists
-        await client.query(
-            'DELETE FROM todo_list WHERE user_id = $1',
+                WHERE user_id = $1`,
             [id]
         );
 
