@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { sv } from "date-fns/locale";
+import "./Todo.css"
 
 import type { CalendarEvent } from "../types/CalendarTypes";
 
@@ -10,8 +11,13 @@ type TodoProps = {
 
 const Todo = ({ events, date }: TodoProps) => {
 
+    const level = 1;
+
     const tasks = events.filter((event) => event.type === "task");
     const seminars = events.filter((event) => event.type === "seminar");
+
+    const isOutOfReach = (event: CalendarEvent) =>
+        event.type === "seminar" && event.tierLevel !== undefined && event.tierLevel > level;
 
     if (events.length === 0) {
         return (
@@ -42,7 +48,12 @@ const Todo = ({ events, date }: TodoProps) => {
                     <h3>Seminarier</h3>
                     <ul>
                         {seminars.map((seminar) => (
-                            <li key={seminar.id}>{seminar.title}</li>
+                            <li
+                                key={seminar.id}
+                                className={isOutOfReach(seminar) ? "seminar--out-of-reach" : ""}
+                            >
+                                {seminar.title}
+                            </li>
                         ))}
                     </ul>
                 </div>

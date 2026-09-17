@@ -1,17 +1,24 @@
 import { useState } from "react";
-import { isSameDay, parseISO } from "date-fns";
+import { isSameDay, parseISO, isAfter } from "date-fns";
 
 import { useCalendarEvents } from "../hooks/useCalendarEvents";
-import { useUserTier } from "../hooks/useUserTier";
 
 import Todo from "./Todo";
 import CalendarDatepicker from "./CalendarDatepicker";
 
 const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const { getMaxDateForTier } = useUserTier();
-  const maxDate = getMaxDateForTier;
   const { events, isLoading, error } = useCalendarEvents();
+
+  const maxDate = new Date("2026-09-24");
+
+  const handleSelectDate = (date: Date) => {
+    if (maxDate && isAfter(date, maxDate)) {
+      setSelectedDate(maxDate);
+      return;
+    }
+    setSelectedDate(date);
+  };
 
   const eventsForSelectedDate = events.filter((event) =>
     isSameDay(parseISO(event.date), selectedDate)
@@ -22,13 +29,11 @@ const Calendar = () => {
   if (isLoading) return <p>Laddar kalender...</p>;
   if (error) return <p>Något gick fel: {error}</p>;
 
-  console.log(events);
-
   return (
     <div>
       <CalendarDatepicker
         selectedDate={selectedDate}
-        onSelectDate={setSelectedDate}
+        onSelectDate={handleSelectDate}
         markedDates={markedDates}
         maxDate={maxDate}
       />

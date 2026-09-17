@@ -38,6 +38,7 @@ export const useCalendarEvents = () => {
                     title: s.seminar_title,
                     date: s.seminar_date,
                     type: "seminar" as const,
+                    tierLevel: s.tier_level,
                 }));
 
                 setEvents([/* ...taskEvents, */ ...seminarEvents]);

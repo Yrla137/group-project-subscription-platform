@@ -94,8 +94,9 @@ export interface Seminar {
 export type CalendarEvent = {
     id: number;
     title: string;
-    date: string; // ISO date string
+    date: string;
     type: "task" | "seminar";
+    tierLevel?: number;
 };
 
 // ---------- Praktiska "joined" hjälptyper ----------
