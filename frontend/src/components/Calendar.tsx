@@ -2,12 +2,15 @@ import { useState } from "react";
 import { isSameDay, parseISO } from "date-fns";
 
 import { useCalendarEvents } from "../hooks/useCalendarEvents";
+import { useUserTier } from "../hooks/useUserTier";
 
 import Todo from "./Todo";
 import CalendarDatepicker from "./CalendarDatepicker";
 
 const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const { getMaxDateForTier } = useUserTier();
+  const maxDate = getMaxDateForTier;
   const { events, isLoading, error } = useCalendarEvents();
 
   const eventsForSelectedDate = events.filter((event) =>
@@ -27,6 +30,7 @@ const Calendar = () => {
         selectedDate={selectedDate}
         onSelectDate={setSelectedDate}
         markedDates={markedDates}
+        maxDate={maxDate}
       />
 
       <Todo events={eventsForSelectedDate} date={selectedDate} />

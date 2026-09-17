@@ -1,4 +1,4 @@
-import { startOfWeek, endOfWeek, addDays, addWeeks, format, isSameDay } from "date-fns";
+import { startOfWeek, endOfWeek, addDays, addWeeks, format, isSameDay, isAfter } from "date-fns";
 import { sv } from "date-fns/locale";
 import "./CalendarDatepicker.css";
 
@@ -6,12 +6,14 @@ interface CalendarProps {
     selectedDate: Date;
     onSelectDate: (date: Date) => void;
     markedDates?: Date[];
+    maxDate?: Date | null;
 }
 
 export default function CalendarDatepicker({
     selectedDate,
     onSelectDate,
     markedDates = [],
+    maxDate = null,
 }: CalendarProps) {
     const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 }); // måndag som första dag
     const weekEnd = endOfWeek(selectedDate, { weekStartsOn: 1 });
@@ -19,6 +21,11 @@ export default function CalendarDatepicker({
 
     function hasEntry(date: Date): boolean {
         return markedDates.some((d) => isSameDay(d, date));
+    }
+
+    function isBeyondTierLimit(date: Date): boolean {
+        if (!maxDate) return false;
+        return isAfter(date, maxDate);
     }
 
     function goToPreviousWeek() {
@@ -64,18 +71,24 @@ export default function CalendarDatepicker({
             </div>
 
             <div className="week-days">
-                {days.map((day) => (
-                    <button
-                        key={day.toISOString()}
-                        type="button"
-                        className={`week-day ${isSameDay(day, selectedDate) ? "week-day--active" : ""}`}
-                        onClick={() => onSelectDate(day)}
-                    >
-                        <span className="week-day-label">{format(day, "EEE", { locale: sv })}</span>
-                        <span className="week-day-number">{format(day, "d")}</span>
-                        {hasEntry(day) && <span className="week-day-dot" aria-hidden="true" />}
-                    </button>
-                ))}
+                {days.map((day) => {
+                    const disabled = isBeyondTierLimit(day);
+
+                    return (
+                        <button
+                            key={day.toISOString()}
+                            type="button"
+                            className={`week-day ${isSameDay(day, selectedDate) ? "week-day--active" : ""} ${disabled ? "week-day--disabled" : ""}`}
+                            onClick={() => !disabled && onSelectDate(day)}
+                            disabled={disabled}
+                            aria-disabled={disabled}
+                        >
+                            <span className="week-day-label">{format(day, "EEE", { locale: sv })}</span>
+                            <span className="week-day-number">{format(day, "d")}</span>
+                            {hasEntry(day) && <span className="week-day-dot" aria-hidden="true" />}
+                        </button>
+                    );
+                })}
             </div>
         </div>
     );

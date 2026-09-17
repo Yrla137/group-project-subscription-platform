@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import type { CalendarEvent } from "../types/CalendarTypes";
 
 export const useCalendarEvents = () => {
+
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
     const [events, setEvents] = useState<CalendarEvent[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -14,7 +16,7 @@ export const useCalendarEvents = () => {
             try {
                 const [/* tasksRes, */ seminarsRes] = await Promise.all([
                     // fetch("/tasks/me", { credentials: "include" }),
-                    fetch("http://localhost:3000/api/seminars/my-tier"),
+                    fetch(`${API_URL}/seminars`),
                 ]);
 
                 if (/* !tasksRes.ok || */ !seminarsRes.ok) {

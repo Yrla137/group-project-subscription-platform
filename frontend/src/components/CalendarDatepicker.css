@@ -111,3 +111,8 @@
     cursor: pointer;
     font-size: 0.875rem;
 }
+
+.week-day--disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
