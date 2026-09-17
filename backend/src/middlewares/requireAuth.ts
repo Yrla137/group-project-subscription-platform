@@ -5,25 +5,22 @@ import type { Request, Response, NextFunction} from "express";
 dotenv.config();
 
 const requireAuth = (req: Request, res: Response, next: NextFunction) => {
-    console.log("REQUIRE AUTH HIT");
     const authHeader = req.headers.authorization;
-    console.log("AUTH HEADER:", authHeader);
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
 
         return res.status(401).json({ message: "Unauthorized" });
     }
     const token = authHeader.split(" ")[1];
-    console.log("TOKEN RECEIVED:", token);
 
     const secret = process.env.JWT_SECRET;
     
     if (!secret) {
         return res.status(500).json({ message: "JWT secret is not defined" });
     }
-
+    // console.log("VERIFYING TOKEN...");
     try {
-        console.log("VERIFYING TOKEN...");
+        // console.log("VERIFYING TOKEN...");
         const decoded = jwt.verify(token, secret);
 
         if (typeof decoded === "string") {
