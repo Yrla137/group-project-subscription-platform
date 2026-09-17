@@ -11,9 +11,9 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-app.use("/seminars", seminarsRouter);
-app.use("/auth", authRoute);
-app.use("/users", usersRoute);
+app.use("/api/seminars", seminarsRouter);
+app.use("/api/auth", authRoute);
+app.use("/api/users", usersRoute);
 
 const testDatabaseConnection = async () => {
   try {
