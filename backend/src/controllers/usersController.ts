@@ -24,7 +24,7 @@ export const getUserByIdController = async (req: Request, res: Response) => {
 
     try {
         const id = Number(req.params.id);
-        if (isNaN(id)) {
+        if (!Number.isInteger(id) || id <= 0) {
             return res.status(400).json({message: "Invalid user ID"});
         }
         const user = await usersService.getUserById(id);
@@ -81,7 +81,7 @@ export const deleteUserController = async (req: Request, res: Response) => {
 
     try {
         const id = Number(req.params.id);
-        if (isNaN(id)) {
+        if (!Number.isInteger(id) || id <= 0) {
             return res.status(400).json({message: "Invalid user ID"});
         }
         const user = await usersService.getUserById(id);

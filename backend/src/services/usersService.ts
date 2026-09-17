@@ -1,16 +1,35 @@
 import { pool } from "../config/db";
 import bcrypt from "bcrypt";
-import type { UpdateUser, PublicUser } from '../types/usersType';
+import type { UpdateUser, PublicUser, UserWithTier } from '../types/usersType';
 
 // GET - gets all users from the database (only for admin)
-const getAllUsers = async (): Promise<PublicUser[]> => {
-    const result = await pool.query('SELECT id, first_name, last_name, email, role, current_tier_id, created_at FROM users');
+const getAllUsers = async (): Promise<UserWithTier[]> => {
+    const result = await pool.query(
+        `SELECT
+            users.id, users.first_name,
+            users.last_name,
+            users.email,
+            users.role,
+            users.current_tier_id,
+            tiers.title AS tier_title,
+            tiers.level_number,
+            users.created_at FROM users JOIN tiers ON users.current_tier_id = tiers.id ORDER BY users.id ASC`);
     return result.rows;
 };
  
 // GET id - gets a user with a specific id from the database
-const getUserById = async (id: number): Promise<PublicUser | null> => {
-    const result = await pool.query('SELECT id, first_name, last_name, email, role, current_tier_id, created_at FROM users WHERE id = $1', [id]);
+const getUserById = async (id: number): Promise<UserWithTier | null> => {
+    const result = await pool.query(
+        `SELECT
+            users.id,
+            users.first_name,
+            users.last_name,
+            users.email,
+            users.role,
+            users.current_tier_id,
+            tiers.title AS tier_title,
+            tiers.level_number,
+            users.created_at FROM users JOIN tiers ON users.current_tier_id = tiers.id WHERE users.id = $1`, [id]);
     return result.rows[0] || null;
  };
 
@@ -31,7 +50,7 @@ const updateUser = async (id: number, data: UpdateUser): Promise<PublicUser | nu
 
     return result.rows[0] || null;
     }
-    // COALESCE is a SQL function that returns the first non-null value in a list of arguments.
+    // COALESCE is a PostgreSQL function that returns the first non-null value in a list of arguments.
     // In this case, it is used to update the user's information only if the new value is not null. If the new value is null it will keep the existing value in the database.
 
     const password_hash = await bcrypt.hash(password, 10);
