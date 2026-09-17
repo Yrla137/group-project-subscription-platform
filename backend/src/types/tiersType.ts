@@ -2,7 +2,7 @@ interface Tier {
     id : number;
     title : string;
     tier_description : string;
-    price : number;
+    price : string;
     level_number : number;
     max_todos_per_day : number;
     max_custom_habits : number;

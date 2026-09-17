@@ -26,3 +26,5 @@ router.patch("/:id", requireAuth, requireAdmin, updateTierController);
 
 // DELETE - remove a tier from the database (Will probably not be used in frontend for easy access)
 router.delete("/:id", requireAuth, requireAdmin, deleteTierController);
+
+export default router;
