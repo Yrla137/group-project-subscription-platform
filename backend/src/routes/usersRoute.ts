@@ -1,6 +1,6 @@
 import express from "express";
-// import requireAuth from "../middlewares/requireAuth";
-// import requireAdmin from "../middlewares/requireAdmin";
+import requireAuth from "../middlewares/requireAuth";
+import requireAdmin from "../middlewares/requireAdmin";
 
 import {
     getAllUsersController,
@@ -12,15 +12,15 @@ import {
 const router = express.Router();
 
 // GET - gets all users from the database (only for admin)
-router.get("/", getAllUsersController);
+router.get("/", requireAuth, requireAdmin, getAllUsersController);
 
 // GET id - gets a user with a specific id from the database (only for admin)
-router.get("/:id", getUserByIdController);
+router.get("/:id", requireAuth, requireAdmin, getUserByIdController);
 
 // PATCH - update user information
-router.patch("/:id", updateUserController);
+router.patch("/", requireAuth, updateUserController);
 
 // DELETE - delete a user (only admin)
-router.delete("/:id", deleteUserController);
+router.delete("/:id", requireAuth, requireAdmin, deleteUserController);
 
 export default router;
