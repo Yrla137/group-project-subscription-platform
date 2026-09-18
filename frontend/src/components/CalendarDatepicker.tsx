@@ -19,6 +19,11 @@ export default function CalendarDatepicker({
     const weekEnd = endOfWeek(selectedDate, { weekStartsOn: 1 });
     const days = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
 
+    const today = new Date().toLocaleDateString("sv-SE", {
+        day: "numeric",
+        month: "long",
+    });
+
     function hasEntry(date: Date): boolean {
         return markedDates.some((d) => isSameDay(d, date));
     }
@@ -53,7 +58,12 @@ export default function CalendarDatepicker({
                 </button>
 
                 <span className="week-range-label">
-                    {format(weekStart, "d MMM", { locale: sv })} – {format(weekEnd, "d MMM", { locale: sv })}
+                    {format(weekStart, "d MMM", { locale: sv })} - {format(weekEnd, "d MMM", { locale: sv })}
+
+                    <button type="button" className="today-btn" onClick={goToToday}>
+                        Idag: { today }
+                    </button>
+                
                 </span>
 
                 <button
@@ -63,10 +73,6 @@ export default function CalendarDatepicker({
                     aria-label="Nästa vecka"
                 >
                     ›
-                </button>
-
-                <button type="button" className="today-btn" onClick={goToToday}>
-                    Idag
                 </button>
             </div>
 
@@ -85,7 +91,11 @@ export default function CalendarDatepicker({
                         >
                             <span className="week-day-label">{format(day, "EEE", { locale: sv })}</span>
                             <span className="week-day-number">{format(day, "d")}</span>
-                            {hasEntry(day) && <span className="week-day-dot" aria-hidden="true" />}
+                            {hasEntry(day) ? (
+                                <span className="week-day-dot" aria-hidden="true" />
+                            ) : (
+                                <span className="week-day-nodot" aria-hidden="true" />
+                            )}
                         </button>
                     );
                 })}
