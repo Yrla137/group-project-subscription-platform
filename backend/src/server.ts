@@ -6,6 +6,7 @@ import authRoute from "./routes/authRoute";
 import usersRoute from "./routes/usersRoute";
 import tasksRouter from "./routes/tasksRoute";
 import tiersRoute from "./routes/tiersRoute";
+import paymentsRoute from "./routes/paymentsRoute";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -18,6 +19,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/tiers", tiersRoute);
 app.use("/api/tasks", tasksRouter);
+app.use("/api/payments", paymentsRoute);
 
 const testDatabaseConnection = async () => {
   try {
