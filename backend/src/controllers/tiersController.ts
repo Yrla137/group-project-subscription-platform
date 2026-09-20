@@ -61,6 +61,7 @@ export const createTierController = async (req: Request, res: Response) => {
             message: "Tier created successfully",
             data: tier
         });
+
     } catch (error) {
         const dbError = error as DatabaseError;
 
@@ -107,6 +108,7 @@ export const updateTierController = async (req: Request, res: Response) => {
             message: "Tier updated successfully",
             data: updatedTier
         });
+
     } catch (error) {
         const dbError = error as DatabaseError;
 
@@ -140,6 +142,7 @@ export const deleteTierController = async (req: Request, res: Response) => {
         return res.status(200).json({
             message: "Tier deleted successfully"
         });
+        
     } catch (error) {
         const dbError = error as DatabaseError;
 

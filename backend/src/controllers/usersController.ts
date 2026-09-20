@@ -68,6 +68,7 @@ export const updateUserController = async (req: Request, res: Response) => {
         return res.status(200).json({
             message: "User information updated successfully"
         });
+
     } catch (error) {
         console.error("Update user error:", error);
         return res.status(500).json({
@@ -90,6 +91,7 @@ export const deleteUserController = async (req: Request, res: Response) => {
         }
         await usersService.deleteUser(id);
         return res.status(200).json({message: "User deleted successfully"});
+
     } catch (error) {
         console.error("Delete user error:", error);
         return res.status(500).json({

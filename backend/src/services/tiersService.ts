@@ -16,6 +16,7 @@ const getTierById = async (id: number): Promise<Tier | null> => {
 // POST - create a new tier in the database
 const createTier = async (data: CreateTier): Promise<Tier> => {
     const { title, tier_description, price, level_number, max_todos_per_day, max_custom_habits, max_future_days } = data;
+    
     const result = await pool.query(
         `INSERT INTO tiers (title, tier_description, price, level_number, max_todos_per_day, max_custom_habits, max_future_days)
          VALUES ($1, $2, $3, $4, $5, $6, $7)
@@ -28,6 +29,7 @@ const createTier = async (data: CreateTier): Promise<Tier> => {
 // PATCH - update tier information
 const updateTier = async (id: number, data: UpdateTier): Promise<Tier | null> => {
     const { title, tier_description, price, level_number, max_todos_per_day, max_custom_habits, max_future_days } = data;
+
     const result = await pool.query(
         `UPDATE tiers
          SET title = COALESCE($1, title),

@@ -7,7 +7,6 @@ import {
     getPaymentByIdController,
     createPaymentController}
     from "../controllers/paymentsController";
-import e from "express";
 
 const router = express.Router();
 

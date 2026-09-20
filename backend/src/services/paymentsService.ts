@@ -62,6 +62,7 @@ const createPayment = async (data: CreatePayment, userId: number): Promise<Payme
         await client.query('COMMIT');
 
         return result.rows[0];
+        
     } catch (error) {
         // Rollback the transaction in case of an error
         await client.query('ROLLBACK');

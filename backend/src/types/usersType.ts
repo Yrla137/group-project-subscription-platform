@@ -38,5 +38,6 @@ type UserWithTier = PublicUser & {
     tier_title: string;
     level_number: number;
 };
+// Opposite of Omit, here it "copies" all the properties of the PublicUser type and adds two new properties: tier_title and level_number.
 
 export type { Role, User, CreateUser, UpdateUser, PublicUser, UserWithTier };

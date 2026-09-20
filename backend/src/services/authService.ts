@@ -15,6 +15,7 @@ const loginUser = async (data: LoginUser): Promise<AuthPayload | null> => {
     if (!user) {
         return null;
     }
+
     const isMatch = await bcrypt.compare(data.password, user.password_hash);
     if (!isMatch) {
         return null;
@@ -25,9 +26,13 @@ const loginUser = async (data: LoginUser): Promise<AuthPayload | null> => {
     };
 };
 
-// ( )                         Promise< >
-//  ↓                              ↓
-// Vad går IN?                 Vad kommer UT?
+// ( )                        
+//  ↓                              
+// Vad går IN?
+
+// Promise< >
+//  ↓                              
+// Vad kommer UT?
 
 // POST - register a new user in the database
 const registerUser = async (data: CreateUser): Promise<PublicUser> => {

@@ -36,7 +36,7 @@ const getUserById = async (id: number): Promise<UserWithTier | null> => {
 // PATCH - update user information
 const updateUser = async (id: number, data: UpdateUser): Promise<PublicUser | null> => {
     const { first_name, last_name, email, password } = data;
-
+    
     if (!password) {
     const result = await pool.query(
         `UPDATE users
