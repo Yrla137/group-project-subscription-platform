@@ -18,9 +18,9 @@ const requireAuth = (req: Request, res: Response, next: NextFunction) => {
     if (!secret) {
         return res.status(500).json({ message: "JWT secret is not defined" });
     }
-    // console.log("VERIFYING TOKEN...");
+
     try {
-        // console.log("VERIFYING TOKEN...");
+
         const decoded = jwt.verify(token, secret);
 
         if (typeof decoded === "string") {
@@ -41,7 +41,9 @@ const requireAuth = (req: Request, res: Response, next: NextFunction) => {
         };
 
         next();
+
     } catch (err) {
+        
         console.log("JWT VERIFY ERROR:", err);
 
         return res.status(401).json({
