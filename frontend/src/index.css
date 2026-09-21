@@ -146,6 +146,7 @@ body {
 
 /* --- MAIN CONTENT --- */
 .main-content {
+  background-color: #f8fafd;
   flex: 1;
   padding: 20px;
   overflow-y: auto;

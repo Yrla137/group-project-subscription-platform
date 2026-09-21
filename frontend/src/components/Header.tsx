@@ -13,7 +13,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({
   userName = "Linnea",
   userTier = "Focus Pass",
-  avatarUrl = "https://via.placeholder.com/40",
+  // avatarUrl = "https://via.placeholder.com/40",
   onLogout = () => console.log("Loggar ut..."),
 }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
