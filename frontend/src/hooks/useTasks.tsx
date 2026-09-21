@@ -44,7 +44,7 @@ export function useTasks(): UseTasksResult {
 
     const createTask = useCallback(async (data: CreateTask): Promise<Task | null> => {
         try {
-            const res = await fetch(`${API_URL}/tasks`, {
+            const res = await fetch(`${API_URL}/api/tasks`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
@@ -65,7 +65,7 @@ export function useTasks(): UseTasksResult {
 
     const updateTask = useCallback(async (id: number, data: UpdateTask): Promise<Task | null> => {
         try {
-            const res = await fetch(`${API_URL}/tasks/${id}`, {
+            const res = await fetch(`${API_URL}/api/tasks/${id}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
@@ -77,10 +77,10 @@ export function useTasks(): UseTasksResult {
 
             const json = await res.json();
 
-            const updatedTask = json.data || json;
+            const updatedTask = json.data || json.task || json;
 
             setTasks((prev) =>
-                prev.map((task) => (task.id === id ? updatedTask : task))
+                prev.map((task) => (task.id === id ? { ...task, ...data, ...updatedTask } : task))
             );
             return updatedTask;
         } catch (err) {
@@ -91,7 +91,7 @@ export function useTasks(): UseTasksResult {
 
     const deleteTask = useCallback(async (id: number): Promise<boolean> => {
         try {
-            const res = await fetch(`${API_URL}/tasks/${id}`, {
+            const res = await fetch(`${API_URL}/api/tasks/${id}`, {
                 method: "DELETE",
             });
 
