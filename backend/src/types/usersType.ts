@@ -34,4 +34,10 @@ interface UpdateUser {
 type PublicUser = Omit<User, 'password_hash'>;
 // Omit means that the PublicUser type will have all the properties of the User type except for the password_hash property.
 
-export type { Role, User, CreateUser, UpdateUser, PublicUser };
+type UserWithTier = PublicUser & {
+    tier_title: string;
+    level_number: number;
+};
+// Opposite of Omit, here it "copies" all the properties of the PublicUser type and adds two new properties: tier_title and level_number.
+
+export type { Role, User, CreateUser, UpdateUser, PublicUser, UserWithTier };

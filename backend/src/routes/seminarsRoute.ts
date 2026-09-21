@@ -1,11 +1,11 @@
 import express from "express";
-//import requireAuth from "../middlewares/requireAuth";
-// import requireAdmin from "../middlewares/requireAdmin";
+import requireAuth from "../middlewares/requireAuth";
+import requireAdmin from "../middlewares/requireAdmin";
 
 import {
+    createSeminarController,
     getAllSeminarsController,
     getSeminarByIdController,
-    getSeminarsByUserTierController,
     updateSeminarController,
     deleteSeminarController
 }
@@ -13,19 +13,19 @@ import {
 
 const router = express.Router();
 
-// GET - gets all seminars from the database
-router.get("/", getAllSeminarsController);
+// POST - create a new seminar
+router.post("/", requireAuth, requireAdmin, createSeminarController);
 
-// GET - gets all seminars matching the logged-in user's current_tier
-router.get("/my-tier", getSeminarsByUserTierController);
+// GET - gets all seminars from the database
+router.get("/", requireAuth, getAllSeminarsController);
 
 // GET id - gets a seminar with a specific id from the database
-router.get("/:id", getSeminarByIdController);
+router.get("/:id", requireAuth, getSeminarByIdController);
 
 // PATCH - update seminar information
-router.patch("/:id", updateSeminarController);
+router.patch("/:id", requireAuth, requireAdmin, updateSeminarController);
 
 // DELETE - delete a seminar
-router.delete("/:id", deleteSeminarController);
+router.delete("/:id", requireAuth, requireAdmin, deleteSeminarController);
 
 export default router;

@@ -7,7 +7,7 @@ const updateUserSchema = z.object({
     email: z.email({ message: "Invalid email address" }).optional(),
     password: z.string().min(8, { message: "Password must be at least 8 characters long" }).optional()
 })
-// Refine to ensure at least one field is provided for update. A validation rule outside of the schema definition.
+// Refine is here used to ensure at least one field is provided for update. A validation rule outside of the schema definition.
 .refine((data) => Object.keys(data).length > 0, {
     message: "At least one field must be provided for update"
 });

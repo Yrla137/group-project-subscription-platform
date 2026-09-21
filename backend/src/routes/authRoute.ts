@@ -2,12 +2,10 @@ import express from "express";
 import requireAuth from "../middlewares/requireAuth";
 import {
     loginController,
-    registerController
-}
+    registerController}
     from "../controllers/authController";
 
 const router = express.Router();
-
 
 // GET - just to check if the route is working (can be removed later)
 router.get("/", (_req, res) => {

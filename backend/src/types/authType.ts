@@ -6,7 +6,7 @@ interface LoginUser {
     password: string;
 }
 
-// Auth Payload (JWT) //
+// AuthPayload (JWT) //
 interface AuthPayload {
     user_id: number;
     role: Role;

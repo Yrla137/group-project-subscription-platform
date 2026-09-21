@@ -8,9 +8,9 @@ dotenv.config();
 
 // Login
 export const loginController = async(req: Request, res: Response) => {
+
     try {
         const result = loginSchema.safeParse(req.body);
-
         if(!result.success){
             return res.status(400).json({message: "Invalid input data"});
         }
@@ -34,9 +34,9 @@ export const loginController = async(req: Request, res: Response) => {
             message: "Login successful",
             token: token
             });
+
     } catch (error) {
         console.error("Login error:", error);
-
         return res.status(500).json({
             message: "An error occurred during login"
         });
@@ -47,6 +47,7 @@ export const loginController = async(req: Request, res: Response) => {
 export const registerController = async(req: Request, res: Response) => {
 
     try {
+
         const result = registerSchema.safeParse(req.body);
 
         if(!result.success){
@@ -60,7 +61,9 @@ export const registerController = async(req: Request, res: Response) => {
 
         const user = await authService.registerUser(result.data);
         return res.status(201).json({message: "User created", user: user});
+
     } catch (error) {
+        
         console.error("Registration error:", error);
 
         return res.status(500).json({
