@@ -5,6 +5,9 @@ import seminarsRouter from "./routes/seminarsRoute";
 import authRoute from "./routes/authRoute";
 import usersRoute from "./routes/usersRoute";
 import tasksRouter from "./routes/tasksRoute";
+import habitsRouter from "./routes/habitsRoute";
+import userHabitsRouter from "./routes/userHabitsRoute";
+import habitCompletionsRouter from "./routes/habitCompletionsRoute";
 import tiersRoute from "./routes/tiersRoute";
 import paymentsRoute from "./routes/paymentsRoute";
 
@@ -20,6 +23,9 @@ app.use("/api/users", usersRoute);
 app.use("/api/tiers", tiersRoute);
 app.use("/api/tasks", tasksRouter);
 app.use("/api/payments", paymentsRoute);
+app.use("/api/habits", habitsRouter);
+app.use("/api/user-habits", userHabitsRouter);
+app.use("/api/habit-completions", habitCompletionsRouter);
 
 const testDatabaseConnection = async () => {
   try {
