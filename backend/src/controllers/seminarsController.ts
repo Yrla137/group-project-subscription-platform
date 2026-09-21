@@ -47,7 +47,7 @@ export const getSeminarsByUserTierController = async (req: Request, res: Respons
         return res.status(401).json({ message: "User not found or missing tier" });
     }
 
-    const seminars = await seminarsService.getSeminarsByTier(currentTier);
+    const seminars = await seminarsService.getAllSeminars();
 
     return res.status(200).json({
         message: "Seminars fetched successfully",
