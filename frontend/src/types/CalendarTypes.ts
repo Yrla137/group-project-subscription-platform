@@ -1,10 +1,10 @@
 // ==========================================
-// TYPES — matchar databastabellerna 1:1
+// TYPES — match the database tables 1:1
 // ==========================================
-// Fältnamnen är snake_case för att matcha kolumnnamnen
-// rakt av (så som Supabase-klienten returnerar dem).
-// Vill ni ha camelCase i frontend kan ni mappa om det
-// i ett lager mellan API-anrop och komponenter.
+// Field names are snake_case to match the column names
+// directly (the way the Supabase client returns them).
+// If you want camelCase in the frontend, map it in a
+// layer between the API calls and the components.
 
 // ---------- TIERS ----------
 export interface Tier {
@@ -26,7 +26,7 @@ export interface User {
     first_name: string;
     last_name: string;
     email: string;
-    password_hash: string; // finns i typen för fullständighet, exponera aldrig i UI
+    password_hash: string; // included for completeness, never expose in the UI
     role: UserRole;
     current_tier_id: number;
     created_at: string; // ISO timestamp
@@ -74,7 +74,7 @@ export interface UserHabit {
     user_id: number;
     habit_id: number;
     is_recurring: boolean;
-    recurrence_rule: string | null; // t.ex. "DAILY", "WEEKLY", "MON,WED,FRI"
+    recurrence_rule: string | null; // e.g. "DAILY", "WEEKLY", "MON,WED,FRI"
     is_active: boolean;
     created_at: string; // ISO timestamp
 }
@@ -90,9 +90,19 @@ export interface Seminar {
     created_at: string; // ISO timestamp
 }
 
-// ---------- Praktiska "joined" hjälptyper ----------
-// Användbara i React när ni redan har hämtat och kopplat ihop data,
-// t.ex. via en Supabase-query med .select("*, tasks(*)").
+// ---------- CalendarEvents ----------
+export type CalendarEvent = {
+    id: number;
+    title: string;
+    description: string;
+    date: string;
+    type: "task" | "seminar";
+    tierLevel?: number;
+};
+
+// ---------- Convenient "joined" helper types ----------
+// Useful in React once you've already fetched and joined data,
+// e.g. via a Supabase query with .select("*, tasks(*)").
 
 export interface TodoListWithTasks extends TodoList {
     tasks: Task[];

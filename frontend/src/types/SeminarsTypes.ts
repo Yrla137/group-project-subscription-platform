@@ -26,7 +26,7 @@ interface UpdateSeminar {
     tier_id?: number;
 }
 
-// Används BARA för create-formuläret
+// Used ONLY for the create form
 interface CreateSeminarInput {
     seminar_title: string;
     seminar_description?: string;

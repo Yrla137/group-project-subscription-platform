@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Seminar, CreateSeminar, UpdateSeminar, CreateSeminarInput } from "../types/SeminarsTypes";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
 interface UseSeminarsResult {
     seminars: Seminar[];
@@ -26,13 +26,13 @@ export function useSeminars(): UseSeminarsResult {
             const res = await fetch(`${API_URL}/seminars`);
 
             if (!res.ok) {
-                throw new Error("Kunde inte hämta seminarier");
+                throw new Error("Failed to fetch seminars");
             }
 
             const json = await res.json();
             setSeminars(json.data);
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Ett okänt fel inträffade");
+            setError(err instanceof Error ? err.message : "An unknown error occurred");
         } finally {
             setIsLoading(false);
         }
@@ -51,14 +51,14 @@ export function useSeminars(): UseSeminarsResult {
             });
 
             if (!res.ok) {
-                throw new Error("Kunde inte skapa seminarium");
+                throw new Error("Failed to create seminar");
             }
 
             const json = await res.json();
             setSeminars((prev) => [...prev, json.data]);
             return json.data;
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Ett okänt fel inträffade");
+            setError(err instanceof Error ? err.message : "An unknown error occurred");
             return null;
         }
     }, []);
@@ -72,7 +72,7 @@ export function useSeminars(): UseSeminarsResult {
             });
 
             if (!res.ok) {
-                throw new Error("Kunde inte uppdatera seminarium");
+                throw new Error("Failed to update seminar");
             }
 
             const json = await res.json();
@@ -81,7 +81,7 @@ export function useSeminars(): UseSeminarsResult {
             );
             return json.data;
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Ett okänt fel inträffade");
+            setError(err instanceof Error ? err.message : "An unknown error occurred");
             return null;
         }
     }, []);
@@ -93,13 +93,13 @@ export function useSeminars(): UseSeminarsResult {
             });
 
             if (!res.ok) {
-                throw new Error("Kunde inte radera seminarium");
+                throw new Error("Failed to delete seminar");
             }
 
             setSeminars((prev) => prev.filter((seminar) => seminar.id !== id));
             return true;
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Ett okänt fel inträffade");
+            setError(err instanceof Error ? err.message : "An unknown error occurred");
             return false;
         }
     }, []);

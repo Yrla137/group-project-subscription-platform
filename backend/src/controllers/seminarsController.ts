@@ -35,6 +35,26 @@ export const getAllSeminarsController = async (_req: Request, res: Response) => 
     }
 };
 
+// GET - gets all seminars matching the logged-in user's current_tier
+export const getSeminarsByUserTierController = async (req: Request, res: Response) => {
+    // TODO: byt ut mot req.user?.id när auth är på plats
+    //const userId = 4;
+
+    //const currentTier = await usersService.getUserTier(userId);
+    const currentTier = "1";
+
+    if (!currentTier) {
+        return res.status(401).json({ message: "User not found or missing tier" });
+    }
+
+    const seminars = await seminarsService.getAllSeminars();
+
+    return res.status(200).json({
+        message: "Seminars fetched successfully",
+        data: seminars
+    });
+};
+
 // GET id - gets a seminar with a specific id from the database
 export const getSeminarByIdController = async (req: Request, res: Response) => {
     try {

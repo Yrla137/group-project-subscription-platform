@@ -17,7 +17,7 @@ const createSeminar = async (data: CreateSeminar): Promise<Seminar> => {
 
 // GET - gets all seminars from the database
 const getAllSeminars = async (): Promise<Seminar[]> => {
-    const result = await pool.query(`
+        const result = await pool.query(`
         SELECT
             seminars.*,
             tiers.level_number AS tier_level
@@ -25,7 +25,7 @@ const getAllSeminars = async (): Promise<Seminar[]> => {
         JOIN tiers ON seminars.tier_id = tiers.id
     `);
     return result.rows;
-}
+};
 
 
 // GET id - gets a seminar with a specific id from the database
