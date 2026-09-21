@@ -4,7 +4,7 @@ const SeminarsPage = () => {
   return (
     <div>
       <Link to="manage">
-        Hantera seminarier
+        Manage seminars
       </Link>
     </div>
   )

@@ -146,3 +146,20 @@
 .week-day--active .week-day-dot {
     background-color: #ffffff;
 }
+
+.tier-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: var(--bg-color);
+    border-radius: var(--radius);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.tier-notice .material-symbols-rounded {
+    font-size: 1rem;
+    flex-shrink: 0;
+}

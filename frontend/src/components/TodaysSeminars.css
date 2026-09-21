@@ -22,7 +22,9 @@
     box-shadow: var(--shadow);
 }
 
-.seminar-card--locked {
+.seminar-card--locked .seminar-title,
+.seminar-card--locked .seminar-description,
+.seminar-card--locked .seminar-time {
     opacity: 0.6;
 }
 
@@ -65,4 +67,22 @@
 
 .seminar-lock-badge .material-symbols-rounded {
     font-size: 0.85rem;
+}
+
+.seminar-upgrade-btn {
+    align-self: flex-start;
+    margin-top: 4px;
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #FF6B57;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.seminar-upgrade-btn:hover {
+    background-color: #FF8A78;
 }

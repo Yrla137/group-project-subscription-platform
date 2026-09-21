@@ -51,7 +51,7 @@ export const useCalendarEvents = () => {
         };
 
         fetchEvents();
-    }, []);
+    }, [API_URL]);
 
     return { events, isLoading, error };
 };

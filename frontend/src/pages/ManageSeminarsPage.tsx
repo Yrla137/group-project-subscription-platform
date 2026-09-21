@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { format, parseISO } from "date-fns";
-import { sv } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import { useSeminars } from "../hooks/useSeminars";
 import type { Seminar, CreateSeminarInput, UpdateSeminar } from "../types/SeminarsTypes";
 import "./ManageSeminarsPage.css"
@@ -74,7 +74,7 @@ export default function ManageSeminars() {
     }
 
     async function handleDelete(id: number) {
-        const confirmed = window.confirm("Är du säker på att du vill radera det här seminariet?");
+        const confirmed = window.confirm("Are you sure you want to delete this seminar?");
         if (!confirmed) return;
 
         setDeletingId(id);
@@ -86,11 +86,11 @@ export default function ManageSeminars() {
 
     return (
         <div className="manage-seminars">
-            <h2>Hantera seminarier</h2>
+            <h2>Manage seminars</h2>
 
             <form ref={formRef} className="seminar-form" onSubmit={handleSubmit}>
                 <div className="form-field">
-                    <label htmlFor="seminar_title">Titel</label>
+                    <label htmlFor="seminar_title">Title</label>
                     <input
                         ref={titleInputRef}
                         id="seminar_title"
@@ -103,19 +103,19 @@ export default function ManageSeminars() {
                 </div>
 
                 <div className="form-field">
-                    <label htmlFor="seminar_description">Beskrivning</label>
+                    <label htmlFor="seminar_description">Description</label>
                     <textarea id="seminar_description" name="seminar_description"
                         value={formData.seminar_description} onChange={handleChange} />
                 </div>
 
                 <div className="form-field">
-                    <label htmlFor="seminar_date">Datum och tid</label>
+                    <label htmlFor="seminar_date">Date and time</label>
                     <input id="seminar_date" name="seminar_date" type="datetime-local"
                         value={formData.seminar_date} onChange={handleChange} required />
                 </div>
 
                 <div className="form-field">
-                    <label htmlFor="tier_id">Nivå (tier)</label>
+                    <label htmlFor="tier_id">Tier</label>
                     <select id="tier_id" name="tier_id" value={formData.tier_id} onChange={handleChange}>
                         <option value={1}>Free</option>
                         <option value={2}>Plus</option>
@@ -125,18 +125,18 @@ export default function ManageSeminars() {
 
                 <div className="form-actions">
                     <button type="submit" className="btn btn-primary" disabled={isAnyActionInProgress}>
-                        {isSubmitting ? "Sparar..." : editingId ? "Spara ändringar" : "Skapa seminarium"}
+                        {isSubmitting ? "Saving..." : editingId ? "Save changes" : "Create seminar"}
                     </button>
 
                     {editingId && (
                         <button type="button" className="btn btn-secondary" onClick={cancelEdit} disabled={isSubmitting}>
-                            Avbryt
+                            Cancel
                         </button>
                     )}
                 </div>
             </form>
 
-            {isLoading && <p className="status-text">Laddar seminarier...</p>}
+            {isLoading && <p className="status-text">Loading seminars...</p>}
             {error && <p className="status-text status-text--error">{error}</p>}
 
             <ul className="seminar-list">
@@ -144,7 +144,7 @@ export default function ManageSeminars() {
                     <li key={seminar.id} className="seminar-card">
                         <div className="seminar-card-title">{seminar.seminar_title}</div>
                         <div className="seminar-card-date">
-                            {format(parseISO(seminar.seminar_date), "d MMMM yyyy, HH:mm", { locale: sv })}
+                            {format(parseISO(seminar.seminar_date), "d MMMM yyyy, HH:mm", { locale: enUS })}
                         </div>
                         {seminar.seminar_description && (
                             <p className="seminar-card-description">{seminar.seminar_description}</p>
@@ -153,11 +153,11 @@ export default function ManageSeminars() {
                         <div className="seminar-card-actions">
                             <button type="button" className="btn btn-edit" onClick={() => startEdit(seminar)}
                                 disabled={isAnyActionInProgress}>
-                                Redigera
+                                Edit
                             </button>
                             <button type="button" className="btn btn-danger" onClick={() => handleDelete(seminar.id)}
                                 disabled={isAnyActionInProgress}>
-                                {deletingId === seminar.id ? "Raderar..." : "Radera"}
+                                {deletingId === seminar.id ? "Deleting..." : "Delete"}
                             </button>
                         </div>
                     </li>
