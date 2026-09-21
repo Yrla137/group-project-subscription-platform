@@ -7,7 +7,7 @@ interface AuthContextType {
     token: string | null;
     user: AuthPayload | null;
     loading: boolean;
-    login: (loginData: LoginResponse) => void;
+    login: (loginData: LoginResponse) => boolean;
     logout: () => void;
 }
 
@@ -70,11 +70,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
             setUser(decodedToken);
 
+            return true;
+
         } catch (error) {
             localStorage.removeItem("token");
             console.error("Error processing token during login:", error);
             setToken(null);
             setUser(null);
+            return false;
         }
     };
 

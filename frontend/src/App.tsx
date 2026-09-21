@@ -5,6 +5,8 @@ import SeminarsPage from "./pages/SeminarsPage";
 import ManageSeminarsPage from "./pages/ManageSeminarsPage";
 import HabitsPage from "./pages/HabitsPage";
 import MembershipPage from "./pages/MembershipPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
           <Route path="seminars/manage" element={<ManageSeminarsPage />} />
           <Route path="habits" element={<HabitsPage />} />
           <Route path="membership" element={<MembershipPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
