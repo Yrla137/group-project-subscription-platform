@@ -1,4 +1,68 @@
-.seminar--out-of-reach {
-    text-decoration: line-through;
+.task-list,
+.seminar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.task-card {
+    padding: 12px 16px;
+    background-color: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.seminar-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px;
+    background-color: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.seminar-card--locked {
     opacity: 0.6;
+}
+
+.seminar-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.seminar-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-main);
+}
+
+.seminar-description {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.seminar-time {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.seminar-lock-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #FF6B57;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.seminar-lock-badge .material-symbols-rounded {
+    font-size: 0.85rem;
 }

@@ -30,32 +30,58 @@ const Todo = ({ events, date }: TodoProps) => {
 
     return (
         <div>
-            <p>{format(date, "EEEE d MMMM", { locale: sv })}</p>
+
+            <h2>Planeringar för {format(date, "EEEE d MMMM", { locale: sv })}</h2>
 
             {tasks.length > 0 && (
                 <div>
                     <h3>Tasks</h3>
-                    <ul>
+                    <div className="task-list">
                         {tasks.map((task) => (
-                            <li key={task.id}>{task.title}</li>
+                            <div key={task.id} className="task-card">
+                                {task.title}
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 </div>
             )}
 
             {seminars.length > 0 && (
                 <div>
                     <h3>Seminarier</h3>
-                    <ul>
-                        {seminars.map((seminar) => (
-                            <li
-                                key={seminar.id}
-                                className={isOutOfReach(seminar) ? "seminar--out-of-reach" : ""}
-                            >
-                                {seminar.title}
-                            </li>
-                        ))}
-                    </ul>
+                    <div className="seminar-list">
+                        {seminars.map((seminar) => {
+                            const outOfReach = isOutOfReach(seminar);
+
+                            return (
+                                <div
+                                    key={seminar.id}
+                                    className={`seminar-card ${outOfReach ? "seminar-card--locked" : ""}`}
+                                >
+                                    <div className="seminar-card-header">
+                                        <span className="seminar-title">{seminar.title}</span>
+
+                                        {outOfReach && (
+                                            <span className="seminar-lock-badge">
+                                                <span className="material-symbols-rounded" aria-hidden="true">
+                                                    lock
+                                                </span>
+                                                Tier {seminar.tierLevel}
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    {seminar.description && (
+                                        <p className="seminar-description">{seminar.description}</p>
+                                    )}
+
+                                    <span className="seminar-time">
+                                        {format(new Date(seminar.date), "HH:mm", { locale: sv })}
+                                    </span>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             )}
         </div>

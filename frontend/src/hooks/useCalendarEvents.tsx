@@ -36,6 +36,7 @@ export const useCalendarEvents = () => {
                 const seminarEvents: CalendarEvent[] = seminarsJson.data.map((s: any) => ({
                     id: s.id,
                     title: s.seminar_title,
+                    description: s.seminar_description,
                     date: s.seminar_date,
                     type: "seminar" as const,
                     tierLevel: s.tier_level,
