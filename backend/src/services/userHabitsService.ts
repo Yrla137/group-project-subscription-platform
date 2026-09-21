@@ -1,5 +1,5 @@
 import { pool } from "../config/db";
-import type { UserHabit, UserHabitWithDetails, CreateUserHabit, UpdateUserHabit } from "../types/userHabitsTypes";
+import type { UserHabit, UserHabitWithDetails, CreateUserHabit, UpdateUserHabit } from "../types/UserHabitsTypes";
 
 // GET - gets all active user_habits for a given user, with habit details joined in
 const getUserHabits = async (userId: number): Promise<UserHabitWithDetails[]> => {

@@ -1,5 +1,5 @@
 import { pool } from "../config/db";
-import type { Habit, CreateHabit, UpdateHabit } from "../types/habitsTypes";
+import type { Habit, CreateHabit, UpdateHabit } from "../types/HabitsTypes";
 
 // GET - gets all habits from the catalog
 const getAllHabits = async (): Promise<Habit[]> => {

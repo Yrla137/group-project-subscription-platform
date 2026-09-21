@@ -1,5 +1,5 @@
 import { pool } from "../config/db";
-import type { HabitCompletion, CreateHabitCompletion } from "../types/habitCompletionTypes";
+import type { HabitCompletion, CreateHabitCompletion } from "../types/HabitCompletionTypes";
 
 // GET - gets all completions for a given date across a user's habits
 const getCompletionsForDate = async (userId: number, date: string): Promise<HabitCompletion[]> => {
