@@ -14,18 +14,18 @@ import {
 const router = express.Router();
 
 // POST - create a new seminar
-router.post("/", requireAuth, requireAdmin, createSeminarController);
+router.post("/", requireAdmin, createSeminarController);
 
 // GET - gets all seminars from the database
-router.get("/", requireAuth, getAllSeminarsController);
+router.get("/", getAllSeminarsController);
 
 // GET id - gets a seminar with a specific id from the database
-router.get("/:id", requireAuth, getSeminarByIdController);
+router.get("/:id", getSeminarByIdController);
 
 // PATCH - update seminar information
-router.patch("/:id", requireAuth, requireAdmin, updateSeminarController);
+router.patch("/:id", requireAdmin, updateSeminarController);
 
 // DELETE - delete a seminar
-router.delete("/:id", requireAuth, requireAdmin, deleteSeminarController);
+router.delete("/:id", requireAdmin, deleteSeminarController);
 
 export default router;
