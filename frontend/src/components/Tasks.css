@@ -85,7 +85,6 @@
     background-color: #ffffff;
 }
 
-/* När musen hålls över */
 .task-checkbox:hover {
     border-color: #10b981;
 }
