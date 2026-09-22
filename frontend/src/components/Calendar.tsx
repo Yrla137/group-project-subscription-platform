@@ -4,7 +4,7 @@ import { parseISO, isAfter } from "date-fns";
 import { useCalendarEvents } from "../hooks/useCalendarEvents";
 import { useTasks } from "../hooks/useTasks";
 
-import TodaysSeminars from "./TodaysSeminars";
+import Seminars from "./Seminars";
 import CalendarDatepicker from "./CalendarDatepicker";
 import Tasks from "./Tasks";
 import Habits from "./Habits";
@@ -47,7 +47,7 @@ const Calendar = () => {
       <Tasks selectedDate={selectedDate} />
 
       <Habits selectedDate={selectedDate} />
-      <TodaysSeminars date={selectedDate} />
+      <Seminars date={selectedDate} />
 
     </div>
   );

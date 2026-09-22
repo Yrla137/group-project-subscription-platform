@@ -1,25 +1,25 @@
-import { format, isSameDay } from "date-fns";
+import { format, isSameDay, parseISO } from "date-fns";
 import { enUS } from "date-fns/locale";
-import "./TodaysSeminars.css"
+import "./Seminars.css"
 
-import { useCalendarEvents } from "../hooks/useCalendarEvents";
+import { useSeminars } from "../hooks/useSeminars";
 
-type TodaysSeminarsProps = {
+type SeminarsProps = {
     date: Date;
 }
 
-const TodaysSeminars = ({ date }: TodaysSeminarsProps) => {
+const Seminars = ({ date }: SeminarsProps) => {
 
     const level = 1;
 
-    const { events, isLoading, error } = useCalendarEvents();
+    const { seminars, isLoading, error } = useSeminars();
 
-    const seminars = events.filter(
-        (event) => event.type === "seminar" && isSameDay(new Date(event.date), date)
+    const Seminars = seminars.filter((seminar) =>
+        isSameDay(parseISO(seminar.seminar_date), date)
     );
 
-    const isOutOfReach = (event: (typeof events)[number]) =>
-        event.type === "seminar" && event.tierLevel !== undefined && event.tierLevel > level;
+    const isOutOfReach = (seminar: (typeof seminars)[number]) =>
+        seminar.tier_id !== undefined && seminar.tier_id > level;
 
     if (isLoading) {
         return <p>Loading seminars…</p>;
@@ -29,7 +29,7 @@ const TodaysSeminars = ({ date }: TodaysSeminarsProps) => {
         return <p>Something went wrong: {error}</p>;
     }
 
-    if (seminars.length === 0) {
+    if (Seminars.length === 0) {
         return (
             <>
             </>
@@ -42,7 +42,7 @@ const TodaysSeminars = ({ date }: TodaysSeminarsProps) => {
             <h3>Seminars</h3>
 
             <div className="seminar-list">
-                {seminars.map((seminar) => {
+                {Seminars.map((seminar) => {
                     const outOfReach = isOutOfReach(seminar);
 
                     return (
@@ -51,24 +51,24 @@ const TodaysSeminars = ({ date }: TodaysSeminarsProps) => {
                             className={`seminar-card ${outOfReach ? "seminar-card--locked" : ""}`}
                         >
                             <div className="seminar-card-header">
-                                <span className="seminar-title">{seminar.title}</span>
+                                <span className="seminar-title">{seminar.seminar_title}</span>
 
                                 {outOfReach && (
                                     <span className="seminar-lock-badge">
                                         <span className="material-symbols-rounded" aria-hidden="true">
                                             lock
                                         </span>
-                                        Tier {seminar.tierLevel}
+                                        Tier {seminar.tier_id}
                                     </span>
                                 )}
                             </div>
 
-                            {seminar.description && (
-                                <p className="seminar-description">{seminar.description}</p>
+                            {seminar.seminar_description && (
+                                <p className="seminar-description">{seminar.seminar_description}</p>
                             )}
 
                             <span className="seminar-time">
-                                {format(new Date(seminar.date), "HH:mm", { locale: enUS })}
+                                {format(parseISO(seminar.seminar_date), "HH:mm", { locale: enUS })}
                             </span>
 
                             {outOfReach && (
@@ -84,4 +84,4 @@ const TodaysSeminars = ({ date }: TodaysSeminarsProps) => {
     );
 }
 
-export default TodaysSeminars
+export default Seminars
