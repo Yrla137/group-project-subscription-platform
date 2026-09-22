@@ -40,7 +40,7 @@ export function useAuth() {
     }
   }
 
-  // POST - Register user (Member only)
+  // POST - Register new user
   const registerUser = async (data: RegisterUser): Promise<RegisterResponse> => {
     setError(null);
     setIsLoading(true);

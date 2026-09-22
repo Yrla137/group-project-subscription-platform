@@ -5,6 +5,7 @@ import requireAdmin from "../middlewares/requireAdmin";
 import {
     getAllUsersController,
     getUserByIdController,
+    getProfileController,
     updateUserController,
     deleteUserController}
     from "../controllers/usersController";
@@ -13,6 +14,9 @@ const router = express.Router();
 
 // GET - gets all users from the database (only for admin)
 router.get("/", requireAuth, requireAdmin, getAllUsersController);
+
+// GET - gets the currently authenticated user's profile
+router.get("/profile", requireAuth, getProfileController);
 
 // GET id - gets a user with a specific id from the database (only for admin)
 router.get("/:id", requireAuth, requireAdmin, getUserByIdController);
