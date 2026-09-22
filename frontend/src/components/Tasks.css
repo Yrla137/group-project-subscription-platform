@@ -119,6 +119,92 @@
     margin: 2px 0 0 0;
 }
 
+/* ---- Modal ----- */
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 400px;
+    border-left: 3px solid #ff6b6b;  
+}
+
+.task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.task-form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-close-x {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #666;
+    line-height: 1;
+}
+
+.modal-close-x:hover {
+    color: #000;
+}
+
+
+.task-form input[type="text"],
+.task-form input[type="date"],
+.task-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+}
+
+.task-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+
+.task-save-btn {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-radius: 20px;
+}
+
+.task-save-btn:hover {
+    background-color: #ec5151;
+}
+
+
 
 
 /* Taggen till höger (t.ex. "Arbete") */
