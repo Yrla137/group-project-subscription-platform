@@ -1,8 +1,5 @@
 {
-    "functions": {
-        "src/server.ts": {}
-    },
     "rewrites": [
-        { "source": "/(.*)", "destination": "/src/server" }
+        { "source": "/(.*)", "destination": "/api" }
     ]
 }
