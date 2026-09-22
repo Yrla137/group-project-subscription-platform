@@ -22,5 +22,8 @@
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.23.0",
     "zod": "^4.6.5"
+  },
+  "allowScripts": {
+    "bcrypt": true
   }
 }
