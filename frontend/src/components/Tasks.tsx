@@ -55,6 +55,13 @@ export default function Tasks({ selectedDate }: TaskViewProps) {
                 filteredTasks.map((task) => (
                     <div key={task.id} className={`task-card ${task.is_completed ? "completed" : ""}`}>
                         <div className="task-card-left">
+                                                    
+                        <input 
+                            type="checkbox" 
+                            className="task-checkbox"
+                            checked={task.is_completed} 
+                            onChange={() => updateTask(task.id, { is_completed: !task.is_completed })}
+                        />
                             <div className="task-text-content">
                             <span className={`task-title ${task.is_completed ? "line-through" : ""}`}>
                              {task.task_title} 
@@ -64,12 +71,7 @@ export default function Tasks({ selectedDate }: TaskViewProps) {
                                 )}      
                             </div>   
                         </div>
-                        <input 
-                            type="checkbox" 
-                            className="task-checkbox"
-                            checked={task.is_completed} 
-                            onChange={() => updateTask(task.id, { is_completed: !task.is_completed })}
-                        />
+
 
                             {/* <span className="task-badge">Arbete</span>  /TODO - saving this if there are time to add categories on tasks */}
                     </div>

@@ -9,16 +9,16 @@ const BottomNav: React.FC = () => {
   return (
     <nav className="bottom-nav">
       <Link to="/" className={isActive("/") ? "active" : ""}>
-       <span>Kalender</span>
+       <span>Calendar</span>
       </Link>
       <Link to="/habits" className={isActive("/habits") ? "active" : ""}>
-       <span>Vanor</span>
+       <span>Habits</span>
       </Link>      
       <Link to="/seminars" className={isActive("/seminars") ? "active" : ""}>
-       <span>Seminarier</span>
+       <span>Seminars</span>
       </Link>
       <Link to="/membership" className={isActive("/membership") ? "active" : ""}>
-       <span>Medlemskap</span>
+       <span>Membership</span>
       </Link>
     </nav>
   );

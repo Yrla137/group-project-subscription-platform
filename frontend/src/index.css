@@ -1,11 +1,11 @@
 /* Grundläggande färger */
 :root {
-  --bg-color: #f8f9fa;
+  --bg-color: #fafafa;
   --card-bg: #ffffff;
   --text-main: #212529;
   --text-muted: #6c757d;
-  --primary: #d97706; 
-  --primary-hover: #b45309;
+  --primary: #fa5252; 
+  --primary-hover: #f13f3f;
   --border-color: #e9ecef;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   --radius: 12px;
@@ -15,7 +15,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: var(--bg-color);
+  background-color: #ffffff;
   color: var(--text-main);
 }
 
@@ -27,7 +27,7 @@ body {
   margin: 0 auto;
   background-color: var(--card-bg);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
-  position: relative;
+  /* position: relative; */
 }
 
 /* --- HEADER --- */
@@ -76,8 +76,8 @@ body {
 }
 
 .user-avatar {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--primary);
@@ -146,7 +146,7 @@ body {
 
 /* --- MAIN CONTENT --- */
 .main-content {
-  background-color: #f8fafd;
+  background-color: var(--bg-color);
   flex: 1;
   padding: 20px;
   overflow-y: auto;
@@ -166,7 +166,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 480px;
+  max-width: 1200px;
   z-index: 100;
 }
 
@@ -190,4 +190,18 @@ body {
 .bottom-nav a.active {
   color: var(--primary);
   font-weight: 600;
+}
+
+@media (min-width: 768px) {
+.app-container {
+  max-width: 1032px;
+  } 
+  
+}
+
+@media (min-width: 1280px) {
+.app-container {
+  max-width: 1200px;
+  } 
+  
 }
