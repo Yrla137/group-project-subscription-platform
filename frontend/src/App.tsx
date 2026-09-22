@@ -5,8 +5,10 @@ import SeminarsPage from "./pages/SeminarsPage";
 import ManageSeminarsPage from "./pages/ManageSeminarsPage";
 import HabitsPage from "./pages/HabitsPage";
 import MembershipPage from "./pages/MembershipPage";
+
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import ProfilePage from "./pages/ProfilePage";
 
 import AdminPage from "./pages/Admin/AdminPage";
 import PaymentsHistoryList from "./pages/Admin/PaymentsHistoryList";
@@ -28,6 +30,7 @@ function App() {
 
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
+          <Route path="profile" element={<ProfilePage />} />
 
           <Route path="admin" element={<AdminPage />} />
           <Route path="admin/payments-history" element={<PaymentsHistoryList />} />
