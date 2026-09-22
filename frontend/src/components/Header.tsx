@@ -14,7 +14,7 @@ const Header: React.FC<HeaderProps> = ({
   userName = "Linnea",
   userTier = "Focus Pass",
   // avatarUrl = "https://via.placeholder.com/40",
-  onLogout = () => console.log("Loggar ut..."),
+  onLogout = () => console.log("Logging out..."),
 }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -43,10 +43,13 @@ const Header: React.FC<HeaderProps> = ({
         {dropdownOpen && (
           <div className="dropdown-popup">
             <Link to="/membership" className="dropdown-item">
-              ⭐ Mitt medlemskap
+              Membership
+            </Link>
+            <Link to="/membership" className="dropdown-item">
+              Membership
             </Link>
             <button onClick={onLogout} className="dropdown-item logout-btn">
-              🚪 Logga ut
+              Log out
             </button>
           </div>
         )}
