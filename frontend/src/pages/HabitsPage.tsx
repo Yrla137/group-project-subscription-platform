@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHabits } from "../hooks/useHabits";
 import { useUserHabits } from "../hooks/useUserHabits";
 import "./HabitsPage.css";
@@ -29,6 +29,15 @@ export default function HabitsPage() {
   const [duration, setDuration] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!selectedHabitId) return;
+
+    const habit = habits.find((h) => h.id === selectedHabitId);
+    if (habit?.default_duration_minutes) {
+      setDuration(String(habit.default_duration_minutes));
+    }
+  }, [selectedHabitId, habits]);
 
   function toggleDay(day: string) {
     setSelectedDays((prev) =>
