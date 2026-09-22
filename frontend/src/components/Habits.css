@@ -1,0 +1,132 @@
+.habit-container {
+    padding: 20px;
+    font-family: inherit;
+    max-width: 600px;
+}
+
+.habit-header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.habit-main-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1f2937;
+}
+
+.habit-add-btn {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.habit-add-btn:hover {
+    background-color: #fa5252;
+}
+
+.habit-date-group {
+    margin-bottom: 25px;
+}
+
+.habit-date-heading {
+    font-size: 1.1rem;
+    color: #4b5563;
+    margin-bottom: 12px;
+}
+
+
+.habit-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f3f4f6;
+    border-left: 6px solid #ff6b6b; 
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.habit-card.completed {
+    background-color: #f9fafb;
+    opacity: 0.8;
+}
+
+.habit-card-left {
+    display: flex;
+    align-items: space-between;
+    gap: 15px;
+}
+
+.habit-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #d1d5db;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    transition: all 0.2s ease;
+    background-color: #ffffff;
+}
+
+.habit-checkbox:hover {
+    border-color: #10b981;
+}
+
+
+.habit-checkbox:checked {
+    background-color: #10b981; 
+    border-color: #10b981;
+}
+
+.habit-checkbox:checked::after {
+    content: "✓";
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.habit-title {
+    font-weight: 600;
+    color: #1f2937;
+    display: block;
+}
+
+.habit-title.line-through {
+    text-decoration: line-through;
+    color: #9ca3af;
+}
+
+.habit-desc {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin: 2px 0 0 0;
+}
+
+
+
+/* Taggen till höger (t.ex. "Arbete") */
+/* .habit-badge {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 12px;
+} */

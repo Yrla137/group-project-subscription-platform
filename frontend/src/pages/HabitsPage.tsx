@@ -21,7 +21,7 @@ export default function HabitsPage() {
     error,
     createUserHabit,
     deleteUserHabit,
-  } = useUserHabits();
+  } = useUserHabits(new Date(), false);
 
   const [selectedHabitId, setSelectedHabitId] = useState<number | "">("");
   const [scheduleType, setScheduleType] = useState<"DAILY" | "WEEKLY">("DAILY");

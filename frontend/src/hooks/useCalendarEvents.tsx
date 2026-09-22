@@ -14,24 +14,26 @@ export const useCalendarEvents = () => {
             setError(null);
 
             try {
-                const [/* tasksRes, */ seminarsRes] = await Promise.all([
-                    // fetch("/tasks/me", { credentials: "include" }),
+                const [habitsRes, seminarsRes] = await Promise.all([
+                    fetch(`${API_URL}/user-habits/today`),
                     fetch(`${API_URL}/seminars`),
                 ]);
 
-                if (/* !tasksRes.ok || */ !seminarsRes.ok) {
+                if (!habitsRes.ok || !seminarsRes.ok) {
                     throw new Error("Failed to fetch calendar events");
                 }
 
-                // const tasksJson = await tasksRes.json();
+                const habitsJson = await habitsRes.json();
                 const seminarsJson = await seminarsRes.json();
 
-                // const taskEvents: CalendarEvent[] = tasksJson.data.map((t: any) => ({
-                //     id: t.id,
-                //     title: t.title,
-                //     date: t.todo_date,
-                //     type: "task" as const,
-                // }));
+                const habitEvents: CalendarEvent[] = habitsJson.data.map((h: any) => ({
+                    id: h.id,
+                    title: h.habit_title,
+                    description: h.habit_description,
+                    date: new Date().toISOString().slice(0, 10),
+                    type: "habit" as const,
+                    isCompleted: h.is_completed_today,
+                }));
 
                 const seminarEvents: CalendarEvent[] = seminarsJson.data.map((s: any) => ({
                     id: s.id,
@@ -42,7 +44,7 @@ export const useCalendarEvents = () => {
                     tierLevel: s.tier_level,
                 }));
 
-                setEvents([/* ...taskEvents, */ ...seminarEvents]);
+                setEvents([...habitEvents, ...seminarEvents]);
             } catch (err) {
                 setError(err instanceof Error ? err.message : "Something went wrong");
             } finally {

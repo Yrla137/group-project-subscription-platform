@@ -7,6 +7,7 @@ import { useTasks } from "../hooks/useTasks";
 import TodaysSeminars from "./TodaysSeminars";
 import CalendarDatepicker from "./CalendarDatepicker";
 import Tasks from "./Tasks";
+import Habits from "./Habits";
 
 const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -45,6 +46,7 @@ const Calendar = () => {
       />
       <Tasks selectedDate={selectedDate} />
 
+      <Habits selectedDate={selectedDate} />
       <TodaysSeminars date={selectedDate} />
 
     </div>
