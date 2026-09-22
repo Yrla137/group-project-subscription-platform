@@ -12,7 +12,6 @@ import tiersRoute from "./routes/tiersRoute";
 import paymentsRoute from "./routes/paymentsRoute";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -40,6 +39,12 @@ const testDatabaseConnection = async () => {
 
 testDatabaseConnection();
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 3000;
+
+  app.listen(PORT, () => {
+    console.log("Server running locally on port " + PORT);
+  });
+}
+
+export default app;
