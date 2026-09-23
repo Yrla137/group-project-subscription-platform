@@ -5,6 +5,7 @@ interface Seminar {
     seminar_description: string | null;
     seminar_date: string;
     tier_id: number;
+    tier_level: number;
     created_by: number | null;
     created_at: Date;
 }

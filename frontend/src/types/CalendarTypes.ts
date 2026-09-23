@@ -92,11 +92,8 @@ export interface Seminar {
 
 // ---------- CalendarEvents ----------
 export type CalendarEvent = {
-    id: number;
-    title: string;
-    description: string;
     date: string;
-    type: "task" | "seminar";
+    type: "task" | "seminar" | "habit";
     tierLevel?: number;
 };
 
