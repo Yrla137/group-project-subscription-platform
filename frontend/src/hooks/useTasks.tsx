@@ -23,7 +23,7 @@ export function useTasks(): UseTasksResult {
         setError(null);
 
         try {
-            const res = await fetch(`${API_URL}/api/tasks`);
+            const res = await fetch(`${API_URL}/tasks`);
 
             if (!res.ok) {
                 throw new Error("Kunde inte hämta uppgifter");
@@ -44,7 +44,7 @@ export function useTasks(): UseTasksResult {
 
     const createTask = useCallback(async (data: CreateTask): Promise<Task | null> => {
         try {
-            const res = await fetch(`${API_URL}/api/tasks`, {
+            const res = await fetch(`${API_URL}/tasks`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
@@ -65,7 +65,7 @@ export function useTasks(): UseTasksResult {
 
     const updateTask = useCallback(async (id: number, data: UpdateTask): Promise<Task | null> => {
         try {
-            const res = await fetch(`${API_URL}/api/tasks/${id}`, {
+            const res = await fetch(`${API_URL}/tasks/${id}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
@@ -91,7 +91,7 @@ export function useTasks(): UseTasksResult {
 
     const deleteTask = useCallback(async (id: number): Promise<boolean> => {
         try {
-            const res = await fetch(`${API_URL}/api/tasks/${id}`, {
+            const res = await fetch(`${API_URL}/tasks/${id}`, {
                 method: "DELETE",
             });
 
