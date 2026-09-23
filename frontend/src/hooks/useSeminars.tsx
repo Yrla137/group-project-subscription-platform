@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
-import type { Seminar, CreateSeminar, UpdateSeminar, CreateSeminarInput } from "../types/SeminarsTypes";
+import type { Seminar, UpdateSeminar, CreateSeminarInput } from "../types/SeminarsTypes";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000/api";
 
 interface UseSeminarsResult {
     seminars: Seminar[];
     isLoading: boolean;
     error: string | null;
-    createSeminar: (data: CreateSeminar) => Promise<Seminar | null>;
+    createSeminar: (data: CreateSeminarInput) => Promise<Seminar | null>;
     updateSeminar: (id: number, data: UpdateSeminar) => Promise<Seminar | null>;
     deleteSeminar: (id: number) => Promise<boolean>;
     refetch: () => Promise<void>;
