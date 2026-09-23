@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useHabits } from "../hooks/useHabits";
 import { useUserHabits } from "../hooks/useUserHabits";
+import type { UserHabitWithDetails } from "../types/UserHabitsTypes";
 import "./HabitsPage.css";
 
 const WEEKDAYS = [
@@ -20,6 +21,7 @@ export default function HabitsPage() {
     isLoading: userHabitsLoading,
     error,
     createUserHabit,
+    updateUserHabit,
     deleteUserHabit,
   } = useUserHabits(new Date(), false);
 
@@ -27,17 +29,20 @@ export default function HabitsPage() {
   const [scheduleType, setScheduleType] = useState<"DAILY" | "WEEKLY">("DAILY");
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [duration, setDuration] = useState<string>("");
+  const [editingId, setEditingId] = useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
+  const formRef = useRef<HTMLFormElement>(null);
+
   useEffect(() => {
-    if (!selectedHabitId) return;
+    if (!selectedHabitId || editingId) return; // don't override values while editing
 
     const habit = habits.find((h) => h.id === selectedHabitId);
     if (habit?.default_duration_minutes) {
       setDuration(String(habit.default_duration_minutes));
     }
-  }, [selectedHabitId, habits]);
+  }, [selectedHabitId, habits, editingId]);
 
   function toggleDay(day: string) {
     setSelectedDays((prev) =>
@@ -46,10 +51,27 @@ export default function HabitsPage() {
   }
 
   function resetForm() {
+    setEditingId(null);
     setSelectedHabitId("");
     setScheduleType("DAILY");
     setSelectedDays([]);
     setDuration("");
+  }
+
+  function startEdit(uh: UserHabitWithDetails) {
+    setEditingId(uh.id);
+    setSelectedHabitId(uh.habit_id);
+    setDuration(uh.duration_minutes ? String(uh.duration_minutes) : "");
+
+    if (uh.recurrence_rule === "DAILY") {
+      setScheduleType("DAILY");
+      setSelectedDays([]);
+    } else if (uh.recurrence_rule?.startsWith("WEEKLY:")) {
+      setScheduleType("WEEKLY");
+      setSelectedDays(uh.recurrence_rule.replace("WEEKLY:", "").split(","));
+    }
+
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -65,12 +87,19 @@ export default function HabitsPage() {
 
     setIsSubmitting(true);
 
-    await createUserHabit({
-      habit_id: selectedHabitId,
-      is_recurring: true,
-      recurrence_rule,
-      duration_minutes: duration ? Number(duration) : undefined,
-    });
+    if (editingId) {
+      await updateUserHabit(editingId, {
+        recurrence_rule,
+        duration_minutes: duration ? Number(duration) : undefined,
+      });
+    } else {
+      await createUserHabit({
+        habit_id: selectedHabitId,
+        is_recurring: true,
+        recurrence_rule,
+        duration_minutes: duration ? Number(duration) : undefined,
+      });
+    }
 
     setIsSubmitting(false);
     resetForm();
@@ -87,12 +116,11 @@ export default function HabitsPage() {
 
   const isAnyActionInProgress = isSubmitting || deletingId !== null;
 
-const HabitsPage = () => {
   return (
     <div className="manage-habits">
       <h2>Manage habits</h2>
 
-      <form className="seminar-form" onSubmit={handleSubmit}>
+      <form ref={formRef} className="seminar-form" onSubmit={handleSubmit}>
         <div className="form-field">
           <label htmlFor="habit_id">Habit</label>
           <select
@@ -100,6 +128,7 @@ const HabitsPage = () => {
             value={selectedHabitId}
             onChange={(e) => setSelectedHabitId(e.target.value ? Number(e.target.value) : "")}
             required
+            disabled={!!editingId}
           >
             <option value="">Select a habit…</option>
             {habits.map((habit) => (
@@ -163,8 +192,14 @@ const HabitsPage = () => {
             className="btn btn-primary"
             disabled={isAnyActionInProgress || habitsLoading || !selectedHabitId}
           >
-            {isSubmitting ? "Adding..." : "Add habit"}
+            {isSubmitting ? "Saving..." : editingId ? "Save changes" : "Add habit"}
           </button>
+
+          {editingId && (
+            <button type="button" className="btn btn-secondary" onClick={resetForm} disabled={isSubmitting}>
+              Cancel
+            </button>
+          )}
         </div>
       </form>
 
@@ -184,6 +219,14 @@ const HabitsPage = () => {
             </div>
 
             <div className="seminar-card-actions">
+              <button
+                type="button"
+                className="btn btn-edit"
+                onClick={() => startEdit(uh)}
+                disabled={isAnyActionInProgress}
+              >
+                Edit
+              </button>
               <button
                 type="button"
                 className="btn btn-danger"
