@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import type { CalendarEvent } from "../types/CalendarTypes";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
-
 // How many days forward/back from today to generate habit occurrences for.
 // Keeps the dot-generation bounded instead of running forever into the future/past.
 const HABIT_RANGE_DAYS = 30;
+
+const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000/api";
 
 // Checks whether a recurrence_rule applies to a given ISO date (YYYY-MM-DD)
 // Mirrors the same logic used server-side in userHabitsService.ts
@@ -34,7 +34,6 @@ function getDateRange(days: number): string[] {
 
 export const useCalendarEvents = () => {
 
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
     const [events, setEvents] = useState<CalendarEvent[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
