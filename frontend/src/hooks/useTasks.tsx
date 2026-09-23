@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Task, CreateTask, UpdateTask } from "../types/TasksTypes"
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
 interface UseTasksResult {
     tasks: Task[];
@@ -84,7 +84,7 @@ export function useTasks(): UseTasksResult {
             );
             return updatedTask;
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Ett okänt fel inträffade");
+            setError(err instanceof Error ? err.message : "Unknown error");
             return null;
         }
     }, []);
