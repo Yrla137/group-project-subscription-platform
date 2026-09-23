@@ -174,9 +174,9 @@ export function useTiers() {
     };
 
     return {
-        tiers,
         error,
         isLoading,
+        tiers,
         fetchTiers,
         fetchTierById,
         createTier,

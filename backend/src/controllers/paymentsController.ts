@@ -52,6 +52,46 @@ export const getPaymentByIdController = async (req: Request, res: Response) => {
     }
 };
 
+// GET - get all payments for a specific user by user id (for admin), uses the get by user id service function.
+export const getPaymentsForUserController = async (req: Request, res: Response) => {
+
+    try {
+        const userId = Number(req.params.userId);
+        if (!Number.isInteger(userId) || userId <= 0) {
+            return res.status(400).json({message: "Invalid user ID"});
+        }
+        const payments = await paymentsService.getPaymentsByUserId(userId);
+        return res.status(200).json({
+            message: "User's payments fetched successfully",
+            data: payments
+        });
+    } catch (error) {
+        console.error("Get user's payments error:", error);
+        return res.status(500).json({
+            message: "An error occurred while fetching user's payments"
+        });
+    }
+};
+
+
+// GET - get a user's own payments by user id
+export const getMyPaymentsController = async (req: Request, res: Response) => {
+
+    try {
+        const userId = req.user!.user_id;
+        const payments = await paymentsService.getPaymentsByUserId(userId);
+        return res.status(200).json({
+            message: "User's payments fetched successfully",
+            data: payments
+        });
+    } catch (error) {
+        console.error("Get user's payments error:", error);
+        return res.status(500).json({
+            message: "An error occurred while fetching user's payments"
+        });
+    }
+};
+
 // POST - create a new payment
 export const createPaymentController = async (req: Request, res: Response) => {
 

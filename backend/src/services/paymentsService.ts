@@ -7,10 +7,16 @@ const getAllPayments = async () : Promise<Payment[]> => {
     return result.rows;
 };
 
-// GET - get payment by id
+// GET - get payment only by id
 const getPaymentById = async (id: number) : Promise<Payment | null> => {
     const result = await pool.query("SELECT id, user_id, tier_id, amount, payment_date FROM payments WHERE id = $1", [id]);
     return result.rows[0] || null;
+};
+
+// GET - get a user's own payments by user id
+const getPaymentsByUserId = async (userId: number) : Promise<Payment[]> => {
+    const result = await pool.query("SELECT id, user_id, tier_id, amount, payment_date FROM payments WHERE user_id = $1", [userId]);
+    return result.rows;
 };
 
 // POST - create a new payment
@@ -72,4 +78,4 @@ const createPayment = async (data: CreatePayment, userId: number): Promise<Payme
     }
 };
 
-export { getAllPayments, getPaymentById, createPayment };
+export { getAllPayments, getPaymentById, getPaymentsByUserId, createPayment };
