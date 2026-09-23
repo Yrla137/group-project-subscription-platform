@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import type { User, UserWithTier, UpdateUser } from "../types/UsersType";
 
@@ -49,7 +49,7 @@ export function useUsers() {
     }
   };
 
-  // GET - Fetch a single user by ID
+  // GET - Fetch a single user by ID (Admin only)
   const fetchUserById = async (id: number): Promise<UserWithTier> => {
     setIsLoading(true);
     setError(null);
@@ -63,14 +63,20 @@ export function useUsers() {
         },
       });
 
-
-      const returnData = await response.json();
+      const returnData:{
+        message?: string;
+        data?: UserWithTier;
+      } = await response.json();
 
       if (!response.ok) {
         throw new Error(returnData.message || "Failed to fetch user");
         }
 
-      return returnData as UserWithTier;
+      if (!returnData.data) {
+          throw new Error("No user data returned from the API");
+        }
+
+        return returnData.data;
 
     } catch (error) {
       if (error instanceof Error) {
@@ -81,6 +87,45 @@ export function useUsers() {
       setIsLoading(false);
     }
     };
+
+    // GET - Fetch user's profile information
+    const fetchUserProfile = useCallback(async (): Promise<UserWithTier> => {
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const response = await fetch(`${API_URL}/api/users/profile`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+
+            const returnData: {
+                message?: string;
+                data?: UserWithTier;
+            } = await response.json();
+
+            if (!response.ok) {
+                throw new Error(returnData.message || "Failed to fetch user profile");
+            }
+
+            if (!returnData.data) {
+                throw new Error("No user profile data returned from the API");
+            }
+
+            return returnData.data;
+
+        } catch (error) {
+            if (error instanceof Error) {
+                setError(error.message);
+            }
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+    }, [token]);
     
     // PATCH - Update a user
     const updateUser = async (data: UpdateUser): Promise<User> => {
@@ -150,5 +195,5 @@ export function useUsers() {
     };
 
   
-  return { error, isLoading, fetchUsers, fetchUserById, updateUser, deleteUser };
+  return { error, isLoading, fetchUsers, fetchUserById, fetchUserProfile, updateUser, deleteUser };
 };
