@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import type { User, UserWithTier, UpdateUser } from "../types/UsersType";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
 export function useUsers() {
 
