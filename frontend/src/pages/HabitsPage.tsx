@@ -15,7 +15,14 @@ const WEEKDAYS = [
 ];
 
 export default function HabitsPage() {
-  const { habits, isLoading: habitsLoading } = useHabits();
+  const { habits, isLoading: habitsLoading, createHabit } = useHabits();
+
+  const [showCustomHabitForm, setShowCustomHabitForm] = useState(false);
+  const [customTitle, setCustomTitle] = useState("");
+  const [customDescription, setCustomDescription] = useState("");
+  const [customDuration, setCustomDuration] = useState("");
+  const [isCreatingHabit, setIsCreatingHabit] = useState(false);
+
   const {
     userHabits,
     isLoading: userHabitsLoading,
@@ -56,6 +63,29 @@ export default function HabitsPage() {
     setScheduleType("DAILY");
     setSelectedDays([]);
     setDuration("");
+  }
+
+  async function handleCreateCustomHabit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!customTitle.trim()) return;
+
+    setIsCreatingHabit(true);
+
+    const newHabit = await createHabit({
+      habit_title: customTitle.trim(),
+      habit_description: customDescription.trim() || undefined,
+      default_duration_minutes: customDuration ? Number(customDuration) : undefined,
+    });
+
+    if (newHabit) {
+      setSelectedHabitId(newHabit.id);
+      setCustomTitle("");
+      setCustomDescription("");
+      setCustomDuration("");
+      setShowCustomHabitForm(false);
+    }
+
+    setIsCreatingHabit(false);
   }
 
   function startEdit(uh: UserHabitWithDetails) {
@@ -137,6 +167,65 @@ export default function HabitsPage() {
               </option>
             ))}
           </select>
+        </div>
+
+        <div className="form-field">
+          {!showCustomHabitForm ? (
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => setShowCustomHabitForm(true)}
+              disabled={!!editingId}
+            >
+              + Add custom habit
+            </button>
+          ) : (
+            <div className="custom-habit-form">
+              <label htmlFor="custom_title">New habit title</label>
+              <input
+                id="custom_title"
+                type="text"
+                value={customTitle}
+                onChange={(e) => setCustomTitle(e.target.value)}
+                placeholder="e.g. Cold shower"
+              />
+
+              <label htmlFor="custom_description">Description (optional)</label>
+              <textarea
+                id="custom_description"
+                value={customDescription}
+                onChange={(e) => setCustomDescription(e.target.value)}
+              />
+
+              <label htmlFor="custom_duration">Default duration (minutes, optional)</label>
+              <input
+                id="custom_duration"
+                type="number"
+                min={1}
+                value={customDuration}
+                onChange={(e) => setCustomDuration(e.target.value)}
+              />
+
+              <div className="custom-habit-form-actions">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleCreateCustomHabit}
+                  disabled={isCreatingHabit || !customTitle.trim()}
+                >
+                  {isCreatingHabit ? "Creating..." : "Create habit"}
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowCustomHabitForm(false)}
+                  disabled={isCreatingHabit}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="form-field">
