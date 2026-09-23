@@ -72,5 +72,10 @@ export function useAuth() {
     }
   }
 
-  return { error, isLoading, loginUser, registerUser };
+  return {
+    error,
+    isLoading,
+    loginUser,
+    registerUser
+  };
 }

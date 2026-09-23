@@ -4,7 +4,7 @@ import DashboardPage from "./pages/DashboardPage";
 import SeminarsPage from "./pages/SeminarsPage";
 import ManageSeminarsPage from "./pages/ManageSeminarsPage";
 import HabitsPage from "./pages/HabitsPage";
-import MembershipPage from "./pages/MembershipPage";
+import MembershipPage from "./pages/TiersPage";
 
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";

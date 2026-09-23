@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { useAuthContext } from "../context/AuthContext";
-import type { User, UserWithTier, UpdateUser } from "../types/UsersType";
+import type { User, UserWithTier, UpdateUser } from "../types/UserType";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
@@ -195,5 +195,13 @@ export function useUsers() {
     };
 
   
-  return { error, isLoading, fetchUsers, fetchUserById, fetchUserProfile, updateUser, deleteUser };
+  return {
+    error,
+    isLoading,
+    fetchUsers,
+    fetchUserById,
+    fetchUserProfile,
+    updateUser,
+    deleteUser
+  };
 };

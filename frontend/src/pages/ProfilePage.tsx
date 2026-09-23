@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useUsers } from "../hooks/useUsers";
 import { useAuthContext } from "../context/AuthContext";
 import LogoutButton from "../components/LogoutButton";
-import type { UserWithTier } from "../types/UsersType";
+import type { UserWithTier } from "../types/UserType";
 
 import { Settings } from "lucide-react";
 
