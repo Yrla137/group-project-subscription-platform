@@ -24,7 +24,7 @@ export default function ManageSeminars() {
     const titleInputRef = useRef<HTMLInputElement>(null);
 
     function handleChange(
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) {
         const { name, value } = e.target;
         setFormData((prev) => ({
