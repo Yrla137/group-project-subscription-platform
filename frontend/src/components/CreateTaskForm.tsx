@@ -22,7 +22,13 @@ export default function CreateTaskForm({ onClose }: { onClose: () => void }) {
 
     return (
         <form onSubmit={handleSubmit} className="task-form">
-            <h3>Lägg till ny uppgift</h3>
+            <div className="task-form-header">
+            <h3>Add Task</h3>
+            <button type="button" className="modal-close-x" onClick={onClose}>
+                    &times;
+                </button>
+            </div>
+
             <input 
                 type="text" 
                 placeholder="Titel..." 
@@ -31,7 +37,7 @@ export default function CreateTaskForm({ onClose }: { onClose: () => void }) {
                 required 
             />
             <textarea 
-                placeholder="Beskrivning (valfritt)..." 
+                placeholder="Description..." 
                 value={description} 
                 onChange={(e) => setDescription(e.target.value)} 
             />
@@ -41,7 +47,7 @@ export default function CreateTaskForm({ onClose }: { onClose: () => void }) {
                 onChange={(e) => setDate(e.target.value)} 
                 required 
             />
-            <button type="submit">Spara</button>
+            <button type="submit" className="task-save-btn">Spara</button>
         </form>
     );
 }

@@ -33,6 +33,8 @@ function getDateRange(days: number): string[] {
 }
 
 export const useCalendarEvents = () => {
+
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
     const [events, setEvents] = useState<CalendarEvent[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);

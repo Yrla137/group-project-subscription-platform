@@ -87,6 +87,7 @@ export default function HabitsPage() {
 
   const isAnyActionInProgress = isSubmitting || deletingId !== null;
 
+const HabitsPage = () => {
   return (
     <div className="manage-habits">
       <h2>Manage habits</h2>

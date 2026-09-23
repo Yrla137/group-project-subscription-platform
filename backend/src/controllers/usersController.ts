@@ -31,9 +31,36 @@ export const getUserByIdController = async (req: Request, res: Response) => {
         if(!user){
             return res.status(404).json({message: "User not found"});
         }
-        return res.json(user);
+        return res.status(200).json({
+            message: "User fetched successfully",
+            data: user
+        });
     } catch (error) {
         console.error("Get user by ID error:", error);
+        return res.status(500).json({
+            message: "An error occurred while fetching the user"
+        });
+    }
+};
+
+// GET - gets information of logged-in user
+export const getProfileController = async (req: Request, res: Response) => {
+
+    try {
+        if(!req.user){
+            return res.status(401).json({message: "Unauthorized"});
+        }
+        const id = req.user.user_id;
+        const user = await usersService.getUserById(id);
+        if(!user){
+            return res.status(404).json({message: "User not found"});
+        }
+        return res.status(200).json({
+            message: "User fetched successfully",
+            data: user
+        });
+    } catch (error) {
+        console.error("Get current user error:", error);
         return res.status(500).json({
             message: "An error occurred while fetching the user"
         });
@@ -66,7 +93,8 @@ export const updateUserController = async (req: Request, res: Response) => {
         }
 
         return res.status(200).json({
-            message: "User information updated successfully"
+            message: "User information updated successfully",
+            data: updatedUser
         });
 
     } catch (error) {
