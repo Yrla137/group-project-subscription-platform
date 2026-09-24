@@ -5,7 +5,7 @@ import DashboardPage from "./pages/DashboardPage";
 import SeminarsPage from "./pages/SeminarsPage";
 import ManageSeminarsPage from "./pages/ManageSeminarsPage";
 import HabitsPage from "./pages/HabitsPage";
-import MembershipPage from "./pages/TiersPage";
+import TiersPage from "./pages/TiersPage";
 
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -28,7 +28,9 @@ function App() {
             <Route path="seminars" element={<SeminarsPage />} />
             <Route path="seminars/manage" element={<ManageSeminarsPage />} />
             <Route path="habits" element={<HabitsPage />} />
-            <Route path="membership" element={<MembershipPage />} />
+            
+            <Route path="tiers" element={<TiersPage />} />
+            <Route path="checkout" element={<CheckoutPage />} />
 
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
@@ -39,7 +41,6 @@ function App() {
             <Route path="admin/tiers" element={<TiersList />} />
             <Route path="admin/users" element={<UsersList />} />
 
-            <Route path="checkout" element={<CheckoutPage />} />
           </Route>
         </Routes>
       </AuthProvider>
