@@ -131,7 +131,7 @@ body {
   z-index: 10;
 }
 
-.dropdown-item {
+.dropdown-item, .dropdown-item-admin {
   padding: 10px 12px;
   text-decoration: none;
   color: var(--text-main);
@@ -145,6 +145,11 @@ body {
   cursor: pointer;
   text-align: left;
   width: 100%;
+}
+
+.dropdown-item-admin {
+  font-weight: bold;
+  color: #e67e22;
 }
 
 .dropdown-item:hover {
