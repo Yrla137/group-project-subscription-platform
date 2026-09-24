@@ -1,4 +1,4 @@
-import type { User, Role } from "./UsersType";
+import type { User, Role } from "./UserType";
 
 // Login User //
 interface LoginUser {

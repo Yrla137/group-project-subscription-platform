@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { useAuthContext } from "../context/AuthContext";
-import type { User, UserWithTier, UpdateUser } from "../types/UsersType";
+import type { User, UserWithTier, UpdateUser } from "../types/UserType";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
@@ -17,7 +17,7 @@ export function useUsers() {
     setError(null);
 
     try {
-      const response = await fetch(`${API_URL}/api/users`, {
+      const response = await fetch(`${API_URL}/users`, {
         method: "GET",
         headers: {
         Authorization: `Bearer ${token}`,
@@ -55,7 +55,7 @@ export function useUsers() {
     setError(null);
 
     try {
-      const response = await fetch(`${API_URL}/api/users/${id}`, {
+      const response = await fetch(`${API_URL}/users/${id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -94,7 +94,7 @@ export function useUsers() {
         setError(null);
 
         try {
-            const response = await fetch(`${API_URL}/api/users/profile`, {
+            const response = await fetch(`${API_URL}/users/profile`, {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -133,7 +133,7 @@ export function useUsers() {
       setError(null);
 
         try {
-            const response = await fetch(`${API_URL}/api/users`, {
+            const response = await fetch(`${API_URL}/users`, {
                 method: "PATCH",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -172,7 +172,7 @@ export function useUsers() {
         setError(null);
 
         try {
-            const response = await fetch(`${API_URL}/api/users/${id}`, {
+            const response = await fetch(`${API_URL}/users/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -195,5 +195,13 @@ export function useUsers() {
     };
 
   
-  return { error, isLoading, fetchUsers, fetchUserById, fetchUserProfile, updateUser, deleteUser };
+  return {
+    error,
+    isLoading,
+    fetchUsers,
+    fetchUserById,
+    fetchUserProfile,
+    updateUser,
+    deleteUser
+  };
 };
