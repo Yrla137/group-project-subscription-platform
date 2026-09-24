@@ -31,13 +31,18 @@ const requireAuth = (req: Request, res: Response, next: NextFunction) => {
             return res.status(401).json({ message: "Invalid token" });
         }
 
-        if (decoded.role !== "member" && decoded.role !== "administrator") {
+        if (typeof decoded.level_number !== "number") {
             return res.status(401).json({ message: "Invalid token" });
         }
 
+        if (decoded.role !== "member" && decoded.role !== "administrator") {
+            return res.status(401).json({ message: "Invalid token" });
+        }
+        
         req.user = {
-            user_id: decoded.user_id,
-            role: decoded.role
+        user_id: decoded.user_id,
+        role: decoded.role,
+        level_number: decoded.level_number
         };
 
         next();

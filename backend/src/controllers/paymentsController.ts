@@ -2,6 +2,11 @@ import * as paymentsService from "../services/paymentsService";
 import { createPaymentSchema } from "../schemas/paymentsSchema";
 import type { Request, Response } from "express";
 
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
+
 // GET - gets all payments
 export const getAllPaymentsController = async (_req: Request, res: Response) => {
 
@@ -104,14 +109,34 @@ export const createPaymentController = async (req: Request, res: Response) => {
             });
         }
 
-        const userId = req.user!.user_id;
-        // Instead of user?. (optional chaining), user! (non-null assertion) guarantees that req.user exists before this controller runs because of the requireAuth middleware.
-        const payment = await paymentsService.createPayment(result.data, userId);
-        return res.status(201).json({
-            message: "Payment created successfully",
-            data: payment
-        });
+        const secret = process.env.JWT_SECRET;
 
+        if (!secret) {
+            return res.status(500).json({
+                message: "JWT secret is not defined"
+            });
+        }
+
+        // Instead of user?. (optional chaining), user! (non-null assertion) guarantees that req.user exists before this controller runs because of the requireAuth middleware.
+        const userId = req.user!.user_id;
+        const payment = await paymentsService.createPayment(result.data, userId);
+
+        const token = jwt.sign(
+            {
+                user_id: req.user!.user_id,
+                role: req.user!.role,
+                level_number: payment.level_number
+            },
+            secret,
+            { expiresIn: "1h" }
+        );
+
+            return res.status(201).json({
+                message: "Payment created successfully",
+                data: payment,
+                token
+            });
+            
     } catch (error) {
         console.error("Create payment error:", error);
 
