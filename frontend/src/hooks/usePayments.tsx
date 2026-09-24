@@ -17,7 +17,7 @@ export function usePayments() {
         setError(null);
 
         try {
-            const response = await fetch(`${API_URL}/api/payments`, {
+            const response = await fetch(`${API_URL}/payments`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export function usePayments() {
         setError(null);
 
         try {
-            const response = await fetch(`${API_URL}/api/payments/${id}`, {
+            const response = await fetch(`${API_URL}/payments/${id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -96,7 +96,7 @@ export function usePayments() {
         setError(null);
 
         try {
-            const response = await fetch(`${API_URL}/api/payments/user/${userId}`, {
+            const response = await fetch(`${API_URL}/payments/user/${userId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -134,7 +134,7 @@ export function usePayments() {
         setError(null);
 
         try {
-            const response = await fetch(`${API_URL}/api/payments/my-payments`, {
+            const response = await fetch(`${API_URL}/payments/my-payments`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -173,7 +173,7 @@ export function usePayments() {
         setError(null);
 
         try {
-            const response = await fetch(`${API_URL}/api/payments`, {
+            const response = await fetch(`${API_URL}/payments`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

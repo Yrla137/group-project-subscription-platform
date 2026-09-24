@@ -14,7 +14,7 @@ export function useTiers() {
         setError(null);
 
         try {
-            const response = await fetch(`${API_URL}/api/tiers`, {
+            const response = await fetch(`${API_URL}/tiers`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export function useTiers() {
         setError(null);
 
         try {
-            const response = await fetch(`${API_URL}/api/tiers/${id}`, {
+            const response = await fetch(`${API_URL}/tiers/${id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -93,7 +93,7 @@ export function useTiers() {
         setError(null);
 
         try {
-            const response = await fetch(`${API_URL}/api/tiers`, {
+            const response = await fetch(`${API_URL}/tiers`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -135,7 +135,7 @@ export function useTiers() {
         setError(null);
 
         try {
-            const response = await fetch(`${API_URL}/api/tiers/${id}`, {
+            const response = await fetch(`${API_URL}/tiers/${id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
