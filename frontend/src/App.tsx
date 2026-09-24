@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 import Layout from "./components/Layout";
 import DashboardPage from "./pages/DashboardPage";
 import SeminarsPage from "./pages/SeminarsPage";
@@ -19,28 +20,30 @@ import CheckoutPage from "./pages/CheckoutPage";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<DashboardPage />} />
-          <Route path="seminars" element={<SeminarsPage />} />
-          <Route path="seminars/manage" element={<ManageSeminarsPage />} />
-          <Route path="habits" element={<HabitsPage />} />
-          <Route path="membership" element={<MembershipPage />} />
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<DashboardPage />} />
+            <Route path="seminars" element={<SeminarsPage />} />
+            <Route path="seminars/manage" element={<ManageSeminarsPage />} />
+            <Route path="habits" element={<HabitsPage />} />
+            <Route path="membership" element={<MembershipPage />} />
 
-          <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<RegisterPage />} />
-          <Route path="profile" element={<ProfilePage />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="register" element={<RegisterPage />} />
+            <Route path="profile" element={<ProfilePage />} />
 
-          <Route path="admin" element={<AdminPage />} />
-          <Route path="admin/payments-history" element={<PaymentsHistoryList />} />
-          <Route path="admin/tiers" element={<TiersList />} />
-          <Route path="admin/users" element={<UsersList />} />
+            <Route path="admin" element={<AdminPage />} />
+            <Route path="admin/payments-history" element={<PaymentsHistoryList />} />
+            <Route path="admin/tiers" element={<TiersList />} />
+            <Route path="admin/users" element={<UsersList />} />
 
-          <Route path="checkout" element={<CheckoutPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+            <Route path="checkout" element={<CheckoutPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

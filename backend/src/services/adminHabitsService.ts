@@ -1,45 +1,44 @@
 import { pool } from "../config/db";
 import type { Habit, CreateHabit, UpdateHabit } from "../types/HabitsTypes";
 
-// GET - default habits + the ones this user created themselves
-const getMyHabits = async (userId: number): Promise<Habit[]> => {
+// GET - default (catalog) habits only
+const getDefaultHabits = async (): Promise<Habit[]> => {
     const result = await pool.query(
         `SELECT id, habit_title, habit_description, default_duration_minutes, created_by, created_at
          FROM habits
-         WHERE created_by IS NULL OR created_by = $1
-         ORDER BY habit_title`,
-        [userId]
+         WHERE created_by IS NULL
+         ORDER BY habit_title`
     );
     return result.rows;
 };
 
-// GET id - same scope as getMyHabits
-const getMyHabitById = async (id: number, userId: number): Promise<Habit | null> => {
+// GET id - same scope as getDefaultHabits
+const getDefaultHabitById = async (id: number): Promise<Habit | null> => {
     const result = await pool.query(
         `SELECT id, habit_title, habit_description, default_duration_minutes, created_by, created_at
          FROM habits
-         WHERE id = $1 AND (created_by IS NULL OR created_by = $2)`,
-        [id, userId]
+         WHERE id = $1 AND created_by IS NULL`,
+        [id]
     );
     return result.rows[0] || null;
 };
 
-// POST - always creates a personal habit owned by this user
-const createHabit = async (data: CreateHabit, userId: number): Promise<Habit> => {
+// POST - always creates a default (catalog) habit, created_by NULL
+const createDefaultHabit = async (data: CreateHabit): Promise<Habit> => {
     const { habit_title, habit_description, default_duration_minutes } = data;
 
     const result = await pool.query(
         `INSERT INTO habits (habit_title, habit_description, default_duration_minutes, created_by)
-         VALUES ($1, $2, $3, $4)
+         VALUES ($1, $2, $3, NULL)
          RETURNING id, habit_title, habit_description, default_duration_minutes, created_by, created_at`,
-        [habit_title, habit_description ?? null, default_duration_minutes ?? null, userId]
+        [habit_title, habit_description ?? null, default_duration_minutes ?? null]
     );
 
     return result.rows[0];
 };
 
-// PATCH - only allowed on habits this user created themselves
-const updateHabit = async (id: number, data: UpdateHabit, userId: number): Promise<Habit | null> => {
+// PATCH - only allowed on default (catalog) habits
+const updateDefaultHabit = async (id: number, data: UpdateHabit): Promise<Habit | null> => {
     const { habit_title, habit_description, default_duration_minutes } = data;
 
     const result = await pool.query(
@@ -47,27 +46,27 @@ const updateHabit = async (id: number, data: UpdateHabit, userId: number): Promi
          SET habit_title = COALESCE($1, habit_title),
              habit_description = COALESCE($2, habit_description),
              default_duration_minutes = COALESCE($3, default_duration_minutes)
-         WHERE id = $4 AND created_by = $5
+         WHERE id = $4 AND created_by IS NULL
          RETURNING id, habit_title, habit_description, default_duration_minutes, created_by, created_at`,
-        [habit_title ?? null, habit_description ?? null, default_duration_minutes ?? null, id, userId]
+        [habit_title ?? null, habit_description ?? null, default_duration_minutes ?? null, id]
     );
 
     return result.rows[0] || null;
 };
 
-// DELETE - only allowed on habits this user created themselves
-const deleteHabit = async (id: number, userId: number): Promise<boolean> => {
+// DELETE - only allowed on default (catalog) habits
+const deleteDefaultHabit = async (id: number): Promise<boolean> => {
     const result = await pool.query(
-        "DELETE FROM habits WHERE id = $1 AND created_by = $2 RETURNING id",
-        [id, userId]
+        "DELETE FROM habits WHERE id = $1 AND created_by IS NULL RETURNING id",
+        [id]
     );
     return (result.rowCount ?? 0) > 0;
 };
 
 export {
-    getMyHabits,
-    getMyHabitById,
-    createHabit,
-    updateHabit,
-    deleteHabit,
+    getDefaultHabits,
+    getDefaultHabitById,
+    createDefaultHabit,
+    updateDefaultHabit,
+    deleteDefaultHabit,
 };

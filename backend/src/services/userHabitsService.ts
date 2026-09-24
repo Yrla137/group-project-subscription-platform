@@ -69,7 +69,11 @@ const createUserHabit = async (data: CreateUserHabit): Promise<UserHabit> => {
 };
 
 // PATCH - update a user's habit schedule/duration/active status
-const updateUserHabit = async (id: number, data: UpdateUserHabit): Promise<UserHabit | null> => {
+const updateUserHabit = async (
+    id: number,
+    data: UpdateUserHabit,
+    userId: number
+): Promise<UserHabit | null> => {
     const { is_recurring, recurrence_rule, duration_minutes, is_active } = data;
 
     const result = await pool.query(
@@ -78,17 +82,21 @@ const updateUserHabit = async (id: number, data: UpdateUserHabit): Promise<UserH
              recurrence_rule = COALESCE($2, recurrence_rule),
              duration_minutes = COALESCE($3, duration_minutes),
              is_active = COALESCE($4, is_active)
-         WHERE id = $5
+         WHERE id = $5 AND user_id = $6
          RETURNING id, user_id, habit_id, is_recurring, recurrence_rule, duration_minutes, is_active, created_at`,
-        [is_recurring ?? null, recurrence_rule ?? null, duration_minutes ?? null, is_active ?? null, id]
+        [is_recurring ?? null, recurrence_rule ?? null, duration_minutes ?? null, is_active ?? null, id, userId]
     );
 
     return result.rows[0] || null;
 };
 
 // DELETE - remove a user's habit subscription entirely
-const deleteUserHabit = async (id: number): Promise<void> => {
-    await pool.query("DELETE FROM user_habits WHERE id = $1", [id]);
+const deleteUserHabit = async (id: number, userId: number): Promise<boolean> => {
+    const result = await pool.query(
+        "DELETE FROM user_habits WHERE id = $1 AND user_id = $2 RETURNING id",
+        [id, userId]
+    );
+    return (result.rowCount ?? 0) > 0;
 };
 
 export {
