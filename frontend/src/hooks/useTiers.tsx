@@ -53,7 +53,7 @@ export function useTiers() {
     }, [token]);
 
     // GET - Fetch a single tier by ID (Will probably not be used but is added just in case)
-    const fetchTierById = async (id: number): Promise<Tier> => {
+    const fetchTierById = useCallback(async (id: number): Promise<Tier> => {
         setIsLoading(true);
         setError(null);
 
@@ -90,7 +90,7 @@ export function useTiers() {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [token]);
 
     // POST - Create a new tier
     const createTier = async (tierData: CreateTier): Promise<Tier> => {

@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { usePayments } from '../hooks/usePayments';
 import type { Tier } from '../types/TierType';
 import { useTiers } from '../hooks/useTiers';
+import { useAuthContext } from '../context/AuthContext';
 import { useNavigate } from "react-router-dom";
 
 const CheckoutPage = () => {
@@ -14,6 +15,7 @@ const CheckoutPage = () => {
   const [selectedTier, setSelectedTier] = useState<number | null>(null);
   const [selectedTierDetails, setSelectedTierDetails] = useState<Tier | null>(null);
 
+  const { loading: authLoading } = useAuthContext();
   const { tierId } = location.state || {};
   const { createPayment, error: paymentError, isLoading: isPaymentLoading } = usePayments();
   const { error: tierError, isLoading: isTierLoading, fetchTierById } = useTiers();
@@ -23,23 +25,27 @@ const CheckoutPage = () => {
 
     const getTierDetails = async () => {
 
-      if (tierId != null) {
-        setSelectedTier(tierId);
+      if (!authLoading) 
+        {
+          if (tierId != null) {
+            setSelectedTier(tierId);
 
-        try {
-          const tierDetails = await fetchTierById(tierId);
-          setSelectedTierDetails(tierDetails)
+            try {
 
-        } catch (error) {
-          console.error("Error fetching tier details:", error);
+              const tierDetails = await fetchTierById(tierId);
+              setSelectedTierDetails(tierDetails)
+
+            } catch (error) {
+              console.error("Error fetching tier details:", error);
+            }
+          } else {
+            navigate('/tiers');
+          }
         }
-      } else {
-        navigate('/tiers');
-      }
     };
 
     getTierDetails();
-  }, [tierId, fetchTierById, navigate]);
+  }, [tierId, fetchTierById, navigate, authLoading]);
 
   // Function to handle payment creation
   const handleCreatePayment = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -51,7 +57,7 @@ const CheckoutPage = () => {
         const paymentData = await createPayment({ tier_id: selectedTier });
 
           // Redirect to the payment confirmation page or display a success message
-          navigate('/payment-confirmation', { state: { paymentData } });
+          navigate('/payments-page', { state: { paymentData } });
       }
 
     } catch (error) {
@@ -73,20 +79,21 @@ const CheckoutPage = () => {
       {tierError && <p>Error: {tierError}</p>}
       {paymentError && <p>Error: {paymentError}</p>}
 
-      {isTierLoading && <p>Loading tier details...</p>}
       {isPaymentLoading && <p>Loading payment information...</p>}
 
-      {!isTierLoading && !selectedTierDetails && (
-          <p>Unable to load the selected tier.</p>
+        {isTierLoading ? (
+          <p>Loading tier details...</p>
+        ) : (
+          selectedTierDetails && (
+            <div className="tier-details-container">
+              <h2>Selected Tier Details</h2>
+              <p>Title: {selectedTierDetails.title}</p>
+              <p>Level: {selectedTierDetails.level_number}</p>
+              <p>Description: {selectedTierDetails.tier_description}</p>
+              <p>Price: ${selectedTierDetails.price}</p>
+            </div>
+          )
         )}
-
-         <div className="tier-details-container">
-            <h2>Selected Tier Details</h2>
-            <p>Title: {selectedTierDetails?.title}</p>
-            <p>Level: {selectedTierDetails?.level_number}</p>
-            <p>Description: {selectedTierDetails?.tier_description}</p>
-            <p>Price: ${selectedTierDetails?.price}</p>
-        </div>
 
         <div className="paymment-form-container">
           <h3>Payment Information</h3>

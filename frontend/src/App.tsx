@@ -16,6 +16,7 @@ import PaymentsHistoryList from "./pages/Admin/PaymentsHistoryList";
 import TiersList from "./pages/Admin/TiersList";
 import UsersList from "./pages/Admin/UsersList";
 import CheckoutPage from "./pages/CheckoutPage";
+import PaymentsPage from "./pages/PaymentsPage";
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
             
             <Route path="tiers" element={<TiersPage />} />
             <Route path="checkout" element={<CheckoutPage />} />
+            <Route path="payments-page" element={<PaymentsPage />} />
 
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
