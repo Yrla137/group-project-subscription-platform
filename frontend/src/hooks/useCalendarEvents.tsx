@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import type { CalendarEvent } from "../types/CalendarTypes";
+import { useAuthContext } from "../context/AuthContext";
 
 // How many days forward/back from today to generate habit occurrences for.
 // Keeps the dot-generation bounded instead of running forever into the future/past.
-const HABIT_RANGE_DAYS = 30;
+const HABIT_RANGE_DAYS = 365;
 
 const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000/api";
 
@@ -33,21 +34,26 @@ function getDateRange(days: number): string[] {
 }
 
 export const useCalendarEvents = () => {
+    const { token } = useAuthContext();
 
     const [events, setEvents] = useState<CalendarEvent[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        if (!token) return;
+
         const fetchEvents = async () => {
             setIsLoading(true);
             setError(null);
 
             try {
+                const authHeaders = { Authorization: `Bearer ${token}` };
+
                 const [tasksRes, habitsRes, seminarsRes] = await Promise.all([
-                    fetch(`${API_URL}/tasks`),
-                    fetch(`${API_URL}/user-habits`),
-                    fetch(`${API_URL}/seminars`),
+                    fetch(`${API_URL}/tasks`, { headers: authHeaders }),
+                    fetch(`${API_URL}/user-habits`, { headers: authHeaders }),
+                    fetch(`${API_URL}/seminars`, { headers: authHeaders }),
                 ]);
 
                 if (!tasksRes.ok || !habitsRes.ok || !seminarsRes.ok) {
@@ -88,7 +94,7 @@ export const useCalendarEvents = () => {
         };
 
         fetchEvents();
-    }, []);
+    }, [token]);
 
     return { events, isLoading, error };
 };
