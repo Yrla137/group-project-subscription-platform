@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Habit, CreateHabit } from "../types/HabitsTypes";
+import { useAuthContext } from "../context/AuthContext";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000/api";
 
@@ -11,16 +12,22 @@ interface UseHabitsResult {
 }
 
 export function useHabits(): UseHabitsResult {
+    const { token } = useAuthContext();
+
     const [habits, setHabits] = useState<Habit[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     const fetchHabits = useCallback(async () => {
+        if (!token) return;
+
         setIsLoading(true);
         setError(null);
 
         try {
-            const res = await fetch(`${API_URL}/habits`);
+            const res = await fetch(`${API_URL}/habits`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
             if (!res.ok) throw new Error("Failed to fetch habits");
 
             const json = await res.json();
@@ -30,17 +37,22 @@ export function useHabits(): UseHabitsResult {
         } finally {
             setIsLoading(false);
         }
-    }, []);
+    }, [token]);
 
     useEffect(() => {
         fetchHabits();
     }, [fetchHabits]);
 
     const createHabit = useCallback(async (data: CreateHabit): Promise<Habit | null> => {
+        if (!token) return null;
+
         try {
             const res = await fetch(`${API_URL}/habits`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
                 body: JSON.stringify(data),
             });
 
@@ -53,7 +65,7 @@ export function useHabits(): UseHabitsResult {
             setError(err instanceof Error ? err.message : "An unknown error occurred");
             return null;
         }
-    }, []);
+    }, [token]);
 
     return { habits, isLoading, error, createHabit };
 }

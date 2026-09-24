@@ -1,10 +1,9 @@
 import express from "express";
-// import requireAuth from "../middlewares/requireAuth";
-// import requireAdmin from "../middlewares/requireAdmin";
+import requireAuth from "../middlewares/requireAuth";
 
 import {
-    getAllHabitsController,
-    getHabitByIdController,
+    getMyHabitsController,
+    getMyHabitByIdController,
     createHabitController,
     updateHabitController,
     deleteHabitController,
@@ -12,19 +11,19 @@ import {
 
 const router = express.Router();
 
-// GET - gets all habits from the catalog
-router.get("/", getAllHabitsController);
+// GET - gets all habits from the user's catalog
+router.get("/", requireAuth, getMyHabitsController);
 
 // GET id - gets a habit with a specific id
-router.get("/:id", getHabitByIdController);
+router.get("/:id", requireAuth, getMyHabitByIdController);
 
 // POST - create a new habit
-router.post("/", createHabitController);
+router.post("/", requireAuth, createHabitController);
 
 // PATCH - update habit information
-router.patch("/:id", updateHabitController);
+router.patch("/:id", requireAuth, updateHabitController);
 
 // DELETE - remove a habit
-router.delete("/:id", deleteHabitController);
+router.delete("/:id", requireAuth, deleteHabitController);
 
 export default router;

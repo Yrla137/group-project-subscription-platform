@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
 import { AuthProvider } from "./context/AuthContext";
+import Layout from "./components/Layout";
 import DashboardPage from "./pages/DashboardPage";
 import SeminarsPage from "./pages/SeminarsPage";
 import ManageSeminarsPage from "./pages/ManageSeminarsPage";
@@ -20,8 +20,8 @@ import CheckoutPage from "./pages/CheckoutPage";
 
 function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
+    <AuthProvider>
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<DashboardPage />} />
@@ -42,8 +42,8 @@ function App() {
             <Route path="checkout" element={<CheckoutPage />} />
           </Route>
         </Routes>
-      </AuthProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

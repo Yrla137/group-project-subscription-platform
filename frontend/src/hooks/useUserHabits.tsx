@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { format } from "date-fns";
 import type { UserHabitWithDetails, UpdateUserHabit } from "../types/UserHabitsTypes";
+import { useAuthContext } from "../context/AuthContext";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000/api";
 
-// user_id is attached server-side from the hardcoded user for now
 type CreateUserHabitInput = {
     habit_id: number;
     is_recurring?: boolean;
@@ -29,6 +29,8 @@ export function useUserHabits(
     selectedDate: Date = new Date(),
     includeToday: boolean = true
 ): UseUserHabitsResult {
+    const { token } = useAuthContext();
+
     const [userHabits, setUserHabits] = useState<UserHabitWithDetails[]>([]);
     const [todaysHabits, setTodaysHabits] = useState<UserHabitWithDetails[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -36,15 +38,17 @@ export function useUserHabits(
     const [error, setError] = useState<string | null>(null);
 
     const formattedDate = format(selectedDate, "yyyy-MM-dd");
-    
 
-    // Full catalog of the user's active habits (used by the manage-habits page)
     const fetchUserHabits = useCallback(async () => {
+        if (!token) return;
+
         setIsLoading(true);
         setError(null);
 
         try {
-            const res = await fetch(`${API_URL}/user-habits`);
+            const res = await fetch(`${API_URL}/user-habits`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
             if (!res.ok) throw new Error("Failed to fetch user habits");
 
             const json = await res.json();
@@ -54,15 +58,21 @@ export function useUserHabits(
         } finally {
             setIsLoading(false);
         }
-    }, []);
+    }, [token]);
 
-    // Habits scheduled for a given date, with completion status (used by the calendar view)
     const fetchTodaysHabits = useCallback(async () => {
+        if (!token || !includeToday) {
+            setIsTodaysLoading(false);
+            return;
+        }
+
         setIsTodaysLoading(true);
         setError(null);
 
         try {
-            const res = await fetch(`${API_URL}/user-habits/today?date=${formattedDate}`);
+            const res = await fetch(`${API_URL}/user-habits/today?date=${formattedDate}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
             if (!res.ok) throw new Error("Failed to fetch habits");
 
             const json = await res.json();
@@ -72,25 +82,26 @@ export function useUserHabits(
         } finally {
             setIsTodaysLoading(false);
         }
-    }, [formattedDate]);
+    }, [token, formattedDate, includeToday]);
 
     useEffect(() => {
         fetchUserHabits();
     }, [fetchUserHabits]);
 
     useEffect(() => {
-        if (!includeToday) {
-            setIsTodaysLoading(false);
-            return;
-        }
         fetchTodaysHabits();
-    }, [fetchTodaysHabits, includeToday]);
+    }, [fetchTodaysHabits]);
 
     const createUserHabit = useCallback(async (data: CreateUserHabitInput): Promise<UserHabitWithDetails | null> => {
+        if (!token) return null;
+
         try {
             const res = await fetch(`${API_URL}/user-habits`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
                 body: JSON.stringify(data),
             });
 
@@ -103,13 +114,18 @@ export function useUserHabits(
             setError(err instanceof Error ? err.message : "An unknown error occurred");
             return null;
         }
-    }, [fetchUserHabits]);
+    }, [token, fetchUserHabits]);
 
     const updateUserHabit = useCallback(async (id: number, data: UpdateUserHabit): Promise<UserHabitWithDetails | null> => {
+        if (!token) return null;
+
         try {
             const res = await fetch(`${API_URL}/user-habits/${id}`, {
                 method: "PATCH",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
                 body: JSON.stringify(data),
             });
 
@@ -124,11 +140,16 @@ export function useUserHabits(
             setError(err instanceof Error ? err.message : "An unknown error occurred");
             return null;
         }
-    }, []);
+    }, [token]);
 
     const deleteUserHabit = useCallback(async (id: number): Promise<boolean> => {
+        if (!token) return false;
+
         try {
-            const res = await fetch(`${API_URL}/user-habits/${id}`, { method: "DELETE" });
+            const res = await fetch(`${API_URL}/user-habits/${id}`, {
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${token}` },
+            });
             if (!res.ok) throw new Error("Failed to remove habit");
 
             setUserHabits((prev) => prev.filter((uh) => uh.id !== id));
@@ -137,9 +158,11 @@ export function useUserHabits(
             setError(err instanceof Error ? err.message : "An unknown error occurred");
             return false;
         }
-    }, []);
+    }, [token]);
 
     const toggleCompletion = useCallback(async (userHabitId: number, isCompleted: boolean) => {
+        if (!token) return;
+
         setTodaysHabits((prev) =>
             prev.map((h) => (h.id === userHabitId ? { ...h, is_completed_today: !isCompleted } : h))
         );
@@ -148,11 +171,15 @@ export function useUserHabits(
             if (isCompleted) {
                 await fetch(`${API_URL}/habit-completions/${userHabitId}?date=${formattedDate}`, {
                     method: "DELETE",
+                    headers: { Authorization: `Bearer ${token}` },
                 });
             } else {
                 await fetch(`${API_URL}/habit-completions`, {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
                     body: JSON.stringify({ user_habit_id: userHabitId, completed_date: formattedDate }),
                 });
             }
@@ -162,7 +189,7 @@ export function useUserHabits(
             );
             setError(err instanceof Error ? err.message : "Failed to update habit");
         }
-    }, [formattedDate]);
+    }, [token, formattedDate]);
 
     return {
         userHabits,

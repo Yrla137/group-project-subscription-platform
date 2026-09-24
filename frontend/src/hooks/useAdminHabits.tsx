@@ -1,43 +1,40 @@
 import { useState, useEffect, useCallback } from "react";
-import type { Seminar, UpdateSeminar, CreateSeminarInput } from "../types/SeminarsTypes";
+import type { Habit, CreateHabit, UpdateHabit } from "../types/HabitsTypes";
 import { useAuthContext } from "../context/AuthContext";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000/api";
 
-interface UseSeminarsResult {
-    seminars: Seminar[];
+interface UseAdminHabitsResult {
+    habits: Habit[];
     isLoading: boolean;
     error: string | null;
-    createSeminar: (data: CreateSeminarInput) => Promise<Seminar | null>;
-    updateSeminar: (id: number, data: UpdateSeminar) => Promise<Seminar | null>;
-    deleteSeminar: (id: number) => Promise<boolean>;
+    createHabit: (data: CreateHabit) => Promise<Habit | null>;
+    updateHabit: (id: number, data: UpdateHabit) => Promise<Habit | null>;
+    deleteHabit: (id: number) => Promise<boolean>;
     refetch: () => Promise<void>;
 }
 
-export function useSeminars(): UseSeminarsResult {
+export function useAdminHabits(): UseAdminHabitsResult {
     const { token } = useAuthContext();
 
-    const [seminars, setSeminars] = useState<Seminar[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [habits, setHabits] = useState<Habit[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchSeminars = useCallback(async () => {
+    const fetchHabits = useCallback(async () => {
         if (!token) return;
 
         setIsLoading(true);
         setError(null);
 
         try {
-            const res = await fetch(`${API_URL}/seminars`, {
+            const res = await fetch(`${API_URL}/admin/habits`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-
-            if (!res.ok) {
-                throw new Error("Failed to fetch seminars");
-            }
+            if (!res.ok) throw new Error("Failed to fetch habits");
 
             const json = await res.json();
-            setSeminars(json.data);
+            setHabits(json.data);
         } catch (err) {
             setError(err instanceof Error ? err.message : "An unknown error occurred");
         } finally {
@@ -46,14 +43,14 @@ export function useSeminars(): UseSeminarsResult {
     }, [token]);
 
     useEffect(() => {
-        fetchSeminars();
-    }, [fetchSeminars]);
+        fetchHabits();
+    }, [fetchHabits]);
 
-    const createSeminar = useCallback(async (data: CreateSeminarInput): Promise<Seminar | null> => {
+    const createHabit = useCallback(async (data: CreateHabit): Promise<Habit | null> => {
         if (!token) return null;
 
         try {
-            const res = await fetch(`${API_URL}/seminars`, {
+            const res = await fetch(`${API_URL}/admin/habits`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -62,12 +59,10 @@ export function useSeminars(): UseSeminarsResult {
                 body: JSON.stringify(data),
             });
 
-            if (!res.ok) {
-                throw new Error("Failed to create seminar");
-            }
+            if (!res.ok) throw new Error("Failed to create habit");
 
             const json = await res.json();
-            setSeminars((prev) => [...prev, json.data]);
+            setHabits((prev) => [...prev, json.data].sort((a, b) => a.habit_title.localeCompare(b.habit_title)));
             return json.data;
         } catch (err) {
             setError(err instanceof Error ? err.message : "An unknown error occurred");
@@ -75,11 +70,11 @@ export function useSeminars(): UseSeminarsResult {
         }
     }, [token]);
 
-    const updateSeminar = useCallback(async (id: number, data: UpdateSeminar): Promise<Seminar | null> => {
+    const updateHabit = useCallback(async (id: number, data: UpdateHabit): Promise<Habit | null> => {
         if (!token) return null;
 
         try {
-            const res = await fetch(`${API_URL}/seminars/${id}`, {
+            const res = await fetch(`${API_URL}/admin/habits/${id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -88,14 +83,10 @@ export function useSeminars(): UseSeminarsResult {
                 body: JSON.stringify(data),
             });
 
-            if (!res.ok) {
-                throw new Error("Failed to update seminar");
-            }
+            if (!res.ok) throw new Error("Failed to update habit");
 
             const json = await res.json();
-            setSeminars((prev) =>
-                prev.map((seminar) => (seminar.id === id ? json.data : seminar))
-            );
+            setHabits((prev) => prev.map((h) => (h.id === id ? json.data : h)));
             return json.data;
         } catch (err) {
             setError(err instanceof Error ? err.message : "An unknown error occurred");
@@ -103,20 +94,18 @@ export function useSeminars(): UseSeminarsResult {
         }
     }, [token]);
 
-    const deleteSeminar = useCallback(async (id: number): Promise<boolean> => {
+    const deleteHabit = useCallback(async (id: number): Promise<boolean> => {
         if (!token) return false;
 
         try {
-            const res = await fetch(`${API_URL}/seminars/${id}`, {
+            const res = await fetch(`${API_URL}/admin/habits/${id}`, {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${token}` },
             });
 
-            if (!res.ok) {
-                throw new Error("Failed to delete seminar");
-            }
+            if (!res.ok) throw new Error("Failed to delete habit");
 
-            setSeminars((prev) => prev.filter((seminar) => seminar.id !== id));
+            setHabits((prev) => prev.filter((h) => h.id !== id));
             return true;
         } catch (err) {
             setError(err instanceof Error ? err.message : "An unknown error occurred");
@@ -124,13 +113,5 @@ export function useSeminars(): UseSeminarsResult {
         }
     }, [token]);
 
-    return {
-        seminars,
-        isLoading,
-        error,
-        createSeminar,
-        updateSeminar,
-        deleteSeminar,
-        refetch: fetchSeminars,
-    };
+    return { habits, isLoading, error, createHabit, updateHabit, deleteHabit, refetch: fetchHabits };
 }
