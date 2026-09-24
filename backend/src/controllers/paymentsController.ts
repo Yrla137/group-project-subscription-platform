@@ -109,27 +109,27 @@ export const createPaymentController = async (req: Request, res: Response) => {
             });
         }
 
-        const userId = req.user!.user_id;
+        const secret = process.env.JWT_SECRET;
+
+        if (!secret) {
+            return res.status(500).json({
+                message: "JWT secret is not defined"
+            });
+        }
+
         // Instead of user?. (optional chaining), user! (non-null assertion) guarantees that req.user exists before this controller runs because of the requireAuth middleware.
+        const userId = req.user!.user_id;
         const payment = await paymentsService.createPayment(result.data, userId);
 
-            const secret = process.env.JWT_SECRET;
-
-            if (!secret) {
-                return res.status(500).json({
-                    message: "JWT secret is not defined"
-                });
-            }
-
-            const token = jwt.sign(
-                {
-                    user_id: req.user!.user_id,
-                    role: req.user!.role,
-                    level_number: payment.level_number
-                },
-                secret,
-                { expiresIn: "1h" }
-            );
+        const token = jwt.sign(
+            {
+                user_id: req.user!.user_id,
+                role: req.user!.role,
+                level_number: payment.level_number
+            },
+            secret,
+            { expiresIn: "1h" }
+        );
 
             return res.status(201).json({
                 message: "Payment created successfully",
