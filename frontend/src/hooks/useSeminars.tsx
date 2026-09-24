@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Seminar, UpdateSeminar, CreateSeminarInput } from "../types/SeminarsTypes";
+import { useAuthContext } from "../context/AuthContext";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000/api";
 
@@ -14,16 +15,22 @@ interface UseSeminarsResult {
 }
 
 export function useSeminars(): UseSeminarsResult {
+    const { token } = useAuthContext();
+
     const [seminars, setSeminars] = useState<Seminar[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     const fetchSeminars = useCallback(async () => {
+        if (!token) return;
+
         setIsLoading(true);
         setError(null);
 
         try {
-            const res = await fetch(`${API_URL}/seminars`);
+            const res = await fetch(`${API_URL}/seminars`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
 
             if (!res.ok) {
                 throw new Error("Failed to fetch seminars");
@@ -36,17 +43,22 @@ export function useSeminars(): UseSeminarsResult {
         } finally {
             setIsLoading(false);
         }
-    }, []);
+    }, [token]);
 
     useEffect(() => {
         fetchSeminars();
     }, [fetchSeminars]);
 
     const createSeminar = useCallback(async (data: CreateSeminarInput): Promise<Seminar | null> => {
+        if (!token) return null;
+
         try {
             const res = await fetch(`${API_URL}/seminars`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
                 body: JSON.stringify(data),
             });
 
@@ -61,13 +73,18 @@ export function useSeminars(): UseSeminarsResult {
             setError(err instanceof Error ? err.message : "An unknown error occurred");
             return null;
         }
-    }, []);
+    }, [token]);
 
     const updateSeminar = useCallback(async (id: number, data: UpdateSeminar): Promise<Seminar | null> => {
+        if (!token) return null;
+
         try {
             const res = await fetch(`${API_URL}/seminars/${id}`, {
                 method: "PATCH",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
                 body: JSON.stringify(data),
             });
 
@@ -84,12 +101,15 @@ export function useSeminars(): UseSeminarsResult {
             setError(err instanceof Error ? err.message : "An unknown error occurred");
             return null;
         }
-    }, []);
+    }, [token]);
 
     const deleteSeminar = useCallback(async (id: number): Promise<boolean> => {
+        if (!token) return false;
+
         try {
             const res = await fetch(`${API_URL}/seminars/${id}`, {
                 method: "DELETE",
+                headers: { Authorization: `Bearer ${token}` },
             });
 
             if (!res.ok) {
@@ -102,7 +122,7 @@ export function useSeminars(): UseSeminarsResult {
             setError(err instanceof Error ? err.message : "An unknown error occurred");
             return false;
         }
-    }, []);
+    }, [token]);
 
     return {
         seminars,
