@@ -1,11 +1,27 @@
 import { pool } from "../config/db";
 import bcrypt from "bcrypt";
-import type { LoginUser, AuthPayload } from '../types/authType';
+import type { LoginUser, AuthPayload, UserWithLevel } from '../types/authType';
 import type { User, CreateUser, PublicUser } from '../types/usersType';
 
 // GET - get user by email
-const getUserByEmail = async (email: string): Promise<User | null> => {
-    const result = await pool.query('SELECT id, first_name, last_name, email, password_hash, role, current_tier_id, created_at FROM users WHERE email = $1',[email]);
+const getUserByEmail = async (email: string): Promise<UserWithLevel | null> => {
+    const result = await pool.query(
+        `SELECT 
+            users.id,
+            users.first_name,
+            users.last_name,
+            users.email,
+            users.password_hash,
+            users.role,
+            users.current_tier_id,
+            tiers.level_number,
+            users.created_at
+         FROM users
+         JOIN tiers ON users.current_tier_id = tiers.id
+         WHERE users.email = $1`,
+        [email]
+    );
+
     return result.rows[0] || null;
 }
 
@@ -21,8 +37,9 @@ const loginUser = async (data: LoginUser): Promise<AuthPayload | null> => {
         return null;
     }
     return {
-        user_id: user.id,
-        role: user.role
+    user_id: user.id,
+    role: user.role,
+    level_number: user.level_number
     };
 };
 

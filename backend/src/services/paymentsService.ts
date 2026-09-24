@@ -20,7 +20,10 @@ const getPaymentsByUserId = async (userId: number) : Promise<Payment[]> => {
 };
 
 // POST - create a new payment
-const createPayment = async (data: CreatePayment, userId: number): Promise<Payment> => {
+const createPayment = async (
+    data: CreatePayment,
+    userId: number
+): Promise<Payment & { level_number: number }> => {
 
     const client = await pool.connect();
 
@@ -38,7 +41,10 @@ const createPayment = async (data: CreatePayment, userId: number): Promise<Payme
         }
 
         // Get the price of the tier
-        const tierPriceResult = await client.query('SELECT price FROM tiers WHERE id = $1', [data.tier_id]);
+        const tierPriceResult = await client.query(
+            'SELECT price, level_number FROM tiers WHERE id = $1',
+            [data.tier_id]
+        );
         if (tierPriceResult.rows.length === 0) {
             throw new Error(`Tier with id ${data.tier_id} not found`);
         }
@@ -67,7 +73,10 @@ const createPayment = async (data: CreatePayment, userId: number): Promise<Payme
         // Commit the transaction
         await client.query('COMMIT');
 
-        return result.rows[0];
+        return {
+            ...result.rows[0],
+            level_number: tierPriceResult.rows[0].level_number
+        };
         
     } catch (error) {
         // Rollback the transaction in case of an error
