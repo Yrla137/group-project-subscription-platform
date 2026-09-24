@@ -30,6 +30,17 @@ body {
   /* position: relative; */
 }
 
+.primary-btn {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
 /* --- HEADER --- */
 .app-header {
   display: flex;
