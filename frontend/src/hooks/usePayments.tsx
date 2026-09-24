@@ -9,7 +9,7 @@ export function usePayments() {
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const { token } = useAuthContext();
+    const { token, login } = useAuthContext();
 
     // GET - Fetch all payments
     const fetchAllPayments = useCallback(async (): Promise<Payment[]> => {
@@ -185,15 +185,25 @@ export function usePayments() {
             const returnData: {
                 message?: string;
                 data?: Payment;
+                token?: string;
             } = await response.json();
 
             if (!response.ok) {
                 throw new Error(returnData.message || "Failed to create payment");
             }
-
+            
             if (!returnData.data) {
                 throw new Error("No payment data returned from the API");
             }
+
+            if (!returnData.token) {
+                throw new Error("No authentication token returned from the API");
+            }
+
+            login({
+                message: returnData.message || "Payment created successfully",
+                token: returnData.token
+            });
 
             setPayments((prevPayments) => [...prevPayments, returnData.data!]);
             return returnData.data;

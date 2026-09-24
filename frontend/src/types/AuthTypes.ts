@@ -30,7 +30,8 @@ interface RegisterResponse {
 interface AuthPayload {
     user_id: number;
     role: Role;
+    level_number: number;
     exp: number;
-}
 
+}
 export type { LoginUser, LoginResponse, RegisterUser, RegisterResponse, AuthPayload };

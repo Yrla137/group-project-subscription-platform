@@ -1,4 +1,4 @@
-import type { Role } from "./usersType";
+import type { User, Role } from "./usersType";
 
 // Login User //
 interface LoginUser {
@@ -10,6 +10,11 @@ interface LoginUser {
 interface AuthPayload {
     user_id: number;
     role: Role;
+    level_number: number;
 }
 
-export type { LoginUser, AuthPayload };
+interface UserWithLevel extends User {
+    level_number: number;
+}
+
+export type { LoginUser, AuthPayload, UserWithLevel };
