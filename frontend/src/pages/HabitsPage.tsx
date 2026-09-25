@@ -15,7 +15,14 @@ const WEEKDAYS = [
 ];
 
 export default function HabitsPage() {
-  const { habits, isLoading: habitsLoading, createHabit } = useHabits();
+  const {
+    habits,
+    isLoading: habitsLoading,
+    error: habitsError,
+    habitLimit,
+    canCreateHabit,
+    createHabit,
+  } = useHabits();
 
   const [showCustomHabitForm, setShowCustomHabitForm] = useState(false);
   const [customTitle, setCustomTitle] = useState("");
@@ -170,16 +177,7 @@ export default function HabitsPage() {
         </div>
 
         <div className="form-field">
-          {!showCustomHabitForm ? (
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => setShowCustomHabitForm(true)}
-              disabled={!!editingId}
-            >
-              + Add custom habit
-            </button>
-          ) : (
+          {showCustomHabitForm && canCreateHabit ? (
             <div className="custom-habit-form">
               <label htmlFor="custom_title">New habit title</label>
               <input
@@ -206,6 +204,8 @@ export default function HabitsPage() {
                 onChange={(e) => setCustomDuration(e.target.value)}
               />
 
+              {habitsError && <p className="status-text status-text--error">{habitsError}</p>}
+
               <div className="custom-habit-form-actions">
                 <button
                   type="button"
@@ -225,6 +225,31 @@ export default function HabitsPage() {
                 </button>
               </div>
             </div>
+          ) : (
+            <>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setShowCustomHabitForm(true)}
+                disabled={!!editingId || !canCreateHabit}
+                aria-describedby={habitLimit ? "habit-limit-notice" : undefined}
+              >
+                + Add custom habit
+              </button>
+
+              {habitLimit && (
+                <p
+                  id="habit-limit-notice"
+                  className={`habit-limit-text ${!canCreateHabit ? "habit-limit-text--reached" : ""}`}
+                >
+                  {canCreateHabit
+                    ? `${habitLimit.customHabitCount} of ${habitLimit.maxCustomHabits} custom habits used`
+                    : habitLimit.maxCustomHabits === 0
+                      ? "Your plan doesn't include custom habits. Upgrade your subscription to create your own."
+                      : `Your plan allows ${habitLimit.maxCustomHabits} custom habits. Upgrade your subscription to create more.`}
+                </p>
+              )}
+            </>
           )}
         </div>
 

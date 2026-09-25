@@ -27,21 +27,26 @@
     color: var(--primary);
 }
 
-.week-range-label {
+/* Shown on the next-week arrow when the horizon ends in the visible week */
+.week-nav-btn--disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.week-nav-btn--disabled:hover {
     background: none;
-    border: none;
-    font-weight: 600;
-    font-size:1rem;
-    font-weight: bold;
-    color: var(--text-main);
-    cursor: pointer;
-    padding: 4px 10px;
-    border-radius: 8px;
-    transition: background-color 0.15s ease;
+    color: var(--text-muted);
+}
+
+.week-range-label {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 5px;
-    align-items: bottom;
+    padding: 4px 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--text-main);
 }
 
 .today-btn {
@@ -52,9 +57,8 @@
     font-weight: bold;
     border-radius: 1rem;
     background-color: #BBFFE2;
-    color:#0F8767;
+    color: #0F8767;
     cursor: pointer;
-    align-self: center;
 }
 
 /* Week days row */
@@ -88,9 +92,18 @@
     transform: scale(0.96);
 }
 
+/* Days after the horizon: can't be selected, clicking shows the upgrade notice */
 .week-day--disabled {
     opacity: 0.4;
     cursor: not-allowed;
+}
+
+.week-day--disabled:hover {
+    background-color: #eef4fe;
+}
+
+.week-day--disabled:active {
+    transform: none;
 }
 
 .week-day-label {
@@ -116,6 +129,13 @@
 
 .week-day-dot {
     background-color: #38A17F;
+}
+
+/* Hollow ring for days that only have locked seminars (teasers) */
+.week-day-dot--locked {
+    background-color: transparent;
+    border: 1.5px solid #38A17F;
+    box-sizing: border-box;
 }
 
 /* Active state */
@@ -147,6 +167,12 @@
     background-color: #ffffff;
 }
 
+.week-day--active .week-day-dot--locked {
+    background-color: transparent;
+    border-color: #ffffff;
+}
+
+/* Upgrade notice */
 .tier-notice {
     display: flex;
     align-items: flex-start;

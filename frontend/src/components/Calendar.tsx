@@ -1,54 +1,77 @@
-import { useState } from "react";
-import { parseISO, isAfter } from "date-fns";
+import { useMemo, useState } from "react";
+import { format, parseISO, startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
 
 import { useCalendarEvents } from "../hooks/useCalendarEvents";
-import { useTasks } from "../hooks/useTasks";
 
 import Seminars from "./Seminars";
 import CalendarDatepicker from "./CalendarDatepicker";
+import type { CalendarHorizon } from "./CalendarDatepicker";
 import Tasks from "./Tasks";
 import Habits from "./Habits";
 
+// Must match weekStartsOn in CalendarDatepicker (1 = Monday)
+const WEEK_STARTS_ON = 1;
+
+const toIsoDate = (date: Date) => format(date, "yyyy-MM-dd");
+
 const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const { events, isLoading, error } = useCalendarEvents();
-  const { tasks } = useTasks();
 
-  const maxDate = new Date("2026-09-28");
+  // Fetch the whole month around the selected date, padded to full weeks.
+  // That always covers the visible week, even when it spans two months,
+  // and from/to only change (and trigger a refetch) when the month changes.
+  const monthStart = startOfMonth(selectedDate);
+  const from = toIsoDate(startOfWeek(monthStart, { weekStartsOn: WEEK_STARTS_ON }));
+  const to = toIsoDate(endOfWeek(endOfMonth(monthStart), { weekStartsOn: WEEK_STARTS_ON }));
 
-  const handleSelectDate = (date: Date) => {
-    if (maxDate && isAfter(date, maxDate)) {
-      setSelectedDate(maxDate);
-      return;
+  const { events, meta, isLoading, error, isWithinHorizon } = useCalendarEvents(from, to);
+
+  // Split dates into ones with accessible events and ones with only locked seminars
+  const { markedDates, lockedDates } = useMemo(() => {
+    const open = new Set<string>();
+    const locked = new Set<string>();
+
+    for (const event of events) {
+      if (event.type === "seminar" && event.isLocked) locked.add(event.date);
+      else open.add(event.date);
     }
-    setSelectedDate(date);
-  };
 
-  const taskMarkedDates = tasks
-    .filter((task) => task.task_date)
-    .map((task) => {
-      const dateStr = task.task_date.substring(0, 10);
-    return parseISO(dateStr);
-});
+    return {
+      markedDates: [...open].map((date) => parseISO(date)),
+      lockedDates: [...locked].map((date) => parseISO(date)),
+    };
+  }, [events]);
 
-  const markedDates = [...events.map((event) => parseISO(event.date)), ...taskMarkedDates];
+  const horizon: CalendarHorizon | null = useMemo(
+    () => (meta ? { end: parseISO(meta.horizonEnd) } : null),
+    [meta]
+  );
 
-  if (isLoading) return <p>Loading calendar...</p>;
-  if (error) return <p>Something went wrong: {error}</p>;
+  const canSeeOwnContent = isWithinHorizon(toIsoDate(selectedDate));
 
   return (
     <div>
       <CalendarDatepicker
         selectedDate={selectedDate}
-        onSelectDate={handleSelectDate}
+        onSelectDate={setSelectedDate}
         markedDates={markedDates}
-        maxDate={maxDate}
+        lockedDates={lockedDates}
+        horizon={horizon}
       />
-      <Tasks selectedDate={selectedDate} />
 
-      <Habits selectedDate={selectedDate} />
-      <Seminars date={selectedDate} />
+      {isLoading && <p>Loading calendar...</p>}
+      {error && <p>Something went wrong: {error}</p>}
 
+      {canSeeOwnContent ? (
+        <>
+          <Tasks selectedDate={selectedDate} />
+          <Habits selectedDate={selectedDate} />
+        </>
+      ) : (
+        <p>Upgrade your subscription to plan tasks and habits for this day.</p>
+      )}
+
+      <Seminars selectedDate={selectedDate} />
     </div>
   );
 };

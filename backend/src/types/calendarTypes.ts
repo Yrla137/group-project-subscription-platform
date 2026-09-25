@@ -14,21 +14,22 @@ export type CalendarEvent =
         title: string;
         isLocked: boolean;
         lockReason: SeminarLockReason;
-        // Only sent when the user has access to the seminar
+        // Only present when the user has access to the seminar
         description?: string;
     };
 
-export type SeminarCalendarEvent = Extract<CalendarEvent, { type: "seminar" }>;
-
-export interface CalendarMeta {
-    from: string;
-    to: string;
-    horizonEnd: string;
-    maxFutureDays: number;
+export interface CalendarEntitlement {
     tierLevel: number;
+    maxFutureDays: number;
 }
 
 export interface CalendarResponse {
     data: CalendarEvent[];
-    meta: CalendarMeta;
+    meta: {
+        from: string;
+        to: string;
+        horizonEnd: string;
+        maxFutureDays: number;
+        tierLevel: number;
+    };
 }

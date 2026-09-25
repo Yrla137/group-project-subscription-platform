@@ -1,11 +1,21 @@
 import * as habitsService from "../services/habitsService";
+import { HabitLimitReachedError } from "../services/habitsService";
 import type { Request, Response } from "express";
 
 export const getMyHabitsController = async (req: Request, res: Response) => {
     const { user_id } = req.user!;
-    const habits = await habitsService.getMyHabits(user_id);
 
-    return res.status(200).json({ message: "Habits fetched successfully", data: habits });
+    try {
+        const [habits, limit] = await Promise.all([
+            habitsService.getMyHabits(user_id),
+            habitsService.getHabitLimit(user_id),
+        ]);
+
+        return res.status(200).json({ message: "Habits fetched successfully", data: habits, meta: limit });
+    } catch (err) {
+        console.error("Failed to fetch habits:", err);
+        return res.status(500).json({ message: "Failed to fetch habits" });
+    }
 };
 
 export const getMyHabitByIdController = async (req: Request, res: Response) => {
@@ -18,14 +28,23 @@ export const getMyHabitByIdController = async (req: Request, res: Response) => {
 };
 
 export const createHabitController = async (req: Request, res: Response) => {
-
-    console.log(req.user);
-    
     const { user_id } = req.user!;
 
-    const newHabit = await habitsService.createHabit(req.body, user_id);
+    try {
+        const newHabit = await habitsService.createHabit(req.body, user_id);
+        return res.status(201).json({ message: "Habit created successfully", data: newHabit });
+    } catch (err) {
+        if (err instanceof HabitLimitReachedError) {
+            return res.status(403).json({
+                message: err.message,
+                code: "HABIT_LIMIT_REACHED",
+                limit: err.limit,
+            });
+        }
 
-    return res.status(201).json({ message: "Habit created successfully", data: newHabit });
+        console.error("Failed to create habit:", err);
+        return res.status(500).json({ message: "Failed to create habit" });
+    }
 };
 
 export const updateHabitController = async (req: Request, res: Response) => {

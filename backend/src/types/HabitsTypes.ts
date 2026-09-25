@@ -20,4 +20,10 @@ interface UpdateHabit {
     default_duration_minutes?: number;
 }
 
-export type { Habit, CreateHabit, UpdateHabit };
+interface HabitLimit {
+    customHabitCount: number;
+    maxCustomHabits: number;
+}
+
+
+export type { Habit, CreateHabit, UpdateHabit, HabitLimit };

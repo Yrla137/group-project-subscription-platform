@@ -41,7 +41,7 @@ const getUserHabitsForDate = async (
 };
 
 // Checks whether a recurrence_rule applies to a given ISO date (YYYY-MM-DD)
-const isScheduledOn = (rule: string | null, isoDate: string): boolean => {
+export const isScheduledOn = (rule: string | null, isoDate: string): boolean => {
     if (!rule) return false;
     if (rule === "DAILY") return true;
 
