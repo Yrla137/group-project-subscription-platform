@@ -52,12 +52,12 @@ export function usePayments() {
     }, [token]);
 
     // GET - Fetch a single payment by ID
-    const fetchPaymentByUserId = async (id: number): Promise<Payment> => {
+    const fetchPaymentByUserId = async (id: number): Promise<PaymentWithTier[]> => {
         setIsLoading(true);
         setError(null);
 
         try {
-            const response = await fetch(`${API_URL}/payments/${id}`, {
+            const response = await fetch(`${API_URL}/payments/user/${id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -67,7 +67,7 @@ export function usePayments() {
 
             const returnData: {
                 message?: string;
-                data?: Payment;
+                data?: PaymentWithTier[];
             } = await response.json();
 
             if (!response.ok) {
