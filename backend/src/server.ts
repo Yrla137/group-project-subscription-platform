@@ -10,12 +10,14 @@ import userHabitsRouter from "./routes/userHabitsRoute";
 import habitCompletionsRouter from "./routes/habitCompletionsRoute";
 import tiersRoute from "./routes/tiersRoute";
 import paymentsRoute from "./routes/paymentsRoute";
+import calendarRoute from "./routes/calendarRoute";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/calendar", calendarRoute);
 app.use("/api/seminars", seminarsRouter);
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
