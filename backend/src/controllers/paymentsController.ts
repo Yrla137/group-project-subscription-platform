@@ -78,21 +78,24 @@ export const getPaymentsForUserController = async (req: Request, res: Response) 
     }
 };
 
-
-// GET - get a user's own payments by user id
+// GET - get the logged-in user's own payments
 export const getMyPaymentsController = async (req: Request, res: Response) => {
 
     try {
         const userId = req.user!.user_id;
+
         const payments = await paymentsService.getPaymentsByUserId(userId);
+
         return res.status(200).json({
             message: "User's payments fetched successfully",
             data: payments
         });
+
     } catch (error) {
-        console.error("Get user's payments error:", error);
+        console.error("Get my payments error:", error);
+
         return res.status(500).json({
-            message: "An error occurred while fetching user's payments"
+            message: "An error occurred while fetching your payments"
         });
     }
 };

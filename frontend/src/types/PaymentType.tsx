@@ -7,9 +7,15 @@ interface Payment {
     payment_date: Date;
 }
 
+// Payment with Tier Type //
+interface PaymentWithTier extends Payment {
+    tier_title: string;
+    tier_description: string;
+}
+
 // Create Payment Type //
 interface CreatePayment {
     tier_id: number;
 }
 
-export type { Payment, CreatePayment };
+export type { Payment, PaymentWithTier, CreatePayment };

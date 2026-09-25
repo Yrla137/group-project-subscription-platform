@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import type { Tier, CreateTier, UpdateTier } from "../types/TierType";
+import { useAuthContext } from "../context/AuthContext";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
@@ -7,6 +8,8 @@ export function useTiers() {
     const [tiers, setTiers] = useState<Tier[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const { token } = useAuthContext();
 
     // GET - Fetch all tiers
     const fetchTiers = useCallback(async (): Promise<Tier[]> => {
@@ -18,6 +21,7 @@ export function useTiers() {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
                 },
             });
 
@@ -46,10 +50,10 @@ export function useTiers() {
         finally {
             setIsLoading(false);
         }
-    }, []);
+    }, [token]);
 
     // GET - Fetch a single tier by ID (Will probably not be used but is added just in case)
-    const fetchTierById = async (id: number): Promise<Tier> => {
+    const fetchTierById = useCallback(async (id: number): Promise<Tier> => {
         setIsLoading(true);
         setError(null);
 
@@ -58,6 +62,7 @@ export function useTiers() {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
                 },
             });
 
@@ -85,7 +90,7 @@ export function useTiers() {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [token]);
 
     // POST - Create a new tier
     const createTier = async (tierData: CreateTier): Promise<Tier> => {
