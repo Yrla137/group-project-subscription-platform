@@ -24,18 +24,62 @@ const getMyHabitById = async (id: number, userId: number): Promise<Habit | null>
     return result.rows[0] || null;
 };
 
+// Fallback for users without a tier (users.current_tier_id is NULL)
+const DEFAULT_MAX_CUSTOM_HABITS = 3;
+
+export class HabitLimitReachedError extends Error {
+    constructor(public readonly limit: number) {
+        super(`Your current plan allows at most ${limit} custom habits`);
+        this.name = "HabitLimitReachedError";
+    }
+}
+
 // POST - always creates a personal habit owned by this user
 const createHabit = async (data: CreateHabit, userId: number): Promise<Habit> => {
     const { habit_title, habit_description, default_duration_minutes } = data;
 
-    const result = await pool.query(
-        `INSERT INTO habits (habit_title, habit_description, default_duration_minutes, created_by)
-         VALUES ($1, $2, $3, $4)
-         RETURNING id, habit_title, habit_description, default_duration_minutes, created_by, created_at`,
-        [habit_title, habit_description ?? null, default_duration_minutes ?? null, userId]
-    );
+    const client = await pool.connect();
 
-    return result.rows[0];
+    try {
+        await client.query("BEGIN");
+
+        // Lock the user's row so simultaneous requests can't both pass the limit check
+        const limitResult = await client.query<{ max_custom_habits: number | null }>(
+            `SELECT t.max_custom_habits
+             FROM users u
+             LEFT JOIN tiers t ON t.id = u.current_tier_id
+             WHERE u.id = $1
+             FOR UPDATE OF u`,
+            [userId]
+        );
+
+        const maxCustomHabits = limitResult.rows[0]?.max_custom_habits ?? DEFAULT_MAX_CUSTOM_HABITS;
+
+        // COUNT returns bigint, which pg gives back as a string, so cast to int
+        const countResult = await client.query<{ count: number }>(
+            "SELECT COUNT(*)::int AS count FROM habits WHERE created_by = $1",
+            [userId]
+        );
+
+        if (countResult.rows[0].count >= maxCustomHabits) {
+            throw new HabitLimitReachedError(maxCustomHabits);
+        }
+
+        const result = await client.query<Habit>(
+            `INSERT INTO habits (habit_title, habit_description, default_duration_minutes, created_by)
+             VALUES ($1, $2, $3, $4)
+             RETURNING id, habit_title, habit_description, default_duration_minutes, created_by, created_at`,
+            [habit_title, habit_description ?? null, default_duration_minutes ?? null, userId]
+        );
+
+        await client.query("COMMIT");
+        return result.rows[0];
+    } catch (err) {
+        await client.query("ROLLBACK");
+        throw err;
+    } finally {
+        client.release();
+    }
 };
 
 // PATCH - only allowed on habits this user created themselves
