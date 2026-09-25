@@ -1,14 +1,12 @@
-// import { useParams } from "react-router-dom";
 
-// const UserPaymentsPage = () => {
 
-//     const { userId } = useParams();
+const UserPaymentsPage = () => {
 
-//     return (
-//         <div>
-//             <h1>User Payments</h1>
-//         </div>
-//     );
-// };
+    return (
+        <div>
+            <h1>User Payments</h1>
+        </div>
+    );
+};
 
-// export default UserPaymentsPage;
+export default UserPaymentsPage;
