@@ -31,7 +31,9 @@ interface SeminarRow {
     title: string;
     description: string | null;
     seminar_date: string;
+    starts_at: Date;
     tier_level: number;
+    tier_title: string | null;
 }
 
 // Note: dates are returned via to_char(...) so they come back as 'YYYY-MM-DD' strings.
@@ -81,7 +83,9 @@ async function getSeminarsInRange(from: string, to: string): Promise<SeminarRow[
                 s.seminar_title AS title,
                 s.seminar_description AS description,
                 to_char(s.seminar_date, 'YYYY-MM-DD') AS seminar_date,
-                COALESCE(t.level_number, 0) AS tier_level
+                s.seminar_date AS starts_at,
+                COALESCE(t.level_number, 0) AS tier_level,
+                t.title AS tier_title
          FROM seminars s
          LEFT JOIN tiers t ON t.id = s.tier_id
          WHERE s.seminar_date::date BETWEEN $1::date AND $2::date
@@ -149,8 +153,10 @@ export async function getCalendarEvents(
         return {
             id: String(s.id),
             date: s.seminar_date,
+            startsAt: s.starts_at.toISOString(),
             type: "seminar" as const,
             tierLevel: s.tier_level,
+            tierTitle: s.tier_title,
             title: s.title,
             isLocked,
             lockReason,

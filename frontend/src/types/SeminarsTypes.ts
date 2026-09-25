@@ -4,8 +4,10 @@ interface Seminar {
     seminar_title: string;
     seminar_description: string | null;
     seminar_date: string;
+    startsAt: string;
     tier_id: number;
     tier_level: number;
+    tier_title: string | null;
     created_by: number | null;
     created_at: Date;
 }

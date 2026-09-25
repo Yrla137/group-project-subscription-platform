@@ -1,79 +1,69 @@
-import { format, isSameDay, parseISO } from "date-fns";
+import { format, parseISO, isValid } from "date-fns";
 import { enUS } from "date-fns/locale";
-import "./Seminars.css"
-
-import { useSeminars } from "../hooks/useSeminars";
+import { useCalendarEvents } from "../hooks/useCalendarEvents";
+import type { SeminarCalendarEvent } from "../types/CalendarTypes";
+import "./Seminars.css";
 
 type SeminarsProps = {
-    date: Date;
+    selectedDate: Date;
+};
+
+// Returns "HH:mm" or null if the timestamp is missing or invalid, so a bad value can never crash the page
+function formatTime(startsAt: string | undefined): string | null {
+    if (!startsAt) return null;
+    const date = parseISO(startsAt);
+    return isValid(date) ? format(date, "HH:mm", { locale: enUS }) : null;
 }
 
-const Seminars = ({ date }: SeminarsProps) => {
+const Seminars = ({ selectedDate }: SeminarsProps) => {
+    const isoDate = format(selectedDate, "yyyy-MM-dd");
 
-    const level = 1;
+    // Same endpoint as the calendar, so locking and tier info come from the backend
+    const { events, isLoading, error } = useCalendarEvents(isoDate, isoDate);
 
-    const { seminars, isLoading, error } = useSeminars();
-
-    const Seminars = seminars.filter((seminar) =>
-        isSameDay(parseISO(seminar.seminar_date), date)
+    // Filter on date too, so the previous day's seminars don't flash while loading
+    const seminars = events.filter(
+        (event): event is SeminarCalendarEvent => event.type === "seminar" && event.date === isoDate
     );
 
-    const isOutOfReach = (seminar: (typeof seminars)[number]) =>
-        seminar.tier_id !== undefined && seminar.tier_id > level;
-
-    if (isLoading) {
-        return <p>Loading seminars…</p>;
-    }
-
-    if (error) {
-        return <p>Something went wrong: {error}</p>;
-    }
-
-    if (Seminars.length === 0) {
-        return (
-            <>
-            </>
-        )
-    }
+    if (isLoading && seminars.length === 0) return <p>Loading seminars…</p>;
+    if (error) return <p>Something went wrong: {error}</p>;
+    if (seminars.length === 0) return null;
 
     return (
         <div>
-
             <h3>Seminars</h3>
 
             <div className="seminar-list">
-                {Seminars.map((seminar) => {
-                    const outOfReach = isOutOfReach(seminar);
+                {seminars.map((seminar) => {
+                    const time = formatTime(seminar.startsAt);
 
                     return (
                         <div
                             key={seminar.id}
-                            className={`seminar-card ${outOfReach ? "seminar-card--locked" : ""}`}
+                            className={`seminar-card ${seminar.isLocked ? "seminar-card--locked" : ""}`}
                         >
                             <div className="seminar-card-header">
-                                <span className="seminar-title">{seminar.seminar_title}</span>
+                                <span className="seminar-title">{seminar.title}</span>
 
-                                {outOfReach && (
+                                {seminar.isLocked && (
                                     <span className="seminar-lock-badge">
                                         <span className="material-symbols-rounded" aria-hidden="true">
                                             lock
                                         </span>
-                                        Tier {seminar.tier_id}
+                                        {seminar.tierTitle ?? "Higher tier"}
                                     </span>
                                 )}
                             </div>
 
-                            {seminar.seminar_description && (
-                                <p className="seminar-description">{seminar.seminar_description}</p>
-                            )}
+                            {/* Only sent by the backend when the user has access */}
+                            {seminar.description && <p className="seminar-description">{seminar.description}</p>}
 
-                            <span className="seminar-time">
-                                {format(parseISO(seminar.seminar_date), "HH:mm", { locale: enUS })}
-                            </span>
+                            {time && <span className="seminar-time">{time}</span>}
 
-                            {outOfReach && (
+                            {seminar.isLocked && (
                                 <button type="button" className="seminar-upgrade-btn">
-                                    Upgrade subscription
+                                    Upgrade to {seminar.tierTitle ?? "a higher tier"}
                                 </button>
                             )}
                         </div>
@@ -82,6 +72,6 @@ const Seminars = ({ date }: SeminarsProps) => {
             </div>
         </div>
     );
-}
+};
 
-export default Seminars
+export default Seminars;

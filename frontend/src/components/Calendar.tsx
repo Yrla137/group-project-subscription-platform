@@ -71,8 +71,7 @@ const Calendar = () => {
         <p>Upgrade your subscription to plan tasks and habits for this day.</p>
       )}
 
-      {/* Always shown, so locked seminars work as a teaser beyond the horizon */}
-      <Seminars date={selectedDate} />
+      <Seminars selectedDate={selectedDate} />
     </div>
   );
 };
