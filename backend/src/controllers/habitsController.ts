@@ -4,9 +4,18 @@ import type { Request, Response } from "express";
 
 export const getMyHabitsController = async (req: Request, res: Response) => {
     const { user_id } = req.user!;
-    const habits = await habitsService.getMyHabits(user_id);
 
-    return res.status(200).json({ message: "Habits fetched successfully", data: habits });
+    try {
+        const [habits, limit] = await Promise.all([
+            habitsService.getMyHabits(user_id),
+            habitsService.getHabitLimit(user_id),
+        ]);
+
+        return res.status(200).json({ message: "Habits fetched successfully", data: habits, meta: limit });
+    } catch (err) {
+        console.error("Failed to fetch habits:", err);
+        return res.status(500).json({ message: "Failed to fetch habits" });
+    }
 };
 
 export const getMyHabitByIdController = async (req: Request, res: Response) => {

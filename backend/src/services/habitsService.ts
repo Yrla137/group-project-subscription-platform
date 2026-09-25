@@ -1,5 +1,6 @@
 import { pool } from "../config/db";
 import type { Habit, CreateHabit, UpdateHabit } from "../types/HabitsTypes";
+import type { HabitLimit } from "../types/HabitsTypes";
 
 // GET - default habits + the ones this user created themselves
 const getMyHabits = async (userId: number): Promise<Habit[]> => {
@@ -24,8 +25,25 @@ const getMyHabitById = async (id: number, userId: number): Promise<Habit | null>
     return result.rows[0] || null;
 };
 
+export const getHabitLimit = async (userId: number): Promise<HabitLimit> => {
+    const result = await pool.query<{ max_custom_habits: number | null; custom_habit_count: number }>(
+        `SELECT t.max_custom_habits,
+                (SELECT COUNT(*)::int FROM habits h WHERE h.created_by = u.id) AS custom_habit_count
+         FROM users u
+         LEFT JOIN tiers t ON t.id = u.current_tier_id
+         WHERE u.id = $1`,
+        [userId]
+    );
+
+    const row = result.rows[0];
+    return {
+        customHabitCount: row?.custom_habit_count ?? 0,
+        maxCustomHabits: row?.max_custom_habits ?? DEFAULT_MAX_CUSTOM_HABITS,
+    };
+};
+
 // Fallback for users without a tier (users.current_tier_id is NULL)
-const DEFAULT_MAX_CUSTOM_HABITS = 3;
+const DEFAULT_MAX_CUSTOM_HABITS = 0;
 
 export class HabitLimitReachedError extends Error {
     constructor(public readonly limit: number) {

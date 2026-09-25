@@ -20,4 +20,18 @@ interface UpdateHabit {
     default_duration_minutes?: number;
 }
 
-export type { Habit, CreateHabit, UpdateHabit };
+interface HabitLimit {
+    customHabitCount: number;
+    maxCustomHabits: number;
+}
+
+interface UseHabitsResult {
+    habits: Habit[];
+    isLoading: boolean;
+    error: string | null;
+    habitLimit: HabitLimit | null;
+    canCreateHabit: boolean;
+    createHabit: (data: CreateHabit) => Promise<Habit | null>;
+}
+
+export type { Habit, CreateHabit, UpdateHabit, HabitLimit, UseHabitsResult };
