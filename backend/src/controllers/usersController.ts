@@ -117,6 +117,9 @@ export const deleteUserController = async (req: Request, res: Response) => {
         if(!user){
             return res.status(404).json({message: "User not found"});
         }
+        if (user.role === 'administrator') {
+            return res.status(403).json({message: "Cannot delete an administrator user"});
+        }
         await usersService.deleteUser(id);
         return res.status(200).json({message: "User deleted successfully"});
 

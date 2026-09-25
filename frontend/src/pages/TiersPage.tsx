@@ -7,7 +7,6 @@ import type { UserWithTier } from "../types/UserType";
 
 const TiersPage = () => {
 
-  
   const [loggedInUser, setLoggedInUser] = useState<UserWithTier | null>(null);
 
   const { tiers, error: tierError, isLoading: isTierLoading, fetchTiers } = useTiers();

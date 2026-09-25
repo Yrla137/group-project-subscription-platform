@@ -5,6 +5,7 @@ import type { Tier } from '../types/TierType';
 import { useTiers } from '../hooks/useTiers';
 import { useAuthContext } from '../context/AuthContext';
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const CheckoutPage = () => {
 
@@ -65,11 +66,6 @@ const CheckoutPage = () => {
     }
   };
 
-  // Back to TiersPage button handler
-  const handleBackToTiers = () => {
-    navigate('/tiers');
-  };
-
   return (
 
     <div>
@@ -120,9 +116,12 @@ const CheckoutPage = () => {
           </form>
         </div>
 
-      <button className="back-to-tiers-button" onClick={handleBackToTiers}>
-        Back to Tiers
-      </button>
+      <div className="tiers-navigation">
+        <Link to="/tiers" className="tiers-nav-link">
+          Back to Tiers
+        </Link>
+      </div>
+      
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import type { Payment, CreatePayment } from "../types/PaymentType";
+import type { Payment, PaymentWithTier, CreatePayment } from "../types/PaymentType";
 import { useAuthContext } from "../context/AuthContext";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
@@ -52,7 +52,7 @@ export function usePayments() {
     }, [token]);
 
     // GET - Fetch a single payment by ID
-    const fetchPaymentById = async (id: number): Promise<Payment> => {
+    const fetchPaymentByUserId = async (id: number): Promise<Payment> => {
         setIsLoading(true);
         setError(null);
 
@@ -129,7 +129,7 @@ export function usePayments() {
     }, [token]);
 
     // GET - Fetch logged-in user's own payments
-    const fetchMyPayments = useCallback(async (): Promise<Payment[]> => {
+    const fetchMyPayments = useCallback(async (): Promise<PaymentWithTier[]> => {
         setIsLoading(true);
         setError(null);
 
@@ -144,7 +144,7 @@ export function usePayments() {
 
             const returnData: {
                 message?: string;
-                data?: Payment[];
+                data?: PaymentWithTier[];
             } = await response.json();
 
             if (!response.ok) {
@@ -223,7 +223,7 @@ export function usePayments() {
        isLoading,
        payments,
        fetchAllPayments,
-       fetchPaymentById,
+       fetchPaymentByUserId,
        fetchUserPayments,
        fetchMyPayments,
        createPayment,

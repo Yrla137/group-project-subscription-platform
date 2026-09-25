@@ -3,6 +3,7 @@ import { useUsers } from "../hooks/useUsers";
 import { useAuthContext } from "../context/AuthContext";
 import LogoutButton from "../components/LogoutButton";
 import type { UserWithTier } from "../types/UserType";
+import { Link } from "react-router-dom";
 
 import { Settings } from "lucide-react";
 
@@ -80,6 +81,17 @@ const ProfilePage = () => {
     <div className="profile-page">
 
         <LogoutButton />
+
+        <div className="profile-navigation">
+            <Link to="/profile" className="profile-nav-link">
+                Profile
+            </Link>
+
+            <Link to="/payments-page" className="profile-nav-link">
+                Payments
+            </Link>
+        </div>
+
 
       <h1 className="profile-title">
         Profile

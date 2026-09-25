@@ -12,9 +12,10 @@ import RegisterPage from "./pages/RegisterPage";
 import ProfilePage from "./pages/ProfilePage";
 
 import AdminPage from "./pages/Admin/AdminPage";
-import PaymentsHistoryList from "./pages/Admin/PaymentsHistoryList";
+import UserListPage from "./pages/Admin/UserListPage";
+import UserPaymentsPage from "./pages/Admin/UserPaymentsPage";
 import TiersList from "./pages/Admin/TiersList";
-import UsersList from "./pages/Admin/UsersList";
+import UsersList from "./pages/Admin/UserListPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import PaymentsPage from "./pages/PaymentsPage";
 
@@ -39,7 +40,8 @@ function App() {
             <Route path="profile" element={<ProfilePage />} />
 
             <Route path="admin" element={<AdminPage />} />
-            <Route path="admin/payments-history" element={<PaymentsHistoryList />} />
+            <Route path="admin/users" element={<UserListPage />} />
+            <Route path="admin/user-payments" element={<UserPaymentsPage />} />
             <Route path="admin/tiers" element={<TiersList />} />
             <Route path="admin/users" element={<UsersList />} />
 

@@ -12,42 +12,45 @@ export function useUsers() {
     const { token } = useAuthContext();
 
   // GET - Fetch all users (Admin only)
-  const fetchUsers = async (): Promise<UserWithTier[]> => {
+  const fetchUsers = useCallback(async (): Promise<UserWithTier[]> => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const response = await fetch(`${API_URL}/users`, {
-        method: "GET",
-        headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        },
-      });
+        const response = await fetch(`${API_URL}/users`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        });
 
-      const returnData: {
-        message?: string;
-        data?: UserWithTier[];
-      } = await response.json();
+        const returnData: {
+            message?: string;
+            data?: UserWithTier[];
+        } = await response.json();
 
-      if (!response.ok) {
-        throw new Error(returnData.message || "Failed to fetch users");
-      }
+        if (!response.ok) {
+            throw new Error(returnData.message || "Failed to fetch users");
+        }
 
-      if (!returnData.data) {
-        throw new Error("No user data returned from the API");
-      }
+        if (!returnData.data) {
+            throw new Error("No user data returned from the API");
+        }
+
         return returnData.data;
 
     } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message);
-      }
+        if (error instanceof Error) {
+            setError(error.message);
+        }
+
         throw error;
+
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
-  };
+  }, [token]);
 
   // GET - Fetch a single user by ID (Admin only)
   const fetchUserById = async (id: number): Promise<UserWithTier> => {
