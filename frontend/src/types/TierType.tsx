@@ -21,6 +21,18 @@ interface CreateTier {
     max_future_days: number;
 }
 
+
+// Add New Tier Form Type //
+interface NewTierFormData {
+    title: string;
+    tier_description: string;
+    price: string;
+    level_number: string;
+    max_todos_per_day: string;
+    max_custom_habits: string;
+    max_future_days: string;
+}
+
 // Update Tier Type //
 interface UpdateTier {
     title? : string;
@@ -32,4 +44,4 @@ interface UpdateTier {
     max_future_days?: number;
 }
 
-export type { Tier, CreateTier, UpdateTier };
+export type { Tier, CreateTier, NewTierFormData, UpdateTier };
