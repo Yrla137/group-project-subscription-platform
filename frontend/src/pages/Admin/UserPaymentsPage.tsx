@@ -50,10 +50,8 @@ const UserPaymentsPage = () => {
                 </tbody>
             </table>
 
-            <div>
-                <button>
+            <div className="back-to-user-list-link">
                     <Link to="/admin/users">Back to User List</Link>
-                </button>
             </div>
         </div>
     )

@@ -82,7 +82,7 @@ const ProfilePage = () => {
 
         <LogoutButton />
 
-        <div className="profile-navigation">
+        <div className="profile-navigation-links">
             <Link to="/profile" className="profile-nav-link">
                 Profile
             </Link>
@@ -207,7 +207,7 @@ const ProfilePage = () => {
             <p className="profile-name">
               <strong>Name:</strong>
                 <span>
-                    {userProfile.first_name} {userProfile.last_name}
+                  {userProfile.first_name} {userProfile.last_name}
                 </span>
             </p>
 

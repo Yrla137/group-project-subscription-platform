@@ -148,7 +148,7 @@ const handleConfirmDelete = async () => {
             )}
 
             <div className="admin-profile-button">
-                <Link to="/admin">Back to Admin Profile</Link>
+              <Link to="/admin">Back to Admin Profile</Link>
             </div>
         </div>
     );

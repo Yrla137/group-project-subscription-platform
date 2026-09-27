@@ -113,7 +113,7 @@ const TiersList = () => {
         };
 
         try {
-          if (!selectedTier) {
+          if (selectedTier === null) {
             throw new Error("No tier selected for update");
           }
 
@@ -267,7 +267,7 @@ const TiersList = () => {
                         </div>
                     ))}
 
-                    <button onClick={handleShowTierForm}>
+                    <button aria-label="Add New Tier" onClick={handleShowTierForm}>
                         +
                     </button>
                 </div>
@@ -281,10 +281,8 @@ const TiersList = () => {
                 handleCancelAddNewTier={handleCancelAddNewTier}
             />
 
-            <div>
-                <button>
-                    <Link to="/admin">Back to Admin Profile</Link>
-                </button>
+            <div className="back-to-admin-link">
+              <Link to="/admin">Back to Admin Profile</Link>
             </div>
         </div>
     );

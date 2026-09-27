@@ -102,6 +102,7 @@ export function useTiers() {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
                 },
                 body: JSON.stringify(tierData),
             });
@@ -144,6 +145,7 @@ export function useTiers() {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
                 },
                 body: JSON.stringify(tierData),
             });
