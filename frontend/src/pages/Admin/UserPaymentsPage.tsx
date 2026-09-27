@@ -43,10 +43,6 @@ const UserPaymentsPage = () => {
 
                 const id = Number(userId);
 
-                if (Number.isNaN(id)) {
-                    throw new Error("Invalid user ID.");
-                }
-
                 const [userData, paymentData] = await Promise.all([
                     fetchUserById(id),
                     fetchPaymentByUserId(id)
