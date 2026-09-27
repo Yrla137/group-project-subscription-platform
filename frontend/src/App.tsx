@@ -41,7 +41,7 @@ function App() {
 
             <Route path="admin" element={<AdminPage />} />
             <Route path="admin/users" element={<UserListPage />} />
-            <Route path="admin/user-payments" element={<UserPaymentsPage />} />
+            <Route path="admin/user-payments/:userId" element={<UserPaymentsPage />} />
             <Route path="admin/tiers" element={<TiersList />} />
             <Route path="admin/users" element={<UsersList />} />
 

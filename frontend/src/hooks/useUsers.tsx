@@ -53,7 +53,7 @@ export function useUsers() {
   }, [token]);
 
   // GET - Fetch a single user by ID (Admin only)
-  const fetchUserById = async (id: number): Promise<UserWithTier> => {
+  const fetchUserById = useCallback(async (id: number): Promise<UserWithTier> => {
     setIsLoading(true);
     setError(null);
 
@@ -89,7 +89,7 @@ export function useUsers() {
     } finally {
       setIsLoading(false);
     }
-    };
+    }, [token]);
 
     // GET - Fetch user's profile information
     const fetchUserProfile = useCallback(async (): Promise<UserWithTier> => {

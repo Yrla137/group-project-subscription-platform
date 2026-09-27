@@ -51,7 +51,6 @@ const PaymentsPage = () => {
                 <tbody>
                     {payments.map((payment) => (
                         <tr key={payment.id}>
-                            <td>{payment.id}</td>
                             <td>{payment.tier_title}</td>
                             <td>{payment.tier_description}</td>
                             <td>{payment.amount}</td>

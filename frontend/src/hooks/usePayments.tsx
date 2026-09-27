@@ -51,13 +51,13 @@ export function usePayments() {
         }
     }, [token]);
 
-    // GET - Fetch a single payment by ID
-    const fetchPaymentByUserId = async (id: number): Promise<Payment> => {
+    // GET - Fetch payments by user ID
+    const fetchPaymentByUserId = useCallback(async (id: number): Promise<PaymentWithTier[]> => {
         setIsLoading(true);
         setError(null);
 
         try {
-            const response = await fetch(`${API_URL}/payments/${id}`, {
+            const response = await fetch(`${API_URL}/payments/user/${id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -67,7 +67,7 @@ export function usePayments() {
 
             const returnData: {
                 message?: string;
-                data?: Payment;
+                data?: PaymentWithTier[];
             } = await response.json();
 
             if (!response.ok) {
@@ -88,7 +88,7 @@ export function usePayments() {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [token]);
 
     // GET - Fetch payments for a specific user by user ID(for admin)
     const fetchUserPayments = useCallback(async (userId: number): Promise<Payment[]> => {
