@@ -200,7 +200,9 @@ const TiersList = () => {
                             <p>Max custom habits: {tier.max_custom_habits}</p>
                             <p>Max future days: {tier.max_future_days}</p>
 
-                            <button onClick={() => handleEditTier(tier)}>
+                            <button
+                                aria-label="Edit tier"
+                                onClick={() => handleEditTier(tier)}>
                               <Settings/>
                             </button>
                             {editing && selectedTier === tier.id && (

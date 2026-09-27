@@ -51,8 +51,8 @@ export function usePayments() {
         }
     }, [token]);
 
-    // GET - Fetch a single payment by ID
-    const fetchPaymentByUserId = async (id: number): Promise<PaymentWithTier[]> => {
+    // GET - Fetch payments by user ID
+    const fetchPaymentByUserId = useCallback(async (id: number): Promise<PaymentWithTier[]> => {
         setIsLoading(true);
         setError(null);
 
@@ -88,7 +88,7 @@ export function usePayments() {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [token]);
 
     // GET - Fetch payments for a specific user by user ID(for admin)
     const fetchUserPayments = useCallback(async (userId: number): Promise<Payment[]> => {
