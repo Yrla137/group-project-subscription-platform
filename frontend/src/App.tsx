@@ -3,7 +3,6 @@ import { AuthProvider } from "./context/AuthContext";
 import Layout from "./components/Layout";
 import DashboardPage from "./pages/DashboardPage";
 import SeminarsPage from "./pages/SeminarsPage";
-import ManageSeminarsPage from "./pages/ManageSeminarsPage";
 import HabitsPage from "./pages/HabitsPage";
 import TiersPage from "./pages/TiersPage";
 
@@ -15,6 +14,8 @@ import AdminPage from "./pages/Admin/AdminPage";
 import UserListPage from "./pages/Admin/UserListPage";
 import UserPaymentsPage from "./pages/Admin/UserPaymentsPage";
 import TiersListPage from "./pages/Admin/TiersListPage";
+import AdminHabitsPage from "./pages/Admin/DefaultHabits";
+import ManageSeminars from "./pages/Admin/Seminars";
 
 import CheckoutPage from "./pages/CheckoutPage";
 import PaymentsPage from "./pages/PaymentsPage";
@@ -31,7 +32,6 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<DashboardPage />} />
             <Route path="seminars" element={<SeminarsPage />} />
-            <Route path="seminars/manage" element={<ManageSeminarsPage />} />
             <Route path="habits" element={<HabitsPage />} />
             
             <Route path="tiers" element={<TiersPage />} />
@@ -42,10 +42,12 @@ function App() {
             <Route path="register" element={<RegisterPage />} />
             <Route path="profile" element={ <ProtectedRoute><ProfilePage/></ProtectedRoute> } />
 
-            <Route path="admin" element={ <AdminRoute><AdminPage/></AdminRoute> } />
-            <Route path="admin/users" element={ <AdminRoute><UserListPage/></AdminRoute> } />
-            <Route path="admin/user-payments/:userId" element={ <AdminRoute><UserPaymentsPage /></AdminRoute> } />
-            <Route path="admin/tiers" element={ <AdminRoute><TiersListPage /></AdminRoute> } />
+            <Route path="admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
+            <Route path="admin/users" element={<AdminRoute><UserListPage /></AdminRoute>} />
+            <Route path="admin/user-payments/:userId" element={<AdminRoute><UserPaymentsPage /></AdminRoute>} />
+            <Route path="admin/tiers" element={<AdminRoute><TiersListPage /></AdminRoute>} />
+            <Route path="admin/seminars" element={<AdminRoute><ManageSeminars /></AdminRoute>} />
+            <Route path="admin/habits" element={<AdminRoute><AdminHabitsPage /></AdminRoute>} />
 
           </Route>
         </Routes>
