@@ -139,7 +139,7 @@ const RegisterPage = () => {
         <div className="register-footer">
           <p>Already have an account? <Link to="/login" className="register-link">Log in here</Link></p>
 
-          <p><Link to="/login" className="register-link">Go Back to start</Link></p>
+          <p><Link to="/" className="register-link">Go Back to start</Link></p>
         </div>
 
       </div>
