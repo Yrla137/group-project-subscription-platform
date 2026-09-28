@@ -28,14 +28,17 @@ export const getTierByIdController = async (req: Request, res: Response) => {
         if (!Number.isInteger(id) || id <= 0) {
             return res.status(400).json({message: "Invalid tier ID"});
         }
+
         const tier = await tiersService.getTierById(id);
         if(!tier){
             return res.status(404).json({message: "Tier not found"});
         }
+
         return res.status(200).json({
             message: "Tier fetched successfully",
             data: tier
         });
+
     } catch (error) {
         console.error("Get tier by ID error:", error);
         return res.status(500).json({
@@ -49,13 +52,10 @@ export const createTierController = async (req: Request, res: Response) => {
 
     try {
         const result = createTierSchema.safeParse(req.body);
-
         if (!result.success) {
-            return res.status(400).json({
-                message: "Invalid input data",
-                errors: result.error
-            });
+            return res.status(400).json({message: result.error.issues[0].message});
         }
+
         const tier = await tiersService.createTier(result.data);
         return res.status(201).json({
             message: "Tier created successfully",
@@ -64,15 +64,12 @@ export const createTierController = async (req: Request, res: Response) => {
 
     } catch (error) {
         const dbError = error as DatabaseError;
-
         if (dbError.code === "23505") {
             return res.status(409).json({
                 message: "A tier with this title or level number already exists"
             });
         }
-
         console.error("Create tier error:", error);
-
         return res.status(500).json({
             message: "An error occurred while creating the tier"
         });
@@ -90,16 +87,11 @@ export const updateTierController = async (req: Request, res: Response) => {
         }
 
         const result = updateTierSchema.safeParse(req.body);
-
         if (!result.success) {
-            return res.status(400).json({
-                message: "Invalid input data",
-                errors: result.error
-            });
+            return res.status(400).json({message: result.error.issues[0].message});
         }
 
         const updatedTier = await tiersService.updateTier(id, result.data);
-
         if (!updatedTier) {
             return res.status(404).json({message: "Tier not found"});
         }
@@ -111,15 +103,12 @@ export const updateTierController = async (req: Request, res: Response) => {
 
     } catch (error) {
         const dbError = error as DatabaseError;
-
         if (dbError.code === "23505") {
             return res.status(409).json({
                 message: "A tier with this title or level number already exists"
             });
         }
-
         console.error("Update tier error:", error);
-
         return res.status(500).json({
             message: "An error occurred while updating the tier"
         });

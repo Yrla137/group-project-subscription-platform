@@ -1,3 +1,4 @@
+// Tier //
 interface Tier {
     id : number;
     title : string;
@@ -9,6 +10,7 @@ interface Tier {
     max_future_days: number;
 }
 
+// Create Tier //
 interface CreateTier {
     title : string;
     tier_description : string;
@@ -19,6 +21,7 @@ interface CreateTier {
     max_future_days: number;
 }
 
+// Update Tier //
 interface UpdateTier {
     title? : string;
     tier_description? : string;

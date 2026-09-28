@@ -27,10 +27,12 @@ export const getUserByIdController = async (req: Request, res: Response) => {
         if (!Number.isInteger(id) || id <= 0) {
             return res.status(400).json({message: "Invalid user ID"});
         }
+
         const user = await usersService.getUserById(id);
         if(!user){
             return res.status(404).json({message: "User not found"});
         }
+
         return res.status(200).json({
             message: "User fetched successfully",
             data: user
@@ -50,15 +52,18 @@ export const getProfileController = async (req: Request, res: Response) => {
         if(!req.user){
             return res.status(401).json({message: "Unauthorized"});
         }
+
         const id = req.user.user_id;
         const user = await usersService.getUserById(id);
         if(!user){
             return res.status(404).json({message: "User not found"});
         }
+
         return res.status(200).json({
             message: "User fetched successfully",
             data: user
         });
+
     } catch (error) {
         console.error("Get current user error:", error);
         return res.status(500).json({
@@ -113,10 +118,12 @@ export const deleteUserController = async (req: Request, res: Response) => {
         if (!Number.isInteger(id) || id <= 0) {
             return res.status(400).json({message: "Invalid user ID"});
         }
+
         const user = await usersService.getUserById(id);
         if(!user){
             return res.status(404).json({message: "User not found"});
         }
+        
         if (user.role === 'administrator') {
             return res.status(403).json({message: "Cannot delete an administrator user"});
         }

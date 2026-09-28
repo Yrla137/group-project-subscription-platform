@@ -1,7 +1,7 @@
 import { pool } from "../config/db";
 import bcrypt from "bcrypt";
 import type { LoginUser, AuthPayload, UserWithLevel } from '../types/authType';
-import type { User, CreateUser, PublicUser } from '../types/usersType';
+import type { CreateUser, PublicUser } from '../types/usersType';
 
 // GET - get user by email
 const getUserByEmail = async (email: string): Promise<UserWithLevel | null> => {
@@ -42,14 +42,6 @@ const loginUser = async (data: LoginUser): Promise<AuthPayload | null> => {
     level_number: user.level_number
     };
 };
-
-// ( )                        
-//  ↓                              
-// Vad går IN?
-
-// Promise< >
-//  ↓                              
-// Vad kommer UT?
 
 // POST - register a new user in the database
 const registerUser = async (data: CreateUser): Promise<PublicUser> => {
