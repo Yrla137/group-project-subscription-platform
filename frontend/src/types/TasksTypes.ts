@@ -17,6 +17,7 @@ interface CreateTask {
     task_description?: string;
     task_date: string;
     is_completed?: boolean;
+    color?: string;
 }
 
 // Update Task //
@@ -25,6 +26,7 @@ interface UpdateTask {
     task_description?: string;
     task_date?: string;
     is_completed?: boolean;
+    color?: string;
 }
 
 // Används i create-formuläret
@@ -34,6 +36,7 @@ interface CreateTaskInput {
     task_description?: string;
     task_date: string;
     is_completed?: boolean;
+    color: string;
 }
 
 export type { Task, CreateTask, UpdateTask, CreateTaskInput };

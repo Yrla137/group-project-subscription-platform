@@ -59,7 +59,7 @@ export default function Tasks({ selectedDate }: TaskViewProps) {
                     
                 sortedTasks.map((task) => {
 
-                    const colorClass = task.color ? `task-${task.color}` : "task-blue";
+                    const colorClass = task.color ? `task-${task.color}` : "task-coral";
                     const completedClass = task.is_completed ? "completed" : "";
 
                     return (

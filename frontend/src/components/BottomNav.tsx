@@ -7,7 +7,7 @@ const BottomNav: React.FC = () => {
   const { user, loading } = useAuthContext();
 
   if (loading || !user) {
-    console.log("BottomNav status - loading:", loading, "user:", user);
+  
       return null;
     }
 
@@ -25,7 +25,7 @@ const BottomNav: React.FC = () => {
       <Link to="/seminars" className={isActive("/seminars") ? "active" : ""}>
        <span>Seminars</span>
       </Link>
-      <Link to="/membership" className={isActive("/membership") ? "active" : ""}>
+      <Link to="/tiers" className={isActive("/tiers") ? "active" : ""}>
        <span>Membership</span>
       </Link>
     </nav>

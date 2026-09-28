@@ -3,6 +3,7 @@ import type { Request, Response } from "express";
 
 // POST - create a new task
 export const createTaskController = async (req: Request, res: Response) => {
+    console.log("SERVERN TOG EMOT DETTA I REQ.BODY:", req.body);
     const newTask = await tasksService.createTask(req.body);
 
     return res.status(201).json({
