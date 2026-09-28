@@ -168,8 +168,6 @@ export async function getCalendarEvents(
         };
     });
 
-    console.log("seminar events:", seminarEvents);
-
     return {
         data: [...taskEvents, ...habitEvents, ...seminarEvents],
         meta: {

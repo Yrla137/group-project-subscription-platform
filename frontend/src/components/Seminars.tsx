@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { useCalendarEvents } from "../hooks/useCalendarEvents";
 import type { SeminarCalendarEvent } from "../types/CalendarTypes";
 import SeminarCard from "./SeminarCard";
+import "./Seminars.css";
 
 type SeminarsProps = {
     selectedDate: Date;
@@ -23,10 +24,12 @@ const Seminars = ({ selectedDate }: SeminarsProps) => {
     if (seminars.length === 0) return null;
 
     return (
-        <div>
+        <div className="seminar-container">
+            
             <h2>Seminars</h2>
 
             <div className="seminar-list">
+
                 {seminars.map((seminar) => (
                     <SeminarCard
                         key={seminar.id}
