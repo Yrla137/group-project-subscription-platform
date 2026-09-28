@@ -1,0 +1,173 @@
+.tiers-page-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.tiers-header-section {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.tiers-header-section h3 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+}
+
+.tiers-header-section p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin: 0;
+}
+
+.tiers-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.tiers-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    align-items: stretch;
+}
+
+.tier-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.tier-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+.tier-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background-color: var(--border-color);
+    transition: background-color 0.2s ease;
+}
+
+.tier-card:hover::before,
+.tier-card.current-tier::before {
+    background-color: var(--primary);
+}
+
+.tier-card.current-tier {
+    border-color: var(--primary);
+    background-color: #fffbfb;
+}
+
+.tier-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.tier-card-header h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0;
+}
+
+.tier-level-badge {
+    font-size: 0.75rem;
+    background-color: var(--bg-color);
+    color: var(--text-muted);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.tier-description {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    flex-grow: 1;
+    margin-bottom: 1.5rem;
+}
+
+.tier-features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--text-main);
+    flex-grow: 1;
+}
+
+.tier-price-box {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin-bottom: 1.5rem;
+}
+
+.tier-price {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.tier-price-period {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.tier-action-container {
+    margin-top: auto;
+}
+
+.tier-select-button {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    font-size: 0.95rem;
+    border-radius: 12px;
+}
+
+.current-tier-label {
+    display: block;
+    text-align: center;
+    background-color: #fef2f2;
+    color: var(--primary);
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    border: 1px dashed var(--primary);
+}
+
+.tiers-loading, .tiers-error {
+    text-align: center;
+    grid-column: 1 / -1;
+    color: var(--text-muted);
+    padding: 40px;
+}
+
+.tiers-error {
+    color: #dc2626;
+}

@@ -61,38 +61,6 @@
   gap: 1rem;
 }
 
-/* Btns */
-.btn {
-  padding: 0.75rem 2rem;
-  border-radius: 0.75rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  display: inline-block;
-}
-
-.btn-primary {
-  background-color: #ff5757;
-  color: white;
-  box-shadow: 0 4px 6px rgba(255, 87, 87, 0.2);
-}
-
-.btn-primary:hover {
-  background-color: #fa4444;
-  transform: translateY(-1px);
-}
-
-.btn-secondary {
-  background-color: #ffffff;
-  color: #333;
-  border: 1px solid #d1d5db;
-}
-
-.btn-secondary:hover {
-  background-color: #f9fafb;
-  transform: translateY(-1px);
-}
-
 /* Features */
 .features-section {
   padding: 3rem 1.5rem;
