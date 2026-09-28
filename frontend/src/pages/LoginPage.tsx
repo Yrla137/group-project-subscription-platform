@@ -102,7 +102,7 @@ const LoginPage = () => {
         <div className="login-footer">
 
           <p>Forgot your password?       
-          <Link to ="/" className="login-link">
+          <Link to ="/forget-password" className="login-link">
             Click here
           </Link>
           </p>
