@@ -7,6 +7,7 @@ interface Task {
     task_date: string;
     is_completed: boolean;
     created_at: Date;
+    color?: string;
 }
 
 // Create Task //

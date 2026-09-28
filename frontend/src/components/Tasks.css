@@ -56,11 +56,42 @@
     border-left: 6px solid #ff6b6b; 
     overflow: hidden;
     transition: all 0.2s ease;
-}
+
+    }
+
+.task-coral {
+    border-left: #ff6b6b; 
+    background-color: #d6b9b9;
+    color: #fff; 
+    }
+
+.task-blue {
+    border-left: #4d96ff;
+    background-color: #acc9f5;
+    color: #fff;
+    }
+
+.task-green {
+    border-color: #254729;
+    background-color: #bcf7c5;
+    color: #fff;
+    }
+
+.task-yellow {
+    border-color : #e6d541; 
+    background-color: #fcf5b8;
+    color: #fff;
+    }
 
 .task-card.completed {
-    background-color: #f9fafb;
-    opacity: 0.8;
+    background-color: #e0e0e0 !important;
+    border-color: #cccccc !important;
+    opacity: 0.7;
+}
+
+.line-through {
+  text-decoration: line-through;
+  color: #666;
 }
 
 .task-card-left {
@@ -203,7 +234,6 @@
 .task-save-btn:hover {
     background-color: #ec5151;
 }
-
 
 
 

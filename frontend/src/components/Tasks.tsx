@@ -25,10 +25,15 @@ export default function Tasks({ selectedDate }: TaskViewProps) {
         return taskDateOnly === formattedSelectedDate;
     });
 
+    const sortedTasks = [...filteredTasks].sort((a, b) => {
+        if (a.is_completed === b.is_completed) return 0;
+        return a.is_completed ? 1 : -1;
+    });
+
     return (
         <div className="task-container">
             <div className="task-header-section">
-                <h2 className="task-main-title">Todays Tasks</h2>
+                <h2 className="task-main-title">Daily Tasks</h2>
                 <button className="task-add-btn" onClick={() => setIsModalOpen(true)}>
                     + New Task
                 </button>
@@ -48,34 +53,39 @@ export default function Tasks({ selectedDate }: TaskViewProps) {
                 </div>
             )}
 
-                {filteredTasks.length === 0 ? (
-                <p className="no-tasks">No tasks today.</p>
+                {sortedTasks.length === 0 ? (
+                <p className="no-tasks">No tasks today. Add a new one to get started!</p>
             ) : (
                     
-                filteredTasks.map((task) => (
-                    <div key={task.id} className={`task-card ${task.is_completed ? "completed" : ""}`}>
-                        <div className="task-card-left">
-                                                    
-                        <input 
-                            type="checkbox" 
-                            className="task-checkbox"
-                            checked={task.is_completed} 
-                            onChange={() => updateTask(task.id, { is_completed: !task.is_completed })}
-                        />
-                            <div className="task-text-content">
-                            <span className={`task-title ${task.is_completed ? "line-through" : ""}`}>
-                             {task.task_title} 
-                            </span>
-                            {task.task_description && (
-                                <p className="task-desc">{task.task_description}</p>
-                                )}      
-                            </div>   
+                sortedTasks.map((task) => {
+
+                    const colorClass = task.color ? `task-${task.color}` : "task-blue";
+                    const completedClass = task.is_completed ? "completed" : "";
+
+                    return (
+                        <div 
+                            key={task.id} 
+                            className={`task-card ${colorClass} ${completedClass}`}
+                        >
+                            <div className="task-card-left">
+                                <input 
+                                    type="checkbox" 
+                                    className="task-checkbox"
+                                    checked={task.is_completed} 
+                                    onChange={() => updateTask(task.id, { is_completed: !task.is_completed })}
+                                />
+                                <div className="task-text-content">
+                                    <span className={`task-title ${task.is_completed ? "line-through" : ""}`}>
+                                       {task.task_title} 
+                                    </span>
+                                    {task.task_description && (
+                                        <p className="task-desc">{task.task_description}</p>
+                                    )}      
+                                </div>   
+                            </div>
                         </div>
-
-
-                            {/* <span className="task-badge">Arbete</span>  /TODO - saving this if there are time to add categories on tasks */}
-                    </div>
-                ))
+                    );
+                })
             )}
         </div>
     );
