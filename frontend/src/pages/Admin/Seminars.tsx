@@ -1,9 +1,9 @@
 import { useState, useRef } from "react";
 import { format, parseISO } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { useSeminars } from "../hooks/useSeminars";
-import type { Seminar, CreateSeminarInput, UpdateSeminar } from "../types/SeminarsTypes";
-import "./ManageSeminarsPage.css"
+import { useSeminars } from "../../hooks/useSeminars";
+import type { Seminar, CreateSeminarInput, UpdateSeminar } from "../../types/SeminarsTypes";
+import "./Seminars.css"
 
 const emptyForm: CreateSeminarInput = {
     seminar_title: "",

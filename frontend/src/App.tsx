@@ -3,7 +3,6 @@ import { AuthProvider } from "./context/AuthContext";
 import Layout from "./components/Layout";
 import DashboardPage from "./pages/DashboardPage";
 import SeminarsPage from "./pages/SeminarsPage";
-import ManageSeminarsPage from "./pages/ManageSeminarsPage";
 import HabitsPage from "./pages/HabitsPage";
 import MembershipPage from "./pages/TiersPage";
 
@@ -15,6 +14,9 @@ import AdminPage from "./pages/Admin/AdminPage";
 import PaymentsHistoryList from "./pages/Admin/PaymentsHistoryList";
 import TiersList from "./pages/Admin/TiersList";
 import UsersList from "./pages/Admin/UsersList";
+import AdminHabitsPage from "./pages/Admin/DefaultHabits";
+import ManageSeminars from "./pages/Admin/Seminars";
+
 import CheckoutPage from "./pages/CheckoutPage";
 
 
@@ -26,7 +28,6 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<DashboardPage />} />
             <Route path="seminars" element={<SeminarsPage />} />
-            <Route path="seminars/manage" element={<ManageSeminarsPage />} />
             <Route path="habits" element={<HabitsPage />} />
             <Route path="membership" element={<MembershipPage />} />
 
@@ -38,6 +39,8 @@ function App() {
             <Route path="admin/payments-history" element={<PaymentsHistoryList />} />
             <Route path="admin/tiers" element={<TiersList />} />
             <Route path="admin/users" element={<UsersList />} />
+            <Route path="admin/seminars" element={<ManageSeminars />} />
+            <Route path="admin/habits" element={<AdminHabitsPage />} />
 
             <Route path="checkout" element={<CheckoutPage />} />
           </Route>

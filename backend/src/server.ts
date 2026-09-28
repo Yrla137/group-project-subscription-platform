@@ -11,6 +11,7 @@ import habitCompletionsRouter from "./routes/habitCompletionsRoute";
 import tiersRoute from "./routes/tiersRoute";
 import paymentsRoute from "./routes/paymentsRoute";
 import calendarRoute from "./routes/calendarRoute";
+import adminHabitsRouter from "./routes/adminHabitsRoute";
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use("/api/tiers", tiersRoute);
 app.use("/api/tasks", tasksRouter);
 app.use("/api/payments", paymentsRoute);
 app.use("/api/habits", habitsRouter);
+app.use("/api/admin/habits", adminHabitsRouter);
 app.use("/api/user-habits", userHabitsRouter);
 app.use("/api/habit-completions", habitCompletionsRouter);
 
