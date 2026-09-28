@@ -1,7 +1,6 @@
 import express from "express";
 import requireAuth from "../middlewares/requireAuth";
 import requireAdmin from "../middlewares/requireAdmin";
-
 import {
     getAllTiersController,
     getTierByIdController,
@@ -24,7 +23,7 @@ router.post("/", requireAuth, requireAdmin, createTierController);
 // PATCH - update tier information
 router.patch("/:id", requireAuth, requireAdmin, updateTierController);
 
-// DELETE - remove a tier from the database (Will probably not be used in frontend for easy access)
+// DELETE - remove a tier from the database (Will probably not be used in frontend)
 router.delete("/:id", requireAuth, requireAdmin, deleteTierController);
 
 export default router;

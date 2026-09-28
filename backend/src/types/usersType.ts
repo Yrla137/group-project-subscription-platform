@@ -1,4 +1,4 @@
-// Role type //
+// Role //
 type Role = 'administrator' | 'member';
 
 // User //
@@ -11,7 +11,6 @@ interface User {
     role: Role;
     current_tier_id: number;
     created_at: Date;
-    
 }
 
 // Create User //

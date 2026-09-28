@@ -20,7 +20,7 @@ const UserListPage = () => {
 
   const navigate = useNavigate();
 
-  // Fetch all users when the component mounts
+  // Fetching all users
   useEffect(() => {
     const getUsersList = async () => {
 
@@ -52,7 +52,7 @@ const UserListPage = () => {
 
   };
 
-  // Open delete confirmation modal
+  // Open delete confirmation
   const handleDeleteUser = (userId: number) => {
     const userToDelete = users.find((user) => user.id === userId);
 

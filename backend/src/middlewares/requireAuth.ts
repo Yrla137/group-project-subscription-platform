@@ -48,9 +48,7 @@ const requireAuth = (req: Request, res: Response, next: NextFunction) => {
         next();
 
     } catch (err) {
-        
         console.log("JWT VERIFY ERROR:", err);
-
         return res.status(401).json({
             message: "Invalid token"
         });

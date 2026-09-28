@@ -1,3 +1,4 @@
+// Payment //
 interface Payment {
     id: number,
     user_id: number,
@@ -6,11 +7,13 @@ interface Payment {
     payment_date: Date
 }
 
+// Payment with Tier (extends Payment) //
 interface PaymentWithTier extends Payment {
     tier_title: string;
     tier_description: string;
 }
 
+// Create Payment //
 interface CreatePayment {
     tier_id: number;
 }

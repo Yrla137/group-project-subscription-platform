@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// Create Tier Schema //
 const createTierSchema = z.object({
     title: z.string().trim().min(1, { message: "Title is required" }),
     tier_description: z.string().trim().min(1, { message: "Description is required" }),
@@ -18,6 +19,7 @@ const createTierSchema = z.object({
     .min(0, { message: "Max future days must be a positive number" }),
 });
 
+// Update Tier Schema //
 const updateTierSchema = z.object({
     title: z.string().trim().min(1, { message: "Title is required" }).optional(),
     tier_description: z.string().trim().min(1, { message: "Description is required" }).optional(),

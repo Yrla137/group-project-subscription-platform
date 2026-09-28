@@ -1,7 +1,6 @@
 import express from "express";
 import requireAuth from "../middlewares/requireAuth";
 import requireAdmin from "../middlewares/requireAdmin";
-
 import {
     getAllPaymentsController,
     getMyPaymentsController,
@@ -21,7 +20,7 @@ router.get("/my-payments", requireAuth, getMyPaymentsController);
 // GET - get all payments for a specific user by user id (for admin)
 router.get("/user/:userId", requireAuth, requireAdmin, getPaymentsForUserController);
 
-// GET - get one payment by id (Only the owner of the payment or an administrator can access this with the if statement in the controller)
+// GET - get one payment by id (Only accessible by both admin and the user who owns the payment)
 router.get("/:id", requireAuth, getPaymentByIdController);
 
 // POST - create a new payment

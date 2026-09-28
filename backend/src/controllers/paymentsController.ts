@@ -40,7 +40,6 @@ export const getPaymentByIdController = async (req: Request, res: Response) => {
         }
 
         const paymentUser = await usersService.getUserById(payment.user_id);
-
         if (!paymentUser) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -76,8 +75,8 @@ export const getPaymentsForUserController = async (req: Request, res: Response) 
         if (!Number.isInteger(userId) || userId <= 0) {
             return res.status(400).json({message: "Invalid user ID"});
         }
-        const user = await usersService.getUserById(userId);
 
+        const user = await usersService.getUserById(userId);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -117,27 +116,22 @@ export const getMyPaymentsController = async (req: Request, res: Response) => {
 
     } catch (error) {
         console.error("Get my payments error:", error);
-
         return res.status(500).json({
             message: "An error occurred while fetching your payments"
         });
     }
 };
 
-// POST - create a new payment
+// POST - create a new payment (Creating a new token when a payment is created so the user can access the new level directly after the payment is processed)
 export const createPaymentController = async (req: Request, res: Response) => {
 
     try {
         const result = createPaymentSchema.safeParse(req.body);
         if (!result.success) {
-            return res.status(400).json({
-                message: "Invalid input data",
-                errors: result.error
-            });
+            return res.status(400).json({message: result.error.issues[0].message});
         }
 
         const secret = process.env.JWT_SECRET;
-
         if (!secret) {
             return res.status(500).json({
                 message: "JWT secret is not defined"
@@ -157,7 +151,6 @@ export const createPaymentController = async (req: Request, res: Response) => {
             secret,
             { expiresIn: "1h" }
         );
-
             return res.status(201).json({
                 message: "Payment created successfully",
                 data: payment,
@@ -166,7 +159,6 @@ export const createPaymentController = async (req: Request, res: Response) => {
             
     } catch (error) {
         console.error("Create payment error:", error);
-
         if (error instanceof Error && error.message.includes("not found")) {
             return res.status(404).json({
                 message: error.message

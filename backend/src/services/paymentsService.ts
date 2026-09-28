@@ -76,7 +76,6 @@ const createPayment = async (
                 RETURNING id, current_tier_id`,
             [data.tier_id, userId]
         );
-
         if (updatedUserTierResult.rows.length === 0) {
             throw new Error(`User with id ${userId} not found`);
         }

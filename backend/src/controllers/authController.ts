@@ -12,11 +12,10 @@ export const loginController = async(req: Request, res: Response) => {
     try {
         const result = loginSchema.safeParse(req.body);
         if(!result.success){
-            return res.status(400).json({message: "Invalid input data"});
+            return res.status(400).json({message: result.error.issues[0].message});
         }
 
         const user = await authService.loginUser(result.data);
-
         if(!user){
             return res.status(401).json({message: "Invalid email or password"});
         };
@@ -25,6 +24,7 @@ export const loginController = async(req: Request, res: Response) => {
         if (!secret) {
             return res.status(500).json({ message: "Internal server error" });
         }
+        
         const token = jwt.sign(
             user,
             secret,
@@ -47,11 +47,10 @@ export const loginController = async(req: Request, res: Response) => {
 export const registerController = async(req: Request, res: Response) => {
 
     try {
-
         const result = registerSchema.safeParse(req.body);
 
         if(!result.success){
-            return res.status(400).json({message: "Invalid input data"});
+            return res.status(400).json({message: result.error.issues[0].message});
         }
 
         const existingUser = await authService.getUserByEmail(result.data.email);
@@ -63,9 +62,7 @@ export const registerController = async(req: Request, res: Response) => {
         return res.status(201).json({message: "User created", user: user});
 
     } catch (error) {
-        
         console.error("Registration error:", error);
-
         return res.status(500).json({
             message: "An error occurred during registration"
         });

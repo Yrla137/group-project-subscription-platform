@@ -13,6 +13,7 @@ interface AuthPayload {
     level_number: number;
 }
 
+// User with Level (extends User) //
 interface UserWithLevel extends User {
     level_number: number;
 }

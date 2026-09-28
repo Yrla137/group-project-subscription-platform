@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { jwtDecode } from "jwt-decode";
 import type { LoginResponse, AuthPayload } from "../types/AuthTypes";
-
 interface AuthContextType {
     token: string | null;
     user: AuthPayload | null;
@@ -10,7 +9,6 @@ interface AuthContextType {
     login: (loginData: LoginResponse) => boolean;
     logout: () => void;
 }
-
 interface AuthProviderProps {
     children: ReactNode;
 }
@@ -24,7 +22,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [user, setUser] = useState<AuthPayload | null>(null);
     const [loading, setLoading] = useState(true);
 
-    // useEffect that checks for saved token
     useEffect(() => {
 
         try {
@@ -56,9 +53,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const login = (loginData: LoginResponse) => {
 
         try {
-
             const decodedToken = jwtDecode<AuthPayload>(loginData.token);
-
             if (decodedToken.exp * 1000 < Date.now()) {
                 throw new Error("Token has expired");
             }
@@ -81,6 +76,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     };
 
+    // Logout function //
     const logout = (): void => {
         setToken(null);
         setUser(null);
@@ -97,9 +93,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 };
 
 export const useAuthContext = () => {
-
     const context = useContext(AuthContext);
-
     if (!context) {
         throw new Error("useAuthContext must be used within an AuthProvider");
     }

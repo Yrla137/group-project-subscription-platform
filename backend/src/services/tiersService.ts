@@ -46,7 +46,7 @@ const updateTier = async (id: number, data: UpdateTier): Promise<Tier | null> =>
     return result.rows[0] || null;
 }
 
-// DELETE - remove a tier from the database (Will probably not be used in frontend for easy access)
+// DELETE - remove a tier from the database (Will probably not be used in frontend but is here for completeness of the CRUD operations)
 const deleteTier = async (id: number): Promise<void> => {
     await pool.query(
         'DELETE FROM tiers WHERE id = $1',
