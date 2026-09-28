@@ -1,7 +1,9 @@
 import { useAuth } from "../hooks/useAuth";
 import { useState } from "react";
 import type { RegisterUser } from "../types/AuthTypes";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import logo_pic from "../assets/logo_pic.png";
+import "./RegisterPage.css";
 
 const RegisterPage = () => {
 
@@ -42,7 +44,20 @@ const RegisterPage = () => {
     <div className="register-page">
       <div className="register-container">
 
-        <h1 className="register-title">Create account</h1>
+        <div className="register-header-brand">
+          <div className="register-logo-circle">
+            <Link to="/" className="logo-container">
+              <div className="logo-icon"><img src={logo_pic} alt="Lifesync-logo" /></div>
+            </Link>
+          </div>
+          
+          <div className="register-logo-text-group">
+            <h1 className="register-main-title">LifeSync</h1>
+            <span className="register-subtitle">PLANNER</span>
+          </div>
+
+          <p className="register-title">Create an account to get started</p>
+        </div>
 
         <form className="register-form" onSubmit={handleSubmit}>
 
@@ -120,6 +135,12 @@ const RegisterPage = () => {
           </button>
 
         </form>
+
+        <div className="register-footer">
+          <p>Already have an account? <Link to="/login" className="register-link">Log in here</Link></p>
+
+          <p><Link to="/login" className="register-link">Go Back to start</Link></p>
+        </div>
 
       </div>
     </div>
