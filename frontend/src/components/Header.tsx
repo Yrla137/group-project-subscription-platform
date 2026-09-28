@@ -4,7 +4,7 @@ import { useUsers } from "../hooks/useUsers";
 import type { UserWithTier } from "../types/UserType";
 
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.png";
+import logo_pic from "../assets/logo_pic.png";
 import userpic from "../assets/userpic.jpg";
 
 const Header: React.FC = () => {
@@ -36,7 +36,7 @@ const Header: React.FC = () => {
         <header className="app-header">
         <div className="header-left">
           <Link to="/" className="logo-container">
-            <span className="logo-icon"><img src={logo} alt="Lifesync-logo" height="40px" /></span>
+            <div className="logo-icon"><img src={logo_pic} alt="Lifesync-logo"/></div>
           </Link>
         </div>
       </header>
@@ -50,9 +50,12 @@ const Header: React.FC = () => {
 
       <div className="header-left">
         <Link to="/" className="logo-container">
-          <span className="logo-icon"><img src={logo} alt="Lifesync-logo" height="40px" /></span>
+          <div className="logo-icon"><img src={logo_pic} alt="Lifesync-logo" height="600px" /></div>
         </Link>
-      </div>
+        <div className="logo-text-group">
+        <span className="logo-title">LifeSync</span>
+        <p className="logo-subtitle">PLANNER</p>
+      </div></div>
 
       <div className="header-right">
         {!authUser ? (
@@ -85,7 +88,7 @@ const Header: React.FC = () => {
               Profile
             </Link>
 
-            <Link to="/membership" className="dropdown-item">
+            <Link to="/tiers" className="dropdown-item">
               Membership
             </Link>
 

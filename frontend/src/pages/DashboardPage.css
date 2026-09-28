@@ -26,6 +26,16 @@
   background: linear-gradient(to bottom, #fffaf6, #ffffff);
 }
 
+.logo-dashboard {  
+  margin-left: 0.5rem;
+}
+
+.logo-dashboard img{
+  height: 40px;
+  width: 40px;
+
+}
+
 .hero-title {
   font-size: 2.75rem;
   font-weight: 800;
@@ -145,7 +155,7 @@
 
 /* Call to Action Section */
 .cta-section {
-  background-color: #111827;
+  background-color: var(--head-nav);
   color: white;
   padding: 4rem 1.5rem;
   text-align: center;

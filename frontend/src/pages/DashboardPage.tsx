@@ -1,7 +1,8 @@
 import Calendar from '../components/Calendar'
 import { Link } from 'react-router-dom';
-import { useAuthContext } from '../context/AuthContext' // Justera sökvägen om det behövs
+import { useAuthContext } from '../context/AuthContext'
 import "./DashboardPage.css"
+import logo_pic from "../assets/logo_pic.png";
 
 const DashboardPage = () => {
   const { user, loading } = useAuthContext();
@@ -16,8 +17,11 @@ const DashboardPage = () => {
       <div className="landing-container">
         <section className="hero-section">
           <h1 className="hero-title">
-            Organize your life with <span className="highlight-text">LifeSync Planner</span>
+            Organize your life with <span className="highlight-text">LifeSync Planner</span><span className="logo-dashboard"><img src={logo_pic} alt="Lifesync-logo"/></span>
           </h1>
+
+
+
           <p className="hero-subtitle">
             Your ultimate productivity hub. Take control of your daily tasks, build lasting habits, 
             and unlock expert seminars to level up your routine.
