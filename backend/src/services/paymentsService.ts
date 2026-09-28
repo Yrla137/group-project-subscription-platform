@@ -1,21 +1,32 @@
 import { pool } from "../config/db";
-import type { Payment, CreatePayment } from '../types/paymentsType';
+import type { Payment, CreatePayment, PaymentWithTier } from '../types/paymentsType';
 
 // GET - get all payments
 const getAllPayments = async () : Promise<Payment[]> => {
-    const result = await pool.query("SELECT id, user_id, tier_id, amount, payment_date FROM payments");
+    const result = await pool.query(`SELECT id, user_id, tier_id, amount, payment_date FROM payments`);
     return result.rows;
 };
 
 // GET - get payment only by id
 const getPaymentById = async (id: number) : Promise<Payment | null> => {
-    const result = await pool.query("SELECT id, user_id, tier_id, amount, payment_date FROM payments WHERE id = $1", [id]);
+    const result = await pool.query(`SELECT id, user_id, tier_id, amount, payment_date FROM payments WHERE id = $1`, [id]);
     return result.rows[0] || null;
 };
 
 // GET - get a user's own payments by user id
-const getPaymentsByUserId = async (userId: number) : Promise<Payment[]> => {
-    const result = await pool.query("SELECT id, user_id, tier_id, amount, payment_date FROM payments WHERE user_id = $1", [userId]);
+const getPaymentsByUserId = async (userId: number) : Promise<PaymentWithTier[]> => {
+    const result = await pool.query(
+    `SELECT
+        payments.id,
+        payments.user_id,
+        payments.tier_id,
+        payments.amount,
+        payments.payment_date,
+        tiers.title AS tier_title,
+        tiers.tier_description
+    FROM payments
+    JOIN tiers ON payments.tier_id = tiers.id
+    WHERE payments.user_id = $1`, [userId]);
     return result.rows;
 };
 
