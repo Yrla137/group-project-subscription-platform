@@ -1,4 +1,5 @@
 import * as paymentsService from "../services/paymentsService";
+import * as usersService from "../services/usersService";
 import { createPaymentSchema } from "../schemas/paymentsSchema";
 import type { Request, Response } from "express";
 
@@ -38,11 +39,21 @@ export const getPaymentByIdController = async (req: Request, res: Response) => {
             return res.status(404).json({message: "Payment not found"});
         }
 
-        // Check if the user is either the owner of the payment or an administrator
-        if (payment.user_id !== req.user!.user_id && req.user!.role !== "administrator") {
-            return res.status(403).json({message: "You do not have permission to view this payment"});
+        const paymentUser = await usersService.getUserById(payment.user_id);
+
+        if (!paymentUser) {
+            return res.status(404).json({ message: "User not found" });
         }
 
+        if (
+            payment.user_id !== req.user!.user_id &&
+            (req.user!.role !== "administrator" || paymentUser.role === "administrator")
+        ) {
+
+        return res.status(403).json({
+            message: "You do not have permission to view this payment"
+            });
+        }
         return res.status(200).json({
             message: "Payment fetched successfully",
             data: payment
@@ -65,11 +76,24 @@ export const getPaymentsForUserController = async (req: Request, res: Response) 
         if (!Number.isInteger(userId) || userId <= 0) {
             return res.status(400).json({message: "Invalid user ID"});
         }
+        const user = await usersService.getUserById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (user.role === "administrator") {
+            return res.status(403).json({
+                message: "Cannot view payments for an administrator user"
+            });
+        }
+
         const payments = await paymentsService.getPaymentsByUserId(userId);
         return res.status(200).json({
             message: "User's payments fetched successfully",
             data: payments
         });
+
     } catch (error) {
         console.error("Get user's payments error:", error);
         return res.status(500).json({
@@ -78,21 +102,24 @@ export const getPaymentsForUserController = async (req: Request, res: Response) 
     }
 };
 
-
-// GET - get a user's own payments by user id
+// GET - get the logged-in user's own payments
 export const getMyPaymentsController = async (req: Request, res: Response) => {
 
     try {
         const userId = req.user!.user_id;
+
         const payments = await paymentsService.getPaymentsByUserId(userId);
+
         return res.status(200).json({
             message: "User's payments fetched successfully",
             data: payments
         });
+
     } catch (error) {
-        console.error("Get user's payments error:", error);
+        console.error("Get my payments error:", error);
+
         return res.status(500).json({
-            message: "An error occurred while fetching user's payments"
+            message: "An error occurred while fetching your payments"
         });
     }
 };

@@ -74,7 +74,7 @@ const deleteUser = async (id: number): Promise<void> => {
     try {
         // Start a transaction
         await client.query('BEGIN');
-
+        
         // Delete tasks belonging to the user
         await client.query(
             `DELETE FROM tasks
