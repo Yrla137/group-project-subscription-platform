@@ -171,14 +171,3 @@
 .tiers-error {
     color: #dc2626;
 }
-
-@media (min-width: 1200px) {
-.tiers-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 24px;
-    align-items: stretch;
-    max-width: 900px; 
-    margin: 0 auto;
-}
-}
