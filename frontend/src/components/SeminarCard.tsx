@@ -63,7 +63,7 @@ const SeminarCard = ({ id, title, img, startsAt, description, isTierLocked, tier
 
                 {dateTime && <span className="seminar-time">{dateTime}</span>}
 
-                {description && <p className="seminar-description">{description}</p>}
+                <div>{description && <p className="seminar-description">{description}</p>}</div>
             </div>
 
             <div className="seminar-card-btn">

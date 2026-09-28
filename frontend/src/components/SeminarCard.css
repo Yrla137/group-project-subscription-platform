@@ -58,7 +58,13 @@
 }
 
 .seminar-card-btn {
+    text-align: right;
     white-space: nowrap;
+ }
+
+.seminar-card-btn .primary-btn {
+    align-items: center;
+    justify-self: center;
 }
 
 .seminar-time {

@@ -29,6 +29,7 @@ const getSeminars = async (userId: number): Promise<Seminar[]> => {
                 s.seminar_title,
                 s.seminar_description,
                 s.seminar_date,
+                s.seminar_img,
                 s.tier_id,
                 t.level_number AS tier_level,
                 t.title AS tier_title,
