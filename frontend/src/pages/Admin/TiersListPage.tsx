@@ -59,7 +59,7 @@ const TiersList = () => {
 
     }, [fetchTiers, isAuthLoading]);
 
-    // Function to reset the new tier form to its initial state //
+    // Function to reset the tier form //
     const resetNewTierForm = () => {
     setAddNewTier({
         title: "",
@@ -73,7 +73,7 @@ const TiersList = () => {
 };
 
     // EDIT TIER FUNCTIONALITY //
-    // Function to handle edit tier button click //
+    // Function to handle edit tier //
     const handleEditTier = (tier: Tier) => {
         setSelectedTier(tier.id);
 
@@ -89,7 +89,7 @@ const TiersList = () => {
         setEditing(true);
     };
 
-    // Function to handle input changes in the edit form //
+    // Function to handle changes in the edit form //
     const handleEditTierChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setEditForm({
             ...editForm,
@@ -97,7 +97,7 @@ const TiersList = () => {
         });
     }
 
-    // Function to handle tier update form submission //
+    // Function to handle tier update submission //
     const handleUpdateTier = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 

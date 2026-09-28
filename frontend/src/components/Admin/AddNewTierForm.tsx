@@ -1,5 +1,4 @@
 import type { NewTierFormData } from "../../types/TierType";
-
 interface AddNewTierFormProps {
     showNewTierForm: boolean;
     handleAddNewTier: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;

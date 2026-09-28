@@ -197,7 +197,6 @@ export function useUsers() {
         }
     };
 
-  
   return {
     error,
     isLoading,

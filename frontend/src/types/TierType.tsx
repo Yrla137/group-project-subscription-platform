@@ -1,4 +1,4 @@
-// Tier Type //
+// Tier //
 interface Tier {
     id : number;
     title : string;
@@ -10,7 +10,7 @@ interface Tier {
     max_future_days: number;
 }
 
-// Create Tier Type //
+// Create Tier //
 interface CreateTier {
     title : string;
     tier_description : string;
@@ -21,8 +21,7 @@ interface CreateTier {
     max_future_days: number;
 }
 
-
-// Add New Tier Form Type //
+// Add New Tier Form (Type only for controlling new tier through form) //
 interface NewTierFormData {
     title: string;
     tier_description: string;
@@ -33,7 +32,7 @@ interface NewTierFormData {
     max_future_days: string;
 }
 
-// Update Tier Type //
+// Update Tier //
 interface UpdateTier {
     title? : string;
     tier_description? : string;
