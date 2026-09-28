@@ -4,7 +4,6 @@ import { format, isValid, parseISO, startOfDay } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { useSeminars } from "../hooks/useSeminars";
 import "./SeminarsPage.css";
-import "../components/Seminars.css";
 
 // e.g. "Sun 27 Sep, 19:00", or null if the date is missing or invalid
 function formatStart(seminarDate: string): string | null {
