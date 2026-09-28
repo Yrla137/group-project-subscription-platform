@@ -19,6 +19,7 @@ import ManageSeminars from "./pages/Admin/Seminars";
 
 import CheckoutPage from "./pages/CheckoutPage";
 import PaymentsPage from "./pages/PaymentsPage";
+import ConfirmationPage from "./pages/ConfirmationPage";
 
 import ProtectedRoute from "./components/Routes/ProtectedRoute";
 import AdminRoute from "./components/Routes/AdminRoute";
@@ -37,6 +38,7 @@ function App() {
             <Route path="tiers" element={<TiersPage />} />
             <Route path="checkout" element={ <ProtectedRoute><CheckoutPage/></ProtectedRoute> } />
             <Route path="payments-page" element={ <ProtectedRoute><PaymentsPage/></ProtectedRoute> } />
+            <Route path="confirmation" element={ <ProtectedRoute><ConfirmationPage/></ProtectedRoute> } />
 
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />

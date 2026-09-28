@@ -58,7 +58,7 @@ const CheckoutPage = () => {
         const paymentData = await createPayment({ tier_id: selectedTier });
 
           // Redirect to the payment confirmation page or display a success message
-          navigate('/payments-page', { state: { paymentData } });
+          navigate('/confirmation', { state: { paymentData, tierDetails: selectedTierDetails } });
       }
 
     } catch (error) {
