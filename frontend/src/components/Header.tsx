@@ -59,7 +59,7 @@ const Header: React.FC = () => {
 
       <div className="header-right">
         {!authUser ? (
-          <Link to="/login" className="btn btn-primary">
+          <Link to="/login" className="primary-btn">
             Log in
           </Link>
         ) : (
@@ -68,11 +68,12 @@ const Header: React.FC = () => {
           className="user-profile-menu" 
           onClick={() => setDropdownOpen(!dropdownOpen)}
         >
-          <img src={userpic} alt="User-avatar" className="user-avatar" />
+          
           <div className="user-info">
             <span className="user-name">{profileData ? profileData.first_name : "User"}</span>
             <span className="user-tier-badge">{profileData ? profileData.tier_title : "Tier level"}</span>
           </div>
+          <img src={userpic} alt="User-avatar" className="user-avatar" />
         </div>
 
         {dropdownOpen && (

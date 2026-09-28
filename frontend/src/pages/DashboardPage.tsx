@@ -17,7 +17,8 @@ const DashboardPage = () => {
       <div className="landing-container">
         <section className="hero-section">
           <h1 className="hero-title">
-            Organize your life with <span className="highlight-text">LifeSync Planner</span><span className="logo-dashboard"><img src={logo_pic} alt="Lifesync-logo"/></span>
+            Organize your life with <span className="highlight-text">LifeSync Planner</span>
+            <span className="logo-dashboard"><img src={logo_pic} alt="Lifesync-logo"/></span>
           </h1>
 
 
@@ -33,12 +34,12 @@ const DashboardPage = () => {
 
         <div className="hero-buttons">
           <Link to ="login">
-          <button className="btn primary-btn">
+          <button className="primary-btn">
             Log in
           </button>
           </Link>
           <Link to ="register">
-          <button className="btn primary-btn">
+          <button className="primary-btn">
             Register
           </button>
           </Link>
@@ -74,7 +75,7 @@ const DashboardPage = () => {
           <div className="cta-content">
             <h2 className="cta-title">Ready to transform your productivity?</h2>
             <p className="cta-subtitle">Join LifeSync Planner today and get immediate access to your personalized planner dashboard.</p>
-            <a href="/register" className="btn btn-primary">
+            <a href="/register" className="primary-btn">
               Get Started for Free
             </a>
           </div>

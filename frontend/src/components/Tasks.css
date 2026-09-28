@@ -44,6 +44,7 @@
 
 .task-card {
     background: #ffffff;
+    max-width: 450px;
     border-radius: 16px;
     padding: 16px 20px;
     margin-bottom: 12px;
@@ -57,25 +58,20 @@
     transition: all 0.2s ease;
 }
 
-/* Färgteman för task-korten (fixat så alla använder border-left) */
 .task-coral {
     border-left: 6px solid #ff6b6b; 
-    background-color: #fdf2f2;
 }
 
 .task-blue {
     border-left: 6px solid #4d96ff;
-    background-color: #f0f7ff;
 }
 
 .task-green {
     border-left: 6px solid #254729;
-    background-color: #f2f9f3;
 }
 
 .task-yellow {
     border-left: 6px solid #e6d541; 
-    background-color: #fcfbe8;
 }
 
 .task-card.completed {

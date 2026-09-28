@@ -38,8 +38,7 @@ function App() {
             <Route path="checkout" element={ <ProtectedRoute><CheckoutPage/></ProtectedRoute> } />
             <Route path="payments-page" element={ <ProtectedRoute><PaymentsPage/></ProtectedRoute> } />
 
-            <Route path="login" element={<LoginPage />} />
-            <Route path="register" element={<RegisterPage />} />
+
             <Route path="profile" element={ <ProtectedRoute><ProfilePage/></ProtectedRoute> } />
 
             <Route path="admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
@@ -50,6 +49,8 @@ function App() {
             <Route path="admin/habits" element={<AdminRoute><AdminHabitsPage /></AdminRoute>} />
 
           </Route>
+            <Route path="login" element={<LoginPage />} />
+            <Route path="register" element={<RegisterPage />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

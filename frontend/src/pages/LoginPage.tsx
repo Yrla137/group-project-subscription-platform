@@ -2,6 +2,9 @@ import { useAuth } from "../hooks/useAuth";
 import { useAuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import "./LoginPage.css"
+import logo_pic from "../assets/logo_pic.png";
 
 const LoginPage = () => {
 
@@ -36,7 +39,23 @@ const LoginPage = () => {
     <div className="login-page">
       <div className="login-container">
 
-        <h1 className="login-title">Login</h1>
+        <div className="login-header-brand">
+          <div className="login-logo-circle">
+            <div className="logo-icon">        
+              <Link to="/" className="logo-container">
+              <div className="logo-icon"><img src={logo_pic} alt="Lifesync-logo" /></div>
+          </Link>
+        </div>
+
+          </div>
+
+          <div className="login-logo-text-group">
+            <h1 className="login-title">LifeSync</h1>
+            <span className="login-subtitle">PLANNER</span>
+          </div>
+
+          <p className="login-text">Welcome back, login to continue</p>
+        </div>
         
         <form className="login-form" onSubmit={handleSubmit}>
 
@@ -79,8 +98,20 @@ const LoginPage = () => {
             {isLoading ? "Logging in..." : "Log in"}
           </button>
 
-        </form>
+        </form>      
+        <div className="login-footer">
+
+          <p>Forgot your password?       
+          <Link to ="register" className="login-link">
+            Click here
+          </Link>
+          </p>
+
+          <p>No account?      
+          <Link to ="register" className="login-link">Register here</Link></p>
+        </div>
       </div>
+
     </div>
   );
 };
