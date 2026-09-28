@@ -88,7 +88,7 @@ const Header: React.FC = () => {
               Profile
             </Link>
 
-            <Link to="/membership" className="dropdown-item">
+            <Link to="/tiers" className="dropdown-item">
               Membership
             </Link>
 
