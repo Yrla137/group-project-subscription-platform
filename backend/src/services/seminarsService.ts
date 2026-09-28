@@ -60,6 +60,7 @@ export const getSeminarForUser = async (id: number, userId: number) => {
          SELECT s.id,
                 s.seminar_title,
                 s.seminar_description,
+                s.seminar_img,
                 s.seminar_date,
                 s.tier_id,
                 t.level_number AS tier_level,

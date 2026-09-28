@@ -1,6 +1,9 @@
 import { Link, useParams } from "react-router-dom";
 import { format, isValid, parseISO } from "date-fns";
 import { enUS } from "date-fns/locale";
+
+import { Lock, ArrowLeft, CalendarDays, Info } from "lucide-react";
+
 import { useSeminar } from "../hooks/useSeminar";
 import "./SeminarDetailPage.css";
 
@@ -20,9 +23,7 @@ const SeminarDetailPage = () => {
 
     const backLink = (
         <Link to="/seminars" className="seminar-detail-back">
-            <span className="material-symbols-rounded" aria-hidden="true">
-                arrow_back
-            </span>
+            <ArrowLeft size={16} aria-hidden="true" />
             All seminars
         </Link>
     );
@@ -77,33 +78,41 @@ const SeminarDetailPage = () => {
 
     return (
         <div className="seminar-detail">
+            
             {backLink}
 
-            <header className="seminar-detail-header">
-                <span className="seminar-detail-tier">{seminar.tier_title}</span>
-                <h2>{seminar.seminar_title}</h2>
-            </header>
-
-            {when && (
-                <div className="seminar-detail-when">
-                    <span className="material-symbols-rounded" aria-hidden="true">
-                        event
-                    </span>
-                    <span>
-                        {when.day} at {when.time}
-                    </span>
+            <div className="seminar-flex">
+                <div className="seminar-img">
+                    <img src={seminar.seminar_img} />
+                    <span className="seminar-detail-tier">{seminar.tier_title}</span>
                 </div>
-            )}
 
-            {seminar.seminar_description && (
-                <p className="seminar-detail-description">{seminar.seminar_description}</p>
-            )}
+                <div className="seminar-info">
 
-            <section className="seminar-detail-join">
-                <h3>How to join</h3>
-                {/* Replace with the meeting link once meeting_url exists in the database */}
-                <p>The link to join will be available here before the seminar starts.</p>
-            </section>
+                    <header className="seminar-detail-header">
+                        <h2>{seminar.seminar_title}</h2>
+                    </header>
+
+                    {when && (
+                        <div className="seminar-detail-when">
+                            <CalendarDays size={24} aria-hidden="true" />
+                            <span>
+                                {when.day} at {when.time}
+                            </span>
+                        </div>
+                    )}
+
+                    {seminar.seminar_description && (
+                        <p className="seminar-detail-description">{seminar.seminar_description}</p>
+                    )}
+
+                    <section className="seminar-detail-join">
+                        <h3>How to join</h3>
+                        {/* Replace with the meeting link once meeting_url exists in the database */}
+                        <p>The link to join will be available 30 minutes before the seminar starts.</p>
+                    </section>
+                </div>
+            </div>
         </div>
     );
 };
