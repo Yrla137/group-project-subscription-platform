@@ -4,6 +4,7 @@ import { format, isValid, parseISO, startOfDay } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { useSeminars } from "../hooks/useSeminars";
 import "./SeminarsPage.css";
+import "../components/Seminars.css";
 
 // e.g. "Sun 27 Sep, 19:00", or null if the date is missing or invalid
 function formatStart(seminarDate: string): string | null {
@@ -26,7 +27,8 @@ const SeminarsPage = () => {
 
   return (
     <div className="seminars-page">
-      <h2>Seminars</h2>
+      
+      <h1>Seminars</h1>
 
       {isLoading && upcoming.length === 0 && <p className="status-text">Loading seminars…</p>}
       {error && <p className="status-text status-text--error">Couldn't load seminars: {error}</p>}
