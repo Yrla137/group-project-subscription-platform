@@ -30,6 +30,7 @@ interface SeminarRow {
     id: number;
     title: string;
     description: string | null;
+    img: string | null;
     seminar_date: string;
     starts_at: Date;
     tier_level: number;
@@ -83,6 +84,7 @@ async function getSeminarsInRange(from: string, to: string): Promise<SeminarRow[
                 s.seminar_title AS title,
                 s.seminar_description AS description,
                 to_char(s.seminar_date, 'YYYY-MM-DD') AS seminar_date,
+                s.seminar_img AS img,
                 s.seminar_date AS starts_at,
                 COALESCE(t.level_number, 0) AS tier_level,
                 t.title AS tier_title
@@ -92,6 +94,7 @@ async function getSeminarsInRange(from: string, to: string): Promise<SeminarRow[
          ORDER BY s.seminar_date ASC`,
         [from, to]
     );
+
     return result.rows;
 }
 
@@ -148,7 +151,6 @@ export async function getCalendarEvents(
 
     const seminarEvents: CalendarEvent[] = seminars.map((s) => {
         const lockReason = getSeminarLockReason(s, entitlement, horizonEnd);
-        const isLocked = lockReason !== null;
 
         return {
             id: String(s.id),
@@ -158,10 +160,11 @@ export async function getCalendarEvents(
             tierLevel: s.tier_level,
             tierTitle: s.tier_title,
             title: s.title,
-            isLocked,
+            // Descriptions are public; only the join link (later) depends on access
+            description: s.description ?? undefined,
+            img: s.img,
+            isLocked: lockReason !== null,
             lockReason,
-            // Never send the details for locked seminars
-            ...(isLocked ? {} : { description: s.description ?? undefined }),
         };
     });
 

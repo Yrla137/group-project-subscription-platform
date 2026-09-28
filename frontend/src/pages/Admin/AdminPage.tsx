@@ -43,6 +43,10 @@ const AdminPage = () => {
 
       <Link to="/admin/users">Manage Users</Link>
 
+      <Link to="/admin/seminars">Manage Seminars</Link>
+
+      <Link to="/admin/habits">Manage Default Habits</Link>
+
     </div>
   )
 }

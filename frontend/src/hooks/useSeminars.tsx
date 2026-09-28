@@ -7,6 +7,7 @@ const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000/api";
 interface UseSeminarsResult {
     seminars: Seminar[];
     isLoading: boolean;
+    // Only set when the list itself can't be loaded; mutations report failure through their return value
     error: string | null;
     createSeminar: (data: CreateSeminarInput) => Promise<Seminar | null>;
     updateSeminar: (id: number, data: UpdateSeminar) => Promise<Seminar | null>;
@@ -21,108 +22,135 @@ export function useSeminars(): UseSeminarsResult {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchSeminars = useCallback(async () => {
-        if (!token) return;
-
-        setIsLoading(true);
-        setError(null);
-
-        try {
-            const res = await fetch(`${API_URL}/seminars`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-
-            if (!res.ok) {
-                throw new Error("Failed to fetch seminars");
+    // silent: reload the list without showing the loading state,
+    // used after create/update so the page doesn't flash "Loading…"
+    const loadSeminars = useCallback(
+        async ({ silent = false }: { silent?: boolean } = {}) => {
+            if (!token) {
+                setIsLoading(false);
+                return;
             }
 
-            const json = await res.json();
-            setSeminars(json.data);
-        } catch (err) {
-            setError(err instanceof Error ? err.message : "An unknown error occurred");
-        } finally {
-            setIsLoading(false);
-        }
-    }, [token]);
+            if (!silent) {
+                setIsLoading(true);
+                setError(null);
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/seminars`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (!res.ok) {
+                    throw new Error("Failed to fetch seminars");
+                }
+
+                const json = await res.json();
+                setSeminars(json.data);
+                setError(null);
+            } catch (err) {
+                // A failed silent reload keeps the current list instead of replacing it with an error
+                if (!silent) {
+                    setError(err instanceof Error ? err.message : "An unknown error occurred");
+                }
+            } finally {
+                if (!silent) setIsLoading(false);
+            }
+        },
+        [token]
+    );
+
+    const fetchSeminars = useCallback(() => loadSeminars(), [loadSeminars]);
 
     useEffect(() => {
         fetchSeminars();
     }, [fetchSeminars]);
 
-    const createSeminar = useCallback(async (data: CreateSeminarInput): Promise<Seminar | null> => {
-        if (!token) return null;
+    const createSeminar = useCallback(
+        async (data: CreateSeminarInput): Promise<Seminar | null> => {
+            if (!token) return null;
 
-        try {
-            const res = await fetch(`${API_URL}/seminars`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(data),
-            });
+            try {
+                const res = await fetch(`${API_URL}/seminars`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(data),
+                });
 
-            if (!res.ok) {
-                throw new Error("Failed to create seminar");
+                if (!res.ok) {
+                    throw new Error("Failed to create seminar");
+                }
+
+                const json = await res.json();
+
+                // Reload so the new seminar gets its tier info and lands in the right date order
+                await loadSeminars({ silent: true });
+
+                return json.data;
+            } catch {
+                return null;
             }
+        },
+        [token, loadSeminars]
+    );
 
-            const json = await res.json();
-            setSeminars((prev) => [...prev, json.data]);
-            return json.data;
-        } catch (err) {
-            setError(err instanceof Error ? err.message : "An unknown error occurred");
-            return null;
-        }
-    }, [token]);
+    const updateSeminar = useCallback(
+        async (id: number, data: UpdateSeminar): Promise<Seminar | null> => {
+            if (!token) return null;
 
-    const updateSeminar = useCallback(async (id: number, data: UpdateSeminar): Promise<Seminar | null> => {
-        if (!token) return null;
+            try {
+                const res = await fetch(`${API_URL}/seminars/${id}`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(data),
+                });
 
-        try {
-            const res = await fetch(`${API_URL}/seminars/${id}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(data),
-            });
+                if (!res.ok) {
+                    throw new Error("Failed to update seminar");
+                }
 
-            if (!res.ok) {
-                throw new Error("Failed to update seminar");
+                const json = await res.json();
+
+                // Reload so a changed tier or date shows correctly
+                await loadSeminars({ silent: true });
+
+                return json.data;
+            } catch {
+                return null;
             }
+        },
+        [token, loadSeminars]
+    );
 
-            const json = await res.json();
-            setSeminars((prev) =>
-                prev.map((seminar) => (seminar.id === id ? json.data : seminar))
-            );
-            return json.data;
-        } catch (err) {
-            setError(err instanceof Error ? err.message : "An unknown error occurred");
-            return null;
-        }
-    }, [token]);
+    const deleteSeminar = useCallback(
+        async (id: number): Promise<boolean> => {
+            if (!token) return false;
 
-    const deleteSeminar = useCallback(async (id: number): Promise<boolean> => {
-        if (!token) return false;
+            try {
+                const res = await fetch(`${API_URL}/seminars/${id}`, {
+                    method: "DELETE",
+                    headers: { Authorization: `Bearer ${token}` },
+                });
 
-        try {
-            const res = await fetch(`${API_URL}/seminars/${id}`, {
-                method: "DELETE",
-                headers: { Authorization: `Bearer ${token}` },
-            });
+                if (!res.ok) {
+                    throw new Error("Failed to delete seminar");
+                }
 
-            if (!res.ok) {
-                throw new Error("Failed to delete seminar");
+                // Removing an item doesn't change tier info or order, so no reload is needed
+                setSeminars((prev) => prev.filter((seminar) => seminar.id !== id));
+                return true;
+            } catch {
+                return false;
             }
-
-            setSeminars((prev) => prev.filter((seminar) => seminar.id !== id));
-            return true;
-        } catch (err) {
-            setError(err instanceof Error ? err.message : "An unknown error occurred");
-            return false;
-        }
-    }, [token]);
+        },
+        [token]
+    );
 
     return {
         seminars,

@@ -4,6 +4,7 @@ interface Seminar {
     seminar_title: string;
     seminar_description: string | null;
     seminar_date: Date;
+    seminar_img: string | null;
     startsAt: string;
     tier_level: number;
     tier_title: string | null;
@@ -15,6 +16,7 @@ interface Seminar {
 interface CreateSeminar {
     seminar_title: string;
     seminar_description?: string;
+    seminar_img?: string;
     seminar_date: Date;
     tier_id: number;
     created_by: number;
@@ -24,6 +26,7 @@ interface CreateSeminar {
 interface UpdateSeminar {
     seminar_title?: string;
     seminar_description?: string;
+    seminar_img?:string;
     seminar_date?: Date;
     tier_id?: number;
 }

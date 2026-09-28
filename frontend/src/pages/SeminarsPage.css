@@ -1,0 +1,12 @@
+.seminar-list {
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+p{
+    margin: 10px 0;
+}

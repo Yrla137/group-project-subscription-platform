@@ -4,10 +4,12 @@ interface Seminar {
     seminar_title: string;
     seminar_description: string | null;
     seminar_date: string;
+    seminar_img: string | null;
     startsAt: string;
     tier_id: number;
     tier_level: number;
-    tier_title: string | null;
+    tier_title: string;
+    is_locked: boolean;
     created_by: number | null;
     created_at: Date;
 }
@@ -25,6 +27,7 @@ interface CreateSeminar {
 interface UpdateSeminar {
     seminar_title?: string;
     seminar_description?: string;
+    seminar_img?:string;
     seminar_date?: string;
     tier_id?: number;
 }
@@ -33,6 +36,7 @@ interface UpdateSeminar {
 interface CreateSeminarInput {
     seminar_title: string;
     seminar_description?: string;
+    seminar_img?: string;
     seminar_date: string;
     tier_id: number;
 }

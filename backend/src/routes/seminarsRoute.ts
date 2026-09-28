@@ -4,7 +4,7 @@ import requireAdmin from "../middlewares/requireAdmin";
 
 import {
     createSeminarController,
-    getAllSeminarsController,
+    getSeminarsController,
     getSeminarByIdController,
     updateSeminarController,
     deleteSeminarController
@@ -17,7 +17,7 @@ const router = express.Router();
 router.post("/", requireAuth, requireAdmin, createSeminarController);
 
 // GET - gets all seminars from the database
-router.get("/", requireAuth, getAllSeminarsController);
+router.get("/", requireAuth, getSeminarsController);
 
 // GET id - gets a seminar with a specific id from the database
 router.get("/:id", requireAuth, getSeminarByIdController);

@@ -1,19 +1,12 @@
-import { format, parseISO, isValid } from "date-fns";
-import { enUS } from "date-fns/locale";
+import { format } from "date-fns";
 import { useCalendarEvents } from "../hooks/useCalendarEvents";
 import type { SeminarCalendarEvent } from "../types/CalendarTypes";
+import SeminarCard from "./SeminarCard";
 import "./Seminars.css";
 
 type SeminarsProps = {
     selectedDate: Date;
 };
-
-// Returns "HH:mm" or null if the timestamp is missing or invalid, so a bad value can never crash the page
-function formatTime(startsAt: string | undefined): string | null {
-    if (!startsAt) return null;
-    const date = parseISO(startsAt);
-    return isValid(date) ? format(date, "HH:mm", { locale: enUS }) : null;
-}
 
 const Seminars = ({ selectedDate }: SeminarsProps) => {
     const isoDate = format(selectedDate, "yyyy-MM-dd");
@@ -31,44 +24,25 @@ const Seminars = ({ selectedDate }: SeminarsProps) => {
     if (seminars.length === 0) return null;
 
     return (
-        <div>
-            <h3>Seminars</h3>
+        <div className="seminar-container">
+            
+            <h2>Seminars</h2>
 
             <div className="seminar-list">
-                {seminars.map((seminar) => {
-                    const time = formatTime(seminar.startsAt);
 
-                    return (
-                        <div
-                            key={seminar.id}
-                            className={`seminar-card ${seminar.isLocked ? "seminar-card--locked" : ""}`}
-                        >
-                            <div className="seminar-card-header">
-                                <span className="seminar-title">{seminar.title}</span>
-
-                                {seminar.isLocked && (
-                                    <span className="seminar-lock-badge">
-                                        <span className="material-symbols-rounded" aria-hidden="true">
-                                            lock
-                                        </span>
-                                        {seminar.tierTitle ?? "Higher tier"}
-                                    </span>
-                                )}
-                            </div>
-
-                            {/* Only sent by the backend when the user has access */}
-                            {seminar.description && <p className="seminar-description">{seminar.description}</p>}
-
-                            {time && <span className="seminar-time">{time}</span>}
-
-                            {seminar.isLocked && (
-                                <button type="button" className="seminar-upgrade-btn">
-                                    Upgrade to {seminar.tierTitle ?? "a higher tier"}
-                                </button>
-                            )}
-                        </div>
-                    );
-                })}
+                {seminars.map((seminar) => (
+                    <SeminarCard
+                        key={seminar.id}
+                        id={seminar.id}
+                        title={seminar.title}
+                        img={seminar.img}
+                        startsAt={seminar.startsAt}
+                        description={seminar.description}
+                        // Only a tier lock counts here, not a seminar beyond the planning horizon
+                        isTierLocked={seminar.lockReason === "tier"}
+                        tierTitle={seminar.tierTitle}
+                    />
+                ))}
             </div>
         </div>
     );

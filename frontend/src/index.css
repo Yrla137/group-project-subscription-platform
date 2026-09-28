@@ -31,6 +31,10 @@ body {
   /* position: relative; */
 }
 
+h1,h2,h3{
+  margin:0;
+}
+
 .primary-btn {
     background-color: #ff6b6b;
     color: white;

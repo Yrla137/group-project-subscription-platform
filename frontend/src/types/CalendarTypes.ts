@@ -12,6 +12,7 @@ export type CalendarEvent =
         tierLevel: number;
         tierTitle: string | null;
         title: string;
+        img: string | null;
         isLocked: boolean;
         lockReason: SeminarLockReason;
         // Only sent when the user has access to the seminar
