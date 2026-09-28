@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { format, isValid, parseISO } from "date-fns";
 import { enUS } from "date-fns/locale";
 
-import { Lock, ArrowLeft, CalendarDays, Info } from "lucide-react";
+import { Lock, ArrowLeft, CalendarDays } from "lucide-react";
 
 import { useSeminar } from "../hooks/useSeminar";
 import "./SeminarDetailPage.css";
@@ -20,6 +20,7 @@ function formatDateParts(seminarDate: string): { day: string; time: string } | n
 const SeminarDetailPage = () => {
     const { id } = useParams<{ id: string }>();
     const { seminar, status, requiredTier, error } = useSeminar(Number(id));
+    const FALLBACK_IMG = "/seminar_dummy.jpg"
 
     const backLink = (
         <Link to="/seminars" className="seminar-detail-back">
@@ -42,14 +43,14 @@ const SeminarDetailPage = () => {
             <div className="seminar-detail">
                 {backLink}
                 <div className="seminar-detail-locked">
-                    <span className="material-symbols-rounded seminar-detail-locked-icon" aria-hidden="true">
-                        lock
-                    </span>
+                    <Lock size={24} aria-hidden="true" />
                     <h2>This seminar is part of {requiredTier ?? "a higher plan"}</h2>
                     <p>Upgrade your subscription to join this seminar and others like it.</p>
-                    <Link to="/tiers" className="seminar-join-btn">
-                        See plans
-                    </Link>
+                    <div>
+                        <Link to="/tiers" className="primary-btn">
+                            See plans
+                        </Link>
+                    </div>
                 </div>
             </div>
         );
@@ -60,7 +61,7 @@ const SeminarDetailPage = () => {
             <div className="seminar-detail">
                 {backLink}
                 <h2>Seminar not found</h2>
-                <p className="status-text">It may have been removed. Go back to the list to find another seminar.</p>
+                <p>It may have been removed. Go back to the list to find another seminar.</p>
             </div>
         );
     }
@@ -77,13 +78,25 @@ const SeminarDetailPage = () => {
     const when = formatDateParts(seminar.seminar_date);
 
     return (
+
+    
         <div className="seminar-detail">
+
             
             {backLink}
 
             <div className="seminar-flex">
                 <div className="seminar-img">
-                    <img src={seminar.seminar_img} />
+                    <img
+                        src={seminar.seminar_img || FALLBACK_IMG}
+                        alt=""
+                        loading="lazy"
+                        onError={(e) => {
+                            if (!e.currentTarget.src.endsWith(FALLBACK_IMG)) {
+                                e.currentTarget.src = FALLBACK_IMG;
+                            }
+                        }}
+                    />
                     <span className="seminar-detail-tier">{seminar.tier_title}</span>
                 </div>
 
@@ -108,12 +121,12 @@ const SeminarDetailPage = () => {
 
                     <section className="seminar-detail-join">
                         <h3>How to join</h3>
-                        {/* Replace with the meeting link once meeting_url exists in the database */}
                         <p>The link to join will be available 30 minutes before the seminar starts.</p>
                     </section>
                 </div>
             </div>
         </div>
+        
     );
 };
 
