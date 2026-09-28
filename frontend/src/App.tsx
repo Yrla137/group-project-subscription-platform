@@ -14,10 +14,13 @@ import ProfilePage from "./pages/ProfilePage";
 import AdminPage from "./pages/Admin/AdminPage";
 import UserListPage from "./pages/Admin/UserListPage";
 import UserPaymentsPage from "./pages/Admin/UserPaymentsPage";
-import TiersList from "./pages/Admin/TiersList";
-import UsersList from "./pages/Admin/UserListPage";
+import TiersListPage from "./pages/Admin/TiersListPage";
+
 import CheckoutPage from "./pages/CheckoutPage";
 import PaymentsPage from "./pages/PaymentsPage";
+
+import ProtectedRoute from "./components/Routes/ProtectedRoute";
+import AdminRoute from "./components/Routes/AdminRoute";
 
 
 function App() {
@@ -32,18 +35,17 @@ function App() {
             <Route path="habits" element={<HabitsPage />} />
             
             <Route path="tiers" element={<TiersPage />} />
-            <Route path="checkout" element={<CheckoutPage />} />
-            <Route path="payments-page" element={<PaymentsPage />} />
+            <Route path="checkout" element={ <ProtectedRoute><CheckoutPage/></ProtectedRoute> } />
+            <Route path="payments-page" element={ <ProtectedRoute><PaymentsPage/></ProtectedRoute> } />
 
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
-            <Route path="profile" element={<ProfilePage />} />
+            <Route path="profile" element={ <ProtectedRoute><ProfilePage/></ProtectedRoute> } />
 
-            <Route path="admin" element={<AdminPage />} />
-            <Route path="admin/users" element={<UserListPage />} />
-            <Route path="admin/user-payments/:userId" element={<UserPaymentsPage />} />
-            <Route path="admin/tiers" element={<TiersList />} />
-            <Route path="admin/users" element={<UsersList />} />
+            <Route path="admin" element={ <AdminRoute><AdminPage/></AdminRoute> } />
+            <Route path="admin/users" element={ <AdminRoute><UserListPage/></AdminRoute> } />
+            <Route path="admin/user-payments/:userId" element={ <AdminRoute><UserPaymentsPage /></AdminRoute> } />
+            <Route path="admin/tiers" element={ <AdminRoute><TiersListPage /></AdminRoute> } />
 
           </Route>
         </Routes>
