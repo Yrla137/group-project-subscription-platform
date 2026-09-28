@@ -3,13 +3,13 @@ import type { UpdateSeminar, CreateSeminar, Seminar } from './../types/seminars-
 
 // POST - create a new seminar
 const createSeminar = async (data: CreateSeminar): Promise<Seminar> => {
-    const { seminar_title, seminar_description, seminar_date, tier_id, created_by } = data;
+    const { seminar_title, seminar_description, seminar_date, seminar_img, tier_id, created_by } = data;
 
     const result = await pool.query(
-        `INSERT INTO seminars (seminar_title, seminar_description, seminar_date, tier_id, created_by)
-         VALUES ($1, $2, $3, $4, $5)
-         RETURNING id, seminar_title, seminar_description, seminar_date, tier_id, created_by, created_at`,
-        [seminar_title, seminar_description ?? null, seminar_date, tier_id, created_by]
+        `INSERT INTO seminars (seminar_title, seminar_description, seminar_date, seminar_img, tier_id, created_by)
+         VALUES ($1, $2, $3, $4, $5, $6)
+         RETURNING id, seminar_title, seminar_description, seminar_date, seminar_img, tier_id, created_by, created_at`,
+        [seminar_title, seminar_description ?? null, seminar_date, seminar_img ?? null, tier_id, created_by]
     );
 
     return result.rows[0];
@@ -78,17 +78,30 @@ export const getSeminarForUser = async (id: number, userId: number) => {
 
 // PATCH - update seminar information
 const updateSeminar = async (id: number, data: UpdateSeminar): Promise<Seminar | null> => {
-    const { seminar_title, seminar_description, seminar_date, tier_id } = data;
+    const { seminar_title, seminar_description, seminar_date, seminar_img, tier_id } = data;
+
+    // Unlike the other fields, the image can be removed by sending null (the card then shows the fallback).
+    // $6 tells the query whether seminar_img was sent at all, so a missing field leaves it unchanged.
+    const hasImg = seminar_img !== undefined;
 
     const result = await pool.query(
         `UPDATE seminars
          SET seminar_title = COALESCE($1, seminar_title),
              seminar_description = COALESCE($2, seminar_description),
              seminar_date = COALESCE($3, seminar_date),
-             tier_id = COALESCE($4, tier_id)
-         WHERE id = $5
-         RETURNING id, seminar_title, seminar_description, seminar_date, tier_id, created_by, created_at`,
-        [seminar_title ?? null, seminar_description ?? null, seminar_date ?? null, tier_id ?? null, id]
+             tier_id = COALESCE($4, tier_id),
+             seminar_img = CASE WHEN $6::boolean THEN $5 ELSE seminar_img END
+         WHERE id = $7
+         RETURNING id, seminar_title, seminar_description, seminar_date, seminar_img, tier_id, created_by, created_at`,
+        [
+            seminar_title ?? null,
+            seminar_description ?? null,
+            seminar_date ?? null,
+            tier_id ?? null,
+            hasImg ? seminar_img : null,
+            hasImg,
+            id,
+        ]
     );
 
     return result.rows[0] || null;

@@ -27,6 +27,7 @@ interface CreateSeminar {
 interface UpdateSeminar {
     seminar_title?: string;
     seminar_description?: string;
+    seminar_img?:string;
     seminar_date?: string;
     tier_id?: number;
 }
@@ -35,6 +36,7 @@ interface UpdateSeminar {
 interface CreateSeminarInput {
     seminar_title: string;
     seminar_description?: string;
+    seminar_img?: string;
     seminar_date: string;
     tier_id: number;
 }

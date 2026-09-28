@@ -8,6 +8,7 @@ import "./Seminars.css"
 const emptyForm: CreateSeminarInput = {
     seminar_title: "",
     seminar_description: "",
+    seminar_img: "",
     seminar_date: "",
     tier_id: 1,
 };
@@ -38,6 +39,7 @@ export default function ManageSeminars() {
         setFormData({
             seminar_title: seminar.seminar_title,
             seminar_description: seminar.seminar_description ?? "",
+            seminar_img: seminar.seminar_img ?? "",
             seminar_date: format(parseISO(seminar.seminar_date), "yyyy-MM-dd'T'HH:mm"),
             tier_id: seminar.tier_id,
         });
@@ -61,6 +63,7 @@ export default function ManageSeminars() {
             const updateData: UpdateSeminar = {
                 seminar_title: formData.seminar_title,
                 seminar_description: formData.seminar_description || undefined,
+                seminar_img: formData.seminar_img || undefined,
                 seminar_date: seminarDateUtc,
                 tier_id: formData.tier_id,
             };
@@ -86,6 +89,7 @@ export default function ManageSeminars() {
 
     return (
         <div className="manage-seminars">
+
             <h2>Manage seminars</h2>
 
             <form ref={formRef} className="seminar-form" onSubmit={handleSubmit}>
@@ -109,6 +113,18 @@ export default function ManageSeminars() {
                 </div>
 
                 <div className="form-field">
+                    <label htmlFor="seminar_img">Image URL</label>
+                    <input
+                        ref={titleInputRef}
+                        id="seminar_img"
+                        name="seminar_img"
+                        type="text"
+                        value={formData.seminar_img}
+                        onChange={handleChange}
+                    />
+                </div>
+
+                <div className="form-field">
                     <label htmlFor="seminar_date">Date and time</label>
                     <input id="seminar_date" name="seminar_date" type="datetime-local"
                         value={formData.seminar_date} onChange={handleChange} required />
@@ -117,9 +133,9 @@ export default function ManageSeminars() {
                 <div className="form-field">
                     <label htmlFor="tier_id">Tier</label>
                     <select id="tier_id" name="tier_id" value={formData.tier_id} onChange={handleChange}>
-                        <option value={1}>Free</option>
-                        <option value={2}>Plus</option>
-                        <option value={3}>Pro</option>
+                        <option value={1}>Slacker</option>
+                        <option value={2}>Planner</option>
+                        <option value={3}>Try hard</option>
                     </select>
                 </div>
 
@@ -146,10 +162,6 @@ export default function ManageSeminars() {
                         <div className="seminar-card-date">
                             {format(parseISO(seminar.seminar_date), "d MMMM yyyy, HH:mm", { locale: enUS })}
                         </div>
-                        {seminar.seminar_description && (
-                            <p className="seminar-card-description">{seminar.seminar_description}</p>
-                        )}
-
                         <div className="seminar-card-actions">
                             <button type="button" className="btn btn-edit" onClick={() => startEdit(seminar)}
                                 disabled={isAnyActionInProgress}>

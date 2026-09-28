@@ -1,3 +1,7 @@
+*{
+    box-sizing: border-box;
+}
+
 .seminar-card {
     display: flex;
     flex-direction: row;
@@ -58,13 +62,11 @@
 }
 
 .seminar-card-btn {
-    text-align: right;
-    white-space: nowrap;
+    margin-left: auto;
  }
 
 .seminar-card-btn .primary-btn {
-    align-items: center;
-    justify-self: center;
+    white-space: nowrap;
 }
 
 .seminar-time {
