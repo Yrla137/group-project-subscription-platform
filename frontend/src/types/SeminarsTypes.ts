@@ -7,7 +7,8 @@ interface Seminar {
     startsAt: string;
     tier_id: number;
     tier_level: number;
-    tier_title: string | null;
+    tier_title: string;
+    is_locked: boolean;
     created_by: number | null;
     created_at: Date;
 }

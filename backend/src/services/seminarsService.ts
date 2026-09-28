@@ -17,15 +17,28 @@ const createSeminar = async (data: CreateSeminar): Promise<Seminar> => {
 
 // GET - gets all seminars from the database
 
-const getAllSeminars = async (): Promise<Seminar[]> => {
-        const result = await pool.query(`
-        SELECT
-            seminars.*,
-            tiers.level_number AS tier_level
-            tiers.title AS tier_title
-        FROM seminars
-        LEFT JOIN tiers ON seminars.tier_id = tiers.id
-    `);
+const getSeminars = async (userId: number): Promise<Seminar[]> => {
+    const result = await pool.query(
+        `WITH me AS (
+             SELECT t.level_number
+             FROM users u
+             LEFT JOIN tiers t ON t.id = u.current_tier_id
+             WHERE u.id = $1
+         )
+         SELECT s.id,
+                s.seminar_title,
+                s.seminar_description,
+                s.seminar_date,
+                s.tier_id,
+                t.level_number AS tier_level,
+                t.title AS tier_title,
+                t.level_number > COALESCE((SELECT level_number FROM me), 1) AS is_locked
+         FROM seminars s
+         JOIN tiers t ON t.id = s.tier_id
+         WHERE seminar_date >= CURRENT_DATE
+         ORDER BY s.seminar_date ASC`,
+        [userId]
+    );
     return result.rows;
 };
 
@@ -33,6 +46,31 @@ const getAllSeminars = async (): Promise<Seminar[]> => {
 const getSeminarById = async (id: number): Promise<Seminar | null> => {
     const result = await pool.query('SELECT id, seminar_title, seminar_description, seminar_date, tier_id, created_by, created_at FROM seminars WHERE id = $1', [id]);
     return result.rows[0] || null;
+};
+
+// GET id for a specific user - includes whether the user's tier gives access
+export const getSeminarForUser = async (id: number, userId: number) => {
+    const result = await pool.query(
+        `WITH me AS (
+             SELECT t.level_number
+             FROM users u
+             LEFT JOIN tiers t ON t.id = u.current_tier_id
+             WHERE u.id = $1
+         )
+         SELECT s.id,
+                s.seminar_title,
+                s.seminar_description,
+                s.seminar_date,
+                s.tier_id,
+                t.level_number AS tier_level,
+                t.title AS tier_title,
+                t.level_number > COALESCE((SELECT level_number FROM me), 1) AS is_locked
+         FROM seminars s
+         JOIN tiers t ON t.id = s.tier_id
+         WHERE s.id = $2`,
+        [userId, id]
+    );
+    return result.rows[0] ?? null;
 };
 
 
@@ -61,7 +99,7 @@ const deleteSeminar = async (id: number): Promise<void> => {
 
 export {
     createSeminar,
-    getAllSeminars,
+    getSeminars,
     getSeminarById,
     updateSeminar,
     deleteSeminar

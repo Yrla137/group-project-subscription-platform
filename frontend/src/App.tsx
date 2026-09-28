@@ -3,6 +3,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Layout from "./components/Layout";
 import DashboardPage from "./pages/DashboardPage";
 import SeminarsPage from "./pages/SeminarsPage";
+import SeminarDetailPage from "./pages/SeminarDetailPage";
 import HabitsPage from "./pages/HabitsPage";
 import TiersPage from "./pages/TiersPage";
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<DashboardPage />} />
             <Route path="seminars" element={<SeminarsPage />} />
+            <Route path="seminars/:id" element={<SeminarDetailPage />} />
             <Route path="habits" element={<HabitsPage />} />
             
             <Route path="tiers" element={<TiersPage />} />

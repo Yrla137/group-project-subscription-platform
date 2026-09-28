@@ -21,9 +21,11 @@ export const createSeminarController = async (req: Request, res: Response) => {
 };
 
 // GET - gets all seminars from the database
-export const getAllSeminarsController = async (_req: Request, res: Response) => {
+export const getSeminarsController = async (_req: Request, res: Response) => {
     try {
-        const seminars = await seminarsService.getAllSeminars();
+
+        const { user_id } = _req.user!;
+        const seminars = await seminarsService.getSeminars(user_id);
 
         return res.status(200).json({
             message: "Seminars fetched successfully",
@@ -37,7 +39,6 @@ export const getAllSeminarsController = async (_req: Request, res: Response) => 
     }
 };
 
-// GET id - gets a seminar with a specific id from the database
 export const getSeminarByIdController = async (req: Request, res: Response) => {
     try {
         const id = Number(req.params.id);
@@ -45,15 +46,27 @@ export const getSeminarByIdController = async (req: Request, res: Response) => {
             return res.status(400).json({ message: "Invalid seminar ID" });
         }
 
-        const seminar = await seminarsService.getSeminarById(id);
+        const { user_id, role } = req.user!;
+        const seminar = await seminarsService.getSeminarForUser(id, user_id);
+
         if (!seminar) {
             return res.status(404).json({ message: "Seminar not found" });
         }
+
+        // Admins can always open seminars, e.g. to check them before they go live
+        if (seminar.is_locked && role !== "administrator") {
+            return res.status(403).json({
+                message: `This seminar is included in ${seminar.tier_title}`,
+                code: "SEMINAR_LOCKED",
+                tier_title: seminar.tier_title,
+            });
+        }
+
         return res.json(seminar);
     } catch (error) {
         console.error("Get seminar by ID error:", error);
         return res.status(500).json({
-            message: "An error occurred while fetching the seminar"
+            message: "An error occurred while fetching the seminar",
         });
     }
 };

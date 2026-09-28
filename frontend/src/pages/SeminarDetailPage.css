@@ -1,0 +1,110 @@
+.seminar-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 40rem;
+}
+
+.seminar-detail-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    align-self: flex-start;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-decoration: none;
+}
+
+.seminar-detail-back:hover {
+    color: var(--text-main);
+}
+
+.seminar-detail-back .material-symbols-rounded {
+    font-size: 1rem;
+}
+
+.seminar-detail-header h2 {
+    margin: 4px 0 0;
+}
+
+.seminar-detail-tier {
+    display: inline-block;
+    padding: 0.1rem 0.5rem;
+    border-radius: 1rem;
+    background-color: #BBFFE2;
+    color: #0F8767;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.seminar-detail-when {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+.seminar-detail-description {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--text-main);
+}
+
+.seminar-detail-join {
+    padding: 16px;
+    border-radius: var(--radius);
+    background-color: #eef4fe;
+}
+
+.seminar-detail-join h3 {
+    margin: 0 0 6px;
+    font-size: 1rem;
+}
+
+.seminar-detail-join p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.seminar-detail-locked {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 20px;
+    border-radius: var(--radius);
+    background-color: var(--bg-color);
+}
+
+.seminar-detail-locked h2,
+.seminar-detail-locked p {
+    margin: 0;
+}
+
+.seminar-detail-locked-icon {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+}
+
+.seminar-detail .seminar-join-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 1rem;
+    background-color: #FF6B57;
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.seminar-detail .seminar-join-btn:hover {
+    background-color: #FF8A78;
+}
+
+.seminar-detail a:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
