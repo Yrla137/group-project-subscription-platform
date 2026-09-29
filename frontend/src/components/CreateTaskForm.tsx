@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { useTasks } from "../hooks/useTasks";
 import { useAuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Lock } from "lucide-react";
 
 export default function CreateTaskForm({ onClose }: { onClose: () => void }) {
     const { createTask } = useTasks();
     const { user } = useAuthContext();
-    const navigate = useNavigate();
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
