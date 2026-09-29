@@ -141,8 +141,12 @@
 }
 
 .login-button:disabled {
-    opacity: 0.7;
+    background-color: white;
     cursor: not-allowed;
+}
+
+.login-button-loading {
+    background-color: white;
 }
 
 .login-footer {

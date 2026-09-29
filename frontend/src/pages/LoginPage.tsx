@@ -93,11 +93,11 @@ const LoginPage = () => {
           )}
 
           <button
-            className="login-button"
+            className={`login-button ${isLoading ? "login-button-loading" : ""}`}
             type="submit"
             disabled={isLoading}>
             {isLoading ? <Spinner /> : "Log in"}
-          </button>
+        </button>
 
         </form>      
         <div className="login-footer">

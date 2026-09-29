@@ -128,10 +128,10 @@ const RegisterPage = () => {
           )}
 
           <button
-            className="register-button"
-            type="submit"
-            disabled={isLoading}>
-            {isLoading ? <Spinner /> : "Create account"}
+              className={`register-button ${isLoading ? "register-button-loading" : ""}`}
+              type="submit"
+              disabled={isLoading}>
+              {isLoading ? <Spinner /> : "Create account"}
           </button>
 
         </form>
