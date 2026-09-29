@@ -51,6 +51,17 @@ export default function CalendarDatepicker({
 
     const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 }); // Monday as first day
     const weekEnd = endOfWeek(selectedDate, { weekStartsOn: 1 });
+    // "Oct", or "Sep/Oct" when the week spans two months
+    const startMonth = format(weekStart, "MMM", { locale: enUS });
+    const endMonth = format(weekEnd, "MMM", { locale: enUS });
+    const monthLabel = startMonth === endMonth ? startMonth : `${startMonth}/${endMonth}`;
+
+    // Full month names for screen readers, e.g. "September to October"
+    const monthLabelLong =
+        startMonth === endMonth
+            ? format(weekStart, "MMMM", { locale: enUS })
+            : `${format(weekStart, "MMMM", { locale: enUS })} to ${format(weekEnd, "MMMM", { locale: enUS })}`;
+            
     const days = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
 
     const today = new Date().toLocaleDateString("en-US", {
@@ -109,7 +120,7 @@ export default function CalendarDatepicker({
                 </button>
 
                 <span className="week-range-label">
-                    {format(weekStart, "d MMM", { locale: enUS })} - {format(weekEnd, "d MMM", { locale: enUS })}
+                    <span aria-label={monthLabelLong}>{monthLabel}</span>
 
                     <button type="button" className="today-btn" onClick={goToToday}>
                         Today: {today}
