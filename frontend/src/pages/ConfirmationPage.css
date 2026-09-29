@@ -1,5 +1,4 @@
 /* Confirmation Page */
-
 .confirmation-page {
     display: flex;
     flex-direction: column;
@@ -23,18 +22,14 @@
     text-align: center;
 }
 
-
 /* Confirmation Header */
-
 .confirmation-header {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-
 /* Animated Icon */
-
 .confirmation-icon-container {
     position: relative;
     display: flex;
@@ -53,9 +48,7 @@
     animation: confirmation-pop 0.7s ease-out;
 }
 
-
 /* Sparkles */
-
 .sparkle {
     position: absolute;
     pointer-events: none;
@@ -111,9 +104,7 @@
     animation-delay: 1.2s;
 }
 
-
 /* Confirmation Text */
-
 .confirmation-title {
     font-size: 2rem;
     font-weight: 800;
@@ -135,9 +126,7 @@
     margin: 0.5rem 0 0;
 }
 
-
 /* Payment Details */
-
 .payment-details {
     margin-top: 2rem;
     padding-top: 1.5rem;
@@ -159,9 +148,7 @@
     font-weight: 600;
 }
 
-
 /* Tier Details */
-
 .tier-details {
     margin-top: 1.5rem;
     padding-top: 1.5rem;
@@ -188,18 +175,14 @@
     margin-right: 0.35rem;
 }
 
-
 /* No Payment Data */
-
 .confirmation-no-data {
     margin: 2rem 0;
     color: var(--text-muted);
     font-size: 0.95rem;
 }
 
-
 /* Navigation */
-
 .confirmation-navigation {
     margin-top: 2rem;
 }
@@ -221,9 +204,7 @@
     transform: translateY(-1px);
 }
 
-
 /* Icon Animation */
-
 @keyframes confirmation-pop {
     0% {
         opacity: 0;
@@ -241,9 +222,7 @@
     }
 }
 
-
 /* Sparkle Animation */
-
 @keyframes sparkle-animation {
     0% {
         opacity: 0;
@@ -266,9 +245,7 @@
     }
 }
 
-
 /* Desktop */
-
 @media (min-width: 768px) {
     .confirmation-page {
         padding: 4rem 2rem;
@@ -295,9 +272,7 @@
     }
 }
 
-
 /* Mobile */
-
 @media (max-width: 480px) {
     .confirmation-page {
         min-height: calc(100vh - 120px);
