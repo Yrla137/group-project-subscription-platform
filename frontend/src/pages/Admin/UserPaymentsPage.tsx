@@ -5,6 +5,7 @@ import { usePayments } from "../../hooks/usePayments";
 import type { PaymentWithTier } from "../../types/PaymentType";
 import type { UserWithTier } from "../../types/UserType";
 import Spinner from "../../components/Spinner";
+import "./UserPaymentsPage.css";
 
 const UserPaymentsPage = () => {
 
@@ -73,60 +74,113 @@ const UserPaymentsPage = () => {
     ]);
 
     return (
-        <div>
-            <h1>User Payments</h1>
+        <div className="user-payments-page">
 
-            {isLoading && <Spinner />}
+            <section className="user-payments-header">
+                <div className="user-payments-header-content">
+                    <h1 className="user-payments-title">
+                        User Payments
+                    </h1>
 
-            {error && <p>{error}</p>}
+                    {user && (
+                        <p className="user-payments-subtitle">
+                            Payment history for {user.first_name} {user.last_name}.
+                        </p>
+                    )}
+                </div>
+            </section>
 
-            {!isLoading && !error && (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>User</th>
-                            <th>Tier</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
+            <main className="user-payments-content">
 
-                    <tbody>
+                {isLoading && (
+                    <div className="user-payments-loading">
+                        <Spinner />
+                    </div>
+                )}
+
+                {error && (
+                    <div className="user-payments-error">
+                        <p>{error}</p>
+                    </div>
+                )}
+
+                {!isLoading && !error && (
+                    <section className="payments-section">
+
+                        <div className="payments-section-header">
+                            <div>
+                                <h2>Payment History</h2>
+
+                                <p>
+                                    {userPayments.length}{" "}
+                                    {userPayments.length === 1
+                                        ? "payment"
+                                        : "payments"}{" "}
+                                    found
+                                </p>
+                            </div>
+                        </div>
+
                         {userPayments.length === 0 ? (
-                            <tr>
-                                <td colSpan={4}>
-                                    No payments found for this user.
-                                </td>
-                            </tr>
+                            <div className="payments-empty">
+                                <p>No payments found for this user.</p>
+                            </div>
                         ) : (
-                            userPayments.map((payment) => (
-                                <tr key={payment.id}>
-                                    <td>
-                                        {user
-                                            ? `${user.first_name} ${user.last_name}`
-                                            : "Unknown User"}
-                                    </td>
+                            <div className="payments-table-wrapper">
+                                <table className="payments-table">
 
-                                    <td>{payment.tier_title}</td>
-                                    <td>{payment.amount}</td>
+                                    <thead>
+                                        <tr>
+                                            <th>User</th>
+                                            <th>Tier</th>
+                                            <th>Amount</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
 
-                                    <td>
-                                        {new Date(
-                                            payment.payment_date
-                                        ).toLocaleDateString()}
-                                    </td>
-                                </tr>
-                            ))
+                                    <tbody>
+                                        {userPayments.map((payment) => (
+                                            <tr key={payment.id}>
+
+                                                <td data-label="User">
+                                                    {user
+                                                        ? `${user.first_name} ${user.last_name}`
+                                                        : "Unknown User"}
+                                                </td>
+
+                                                <td data-label="Tier">
+                                                    {payment.tier_title}
+                                                </td>
+
+                                                <td data-label="Amount">
+                                                    {payment.amount}
+                                                </td>
+
+                                                <td data-label="Date">
+                                                    {new Date(
+                                                        payment.payment_date
+                                                    ).toLocaleDateString()}
+                                                </td>
+
+                                            </tr>
+                                        ))}
+                                    </tbody>
+
+                                </table>
+                            </div>
                         )}
-                    </tbody>
-                </table>
-            )}
 
-            <div className="back-to-user-list-link">
-                <Link to="/admin/users">
-                    Back to User List
-                </Link>
-            </div>
+                    </section>
+                )}
+
+                <div className="user-payments-back-link">
+                    <Link to="/admin/users">
+                        Back to User List
+                    </Link>
+                </div>
+
+            </main>
+
         </div>
     );
 };

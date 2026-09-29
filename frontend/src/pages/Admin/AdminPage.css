@@ -1,0 +1,300 @@
+.admin-page {
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+}
+
+.admin-header {
+  background: linear-gradient(to bottom, #fffaf6, #ffffff);
+  padding: 4rem 1.5rem 3rem;
+  text-align: center;
+}
+
+.admin-header-content {
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.admin-title {
+  margin: 0 0 0.75rem;
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: #111;
+}
+
+.admin-subtitle {
+  margin: 0 auto;
+  max-width: 38rem;
+  color: #555;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.admin-content {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+  box-sizing: border-box;
+}
+
+.admin-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 12rem;
+}
+
+.admin-welcome-card {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.admin-welcome-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.admin-welcome-label {
+  margin: 0 0 0.4rem;
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.admin-welcome-title {
+  margin: 0 0 0.75rem;
+  color: #111827;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.admin-role {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.admin-role span {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.admin-management-section {
+  width: 100%;
+}
+
+.admin-section-header {
+  margin-bottom: 1.75rem;
+}
+
+.admin-section-header h2 {
+  margin: 0 0 0.4rem;
+  color: #1f2937;
+  font-size: 1.85rem;
+  font-weight: 700;
+}
+
+.admin-section-header p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.admin-management-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.admin-management-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  min-height: 10rem;
+  box-sizing: border-box;
+  padding: 1.75rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  color: var(--text-main);
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.admin-management-card:hover {
+  transform: translateY(-4px);
+  border-color: #f3d1ce;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+}
+
+.admin-management-card:focus-visible {
+  outline: 3px solid rgba(250, 82, 82, 0.25);
+  outline-offset: 3px;
+}
+
+.admin-card-icon {
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffe0dd;
+  color: var(--primary);
+  border-radius: 50%;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.admin-card-content {
+  flex: 1;
+  padding-right: 2rem;
+}
+
+.admin-card-content h3 {
+  margin: 0 0 0.5rem;
+  color: #111827;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.admin-card-content p {
+  margin: 0;
+  color: #4b5563;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.admin-card-arrow {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1.2rem;
+  color: var(--primary);
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1;
+  background: none;
+  transition: transform 0.2s ease;
+}
+
+.admin-management-card:hover .admin-card-arrow {
+  transform: translateX(5px);
+}
+
+@media (max-width: 768px) {
+  .admin-header {
+    padding: 3rem 1.25rem 2.5rem;
+  }
+
+  .admin-title {
+    font-size: 2.25rem;
+  }
+
+  .admin-content {
+    padding: 1.5rem 1.25rem 3rem;
+  }
+
+  .admin-welcome-card {
+    margin-bottom: 2.5rem;
+    padding: 1.5rem;
+  }
+
+  .admin-management-grid {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-header {
+    padding: 2.5rem 1rem 2rem;
+  }
+
+  .admin-title {
+    font-size: 2rem;
+  }
+
+  .admin-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .admin-content {
+    padding: 1.25rem 1rem 2.5rem;
+  }
+
+  .admin-welcome-card {
+    padding: 1.35rem;
+    margin-bottom: 2rem;
+  }
+
+  .admin-welcome-title {
+    font-size: 1.45rem;
+  }
+
+  .admin-section-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .admin-section-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .admin-management-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-management-card {
+    min-height: auto;
+    padding: 1.35rem;
+  }
+
+  .admin-card-content {
+    padding-right: 2rem;
+  }
+
+  .admin-card-content h3 {
+    font-size: 1.05rem;
+  }
+
+  .admin-card-content p {
+    font-size: 0.88rem;
+  }
+
+  .admin-card-arrow {
+    right: 1.25rem;
+    bottom: 1.15rem;
+    font-size: 1.55rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .admin-title {
+    font-size: 1.8rem;
+  }
+
+  .admin-management-card {
+    gap: 1rem;
+    padding: 1.15rem;
+  }
+
+  .admin-card-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}

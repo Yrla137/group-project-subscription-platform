@@ -6,6 +6,7 @@ import { useUsers } from "../../hooks/useUsers";
 import { usePayments } from "../../hooks/usePayments";
 import { Receipt, Trash2 } from "lucide-react";
 import Spinner from "../../components/Spinner";
+import "./UserListPage.css";
 
 const UserListPage = () => {
 
@@ -84,82 +85,153 @@ const handleConfirmDelete = async () => {
   setUserToDelete(null);
 };
 
+  return (
+    <div className="users-page">
 
-    return (
-        <div>
-            <h1>Users in the System</h1>
-            {userError && <p>Error: {userError}</p>}
+      <section className="users-header">
+        <div className="users-header-content">
+          <h1 className="users-title">Users</h1>
+          <p className="users-subtitle">
+            View and manage users in the system.
+          </p>
+        </div>
+      </section>
 
-            {isUserListLoading ? (
-                <Spinner />
-              ) : (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name:</th>
-                            <th>Email:</th>
-                            <th>Role:</th>
-                            <th>Actions:</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                      {users.length === 0 ? (
-                        <tr>
-                          <td colSpan={4}>No users found.</td>
-                        </tr>
-                      ) : users.map((user) => (
-                            <tr key={user.id}>
-                                <td>{user.first_name} {user.last_name}</td>
-                                <td>{user.email}</td>
-                                <td>{user.role}</td>
+      <main className="users-content">
 
-                                <td>
-                                {user.role !== "administrator" && (
-                                  <div className="action-buttons">
-                                    <button
-                                        aria-label="View Payments"
-                                        onClick={() => handleViewPayments(user)}
-                                        disabled={isPaymentsLoading}>
-                                        {isPaymentsLoading ? <Spinner /> : <Receipt />}
-                                    </button>
+        {userError && (
+          <div className="users-error">
+            <p>{userError}</p>
+          </div>
+        )}
 
-                                    <button aria-label="Delete User" onClick={() => handleDeleteUser(user.id)}>
-                                      <Trash2 />
-                                    </button>
-                                  </div>
-                                )}
-                              </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            )}
+        {isUserListLoading ? (
+          <div className="users-loading">
+            <Spinner />
+          </div>
+        ) : (
+          <section className="users-list-section">
 
-            {showDeleteModal && userToDelete !== null && (
-              <div className="modal">
-                <div className="modal-content">
-                    <p>Are you sure you want to delete this user? This action cannot be undone.</p>
+            <div className="users-list-header">
+              <div>
+                <h2>All Users</h2>
+                <p>
+                  {users.length} {users.length === 1 ? "user" : "users"} in the system
+                </p>
+              </div>
+            </div>
+
+            {users.length === 0 ? (
+              <div className="users-empty">
+                <p>No users found.</p>
+              </div>
+            ) : (
+              <div className="users-list">
+
+                {users.map((user) => (
+                  <div className="user-list-item" key={user.id}>
+
+                    <div className="user-info">
+
+                      <div className="user-avatar">
+                        {user.first_name.charAt(0)}
+                        {user.last_name.charAt(0)}
+                      </div>
+
+                      <div className="user-details">
+                        <h3>
+                          {user.first_name} {user.last_name}
+                        </h3>
+
+                        <p>{user.email}</p>
+                      </div>
+
+                    </div>
+
+                    <div className="user-role">
+                      <span>{user.role}</span>
+                    </div>
+
+                    {user.role !== "administrator" && (
+                      <div className="user-actions">
+
                         <button
-                            onClick={handleConfirmDelete}
-                            disabled={isUserListLoading}>
-                            {isUserListLoading ? <Spinner /> : "Yes"}
+                          className="user-action-button payment-button"
+                          aria-label="View Payments"
+                          onClick={() => handleViewPayments(user)}
+                          disabled={isPaymentsLoading}>
+                          {isPaymentsLoading ? (
+                            <Spinner />
+                          ) : (
+                            <Receipt size={21} strokeWidth={2.5} />
+                          )}
                         </button>
+
                         <button
-                          onClick={() => {
-                            setShowDeleteModal(false);
-                            setUserToDelete(null);}}
-                          disabled={isUserListLoading}>
-                          Cancel
-                      </button>
+                          className="user-action-button delete-button"
+                          aria-label="Delete User"
+                          onClick={() => handleDeleteUser(user.id)}>
+                          <Trash2 size={21} strokeWidth={2.5} />
+                        </button>
+
+                      </div>
+                    )}
+
                   </div>
+                ))}
+
               </div>
             )}
 
-            <div className="admin-profile-button">
-              <Link to="/admin">Back to Admin Profile</Link>
+          </section>
+        )}
+
+        {showDeleteModal && userToDelete !== null && (
+          <div className="user-modal-overlay">
+
+            <div className="user-delete-modal">
+
+              <h2>Delete User?</h2>
+
+              <p>
+                Are you sure you want to delete this user?
+                This action cannot be undone.
+              </p>
+
+              <div className="user-modal-actions">
+
+                <button
+                  className="modal-cancel-button"
+                  onClick={() => {
+                    setShowDeleteModal(false);
+                    setUserToDelete(null);
+                  }}
+                  disabled={isUserListLoading}>
+                  Cancel
+                </button>
+
+                <button
+                  className="modal-delete-button"
+                  onClick={handleConfirmDelete}
+                  disabled={isUserListLoading}>
+                  {isUserListLoading ? <Spinner /> : "Yes, Delete"}
+                </button>
+
+              </div>
             </div>
+          </div>
+        )}
+
+        <div className="users-back-link">
+          <Link to="/admin">
+            Back to Admin Profile
+          </Link>
         </div>
-    );
+
+      </main>
+
+    </div>
+  );
 };
 
 export default UserListPage;
