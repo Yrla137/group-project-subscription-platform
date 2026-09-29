@@ -1,3 +1,7 @@
+html {
+    scroll-padding-top: calc(100px);
+}
+
 /* =========================================================
    Habits page: form on the left, the user's habits on the right
    Everything is scoped to this page so nothing leaks elsewhere
@@ -380,6 +384,24 @@
     outline: 2px solid var(--primary);
     outline-offset: 2px;
     border-radius: 4px;
+}
+
+.edit-habits .habit-card-text {
+    min-width: 0;
+}
+
+.edit-habits .habit-card-description {
+    margin: 2px 0 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.edit-habits .habit-card--editing {
+    border-left-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary);
 }
 
 

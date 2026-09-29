@@ -231,41 +231,41 @@ export default function HabitsPage() {
               </div>
             ) : (
               <>
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => setShowCustomHabitForm(true)}
-                    disabled={!!editingId || !canCreateHabit}
-                    aria-describedby={habitLimit ? "habit-limit-notice" : undefined}
-                  >
-                    {canCreateHabit ? <Plus size={16} strokeWidth={3} aria-hidden="true" /> : <Lock size={16} aria-hidden="true" />}
-                    Add custom habit
-                  </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowCustomHabitForm(true)}
+                  disabled={!!editingId || !canCreateHabit}
+                  aria-describedby={habitLimit ? "habit-limit-notice" : undefined}
+                >
+                  {canCreateHabit ? <Plus size={16} strokeWidth={3} aria-hidden="true" /> : <Lock size={16} aria-hidden="true" />}
+                  Add custom habit
+                </button>
 
                 {habitLimit && (
                   <p
                     id="habit-limit-notice"
                     className={`habit-limit-text ${!canCreateHabit ? "habit-limit-text--reached" : ""}`}
                   >
-                      {canCreateHabit ? (
-                        `${habitLimit.customHabitCount} of ${habitLimit.maxCustomHabits} custom habits used`
-                      ) : habitLimit.maxCustomHabits === 0 ? (
-                        <>
-                          Your plan doesn't include custom habits.{" "}
-                          <Link to="/tiers" className="habit-limit-link">
-                            Upgrade your subscription
-                          </Link>{" "}
-                          to create your own.
-                        </>
-                      ) : (
-                        <>
-                          Your plan allows {habitLimit.maxCustomHabits} custom habits.{" "}
-                          <Link to="/tiers" className="habit-limit-link">
-                            Upgrade your subscription
-                          </Link>{" "}
-                          to create more.
-                        </>
-                      )}
+                    {canCreateHabit ? (
+                      `${habitLimit.customHabitCount} of ${habitLimit.maxCustomHabits} custom habits used`
+                    ) : habitLimit.maxCustomHabits === 0 ? (
+                      <>
+                        Your plan doesn't include custom habits.{" "}
+                        <Link to="/tiers" className="habit-limit-link">
+                          Upgrade your subscription
+                        </Link>{" "}
+                        to create your own.
+                      </>
+                    ) : (
+                      <>
+                        Your plan allows {habitLimit.maxCustomHabits} custom habits.{" "}
+                        <Link to="/tiers" className="habit-limit-link">
+                          Upgrade your subscription
+                        </Link>{" "}
+                        to create more.
+                      </>
+                    )}
                   </p>
                 )}
               </>
@@ -297,12 +297,12 @@ export default function HabitsPage() {
                 <span className="schedule-switch-track" aria-hidden="true">
                   <span className="schedule-switch-thumb" />
                 </span>
-                
+
               </button>
 
               {scheduleType === "WEEKLY" && (
                 <div className="weekday-picker" role="group" aria-label="Days">
-                  Schedule: 
+                  Schedule:
                   {WEEKDAYS.map((day) => (
                     <button
                       key={day.value}
@@ -342,11 +342,16 @@ export default function HabitsPage() {
         {userHabitsLoading && <Spinner />}
         {error && <p className="status-text status-text--error">{error}</p>}
 
-        { userHabits.length > 0 && <h2>Edit habits</h2> }
+        {userHabits.length > 0 && <h2>Edit habits</h2>}
 
         <ul className="habit-list">
           {userHabits.map((uh) => (
-            <li key={uh.id} className="habit-card">
+
+            <li
+              key={uh.id}
+              className={`habit-card ${editingId === uh.id ? "habit-card--editing" : ""}`}
+              aria-current={editingId === uh.id ? "true" : undefined}
+            >
               <div>
                 <div className="habit-card-title">{uh.habit_title}</div>
               </div>
