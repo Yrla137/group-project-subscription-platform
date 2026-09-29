@@ -1,4 +1,5 @@
 import express from "express";
+import requireAuth from "../middlewares/requireAuth";
 
 import {
     getAllTasksController,
@@ -10,7 +11,7 @@ import {
 
 const router = express.Router();
 
-
+router.use(requireAuth)
 // GET - gets all tasks from the database
 router.get("/", getAllTasksController);
 
