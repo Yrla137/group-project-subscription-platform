@@ -1,5 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+
+import "./ConfirmationPage.css";
 import { CircleCheck } from "lucide-react";
 
 const ConfirmationPage = () => {
@@ -7,36 +9,93 @@ const ConfirmationPage = () => {
     const location = useLocation();
     const { paymentData, tierDetails } = location.state || {};
 
-  return (
-    <div>
-        <CircleCheck className="payment-confirmation-icon" />
+    return (
+        <div className="confirmation-page">
+            <div className="confirmation-container">
 
-        <h2>Payment Confirmation</h2>
-        <p>Your payment has been successfully processed.</p>
-        <br />
-        <p>You are now a level higher!</p>
+                <div className="confirmation-header">
 
-        {paymentData ? (
-            <div>
-                <p>Amount: {paymentData.amount}</p>
-                <p>Payment Date: {new Date(paymentData.payment_date).toLocaleString()}</p>
-                {tierDetails && (
-                    <div>
-                        <h3>Tier Details</h3>
-                        <p>Title: {tierDetails.title}</p>
-                        <p>Level: {tierDetails.level_number}</p>
-                        <p>Description: {tierDetails.tier_description}</p>
+                   <div className="confirmation-icon-container">
+                        <span className="sparkle sparkle-one">✦</span>
+                        <span className="sparkle sparkle-two">✧</span>
+                        <span className="sparkle sparkle-three">✦</span>
+                        <span className="sparkle sparkle-four">✧</span>
+                        <span className="sparkle sparkle-five">✦</span>
+                        <span className="sparkle sparkle-six">✧</span>
+
+                        <CircleCheck className="payment-confirmation-icon" />
                     </div>
+
+                    <h2 className="confirmation-title">
+                        Payment Confirmation
+                    </h2>
+
+                    <p className="confirmation-message">
+                        Your payment has been successfully processed.
+                    </p>
+
+                    <p className="confirmation-level-message">
+                        You are now a level higher!
+                    </p>
+                </div>
+
+                {paymentData ? (
+                    <div className="payment-details">
+
+                        <p className="payment-detail">
+                            <span className="payment-detail-label">Amount:</span>
+                            {paymentData.amount}
+                        </p>
+
+                        <p className="payment-detail">
+                            <span className="payment-detail-label">Payment Date:</span>
+                            {new Date(paymentData.payment_date).toLocaleString()}
+                        </p>
+
+                        {tierDetails && (
+                            <div className="tier-details">
+
+                                <h3 className="tier-details-title">
+                                    Tier Details
+                                </h3>
+
+                                <p className="tier-detail">
+                                    <span className="tier-detail-label">Title:</span>
+                                    {tierDetails.title}
+                                </p>
+
+                                <p className="tier-detail">
+                                    <span className="tier-detail-label">Level:</span>
+                                    {tierDetails.level_number}
+                                </p>
+
+                                <p className="tier-detail">
+                                    <span className="tier-detail-label">Description:</span>
+                                    {tierDetails.tier_description}
+                                </p>
+
+                            </div>
+                        )}
+
+                    </div>
+                ) : (
+                    <p className="confirmation-no-data">
+                        No payment data available.
+                    </p>
                 )}
+
+                <div className="confirmation-navigation">
+                    <Link
+                        to="/"
+                        className="back-to-dashboard-link"
+                    >
+                        Back to dashboard
+                    </Link>
+                </div>
+
             </div>
-        ) : (
-            <p>No payment data available.</p>
-        )}
+        </div>
+    )
+};
 
-        <Link to="/" className="back-to-tiers-link">Back to dashboard</Link>
-
-    </div>
-  )
-}
-
-export default ConfirmationPage
+export default ConfirmationPage;

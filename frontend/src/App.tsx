@@ -10,6 +10,7 @@ import TiersPage from "./pages/TiersPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ProfilePage from "./pages/ProfilePage";
+import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 
 import AdminPage from "./pages/Admin/AdminPage";
 import UserListPage from "./pages/Admin/UserListPage";
@@ -44,6 +45,8 @@ function App() {
 
 
             <Route path="profile" element={ <ProtectedRoute><ProfilePage/></ProtectedRoute> } />
+
+            <Route path="forget-password" element={<ForgetPasswordPage />} />
 
             <Route path="admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
             <Route path="admin/users" element={<AdminRoute><UserListPage /></AdminRoute>} />
