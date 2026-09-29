@@ -20,7 +20,7 @@
 }
 
 /* Respect users who have turned off animations in their OS */
-@media (prefers-r.educed-motion: reduce) {
+@media (prefers-reduced-motion: reduce) {
     spinner-span {
         animation-duration: 2.4s;
     }
