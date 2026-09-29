@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useUsers } from "../hooks/useUsers";
 import { useAuthContext } from "../context/AuthContext";
-import LogoutButton from "../components/LogoutButton";
 import type { UserWithTier } from "../types/UserType";
 import { Link } from "react-router-dom";
 import Spinner from "../components/Spinner";
@@ -80,8 +79,6 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-page">
-
-        <LogoutButton />
 
         <div className="profile-navigation-links">
             <Link to="/profile" className="profile-nav-link">

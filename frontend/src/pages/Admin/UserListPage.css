@@ -275,20 +275,22 @@
 
 .users-back-link {
   margin-top: 2rem;
+  padding: 0 1.25rem;
 }
 
 .users-back-link a {
   display: inline-block;
   color: var(--primary);
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .users-back-link a:hover {
   color: var(--primary-hover);
   text-decoration: underline;
+  transform: translateX(-2px);
 }
 
 .user-modal-overlay {

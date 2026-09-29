@@ -6,7 +6,7 @@
 
 .user-payments-header {
   background: linear-gradient(to bottom, #fffaf6, #ffffff);
-  padding: 4rem 1.5rem 3rem;
+  padding: 3rem 1.5rem 2.5rem;
   text-align: center;
 }
 
@@ -68,11 +68,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .payments-section-header h2 {
-  margin: 0 0 0.35rem;
+  margin: 0 0 1.25rem;
   color: #1f2937;
   font-size: 1.85rem;
   font-weight: 700;
@@ -103,7 +103,7 @@
   padding: 1rem 1.25rem;
   background-color: #fffaf6;
   border-bottom: 1px solid var(--border-color);
-  color: #4b5563;
+  color: var(--primary);
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -168,21 +168,23 @@
 }
 
 .user-payments-back-link {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
+  padding: 0 1.25rem;
 }
 
 .user-payments-back-link a {
   display: inline-block;
   color: var(--primary);
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .user-payments-back-link a:hover {
   color: var(--primary-hover);
   text-decoration: underline;
+  transform: translateX(-2px);
 }
 
 @media (max-width: 768px) {
@@ -203,10 +205,11 @@
   }
 
   .payments-section-header {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.75rem;
   }
 
   .payments-section-header h2 {
+    margin-bottom: 0.75rem;
     font-size: 1.55rem;
   }
 
@@ -271,7 +274,7 @@
 
   .payments-table td::before {
     content: attr(data-label);
-    color: #6b7280;
+    color: var(--primary);
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.03em;
@@ -279,7 +282,11 @@
   }
 
   .user-payments-back-link {
-    margin-top: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .user-payments-back-link a {
+    font-size: 1rem;
   }
 }
 
@@ -294,6 +301,10 @@
 
   .payments-section-header h2 {
     font-size: 1.4rem;
+  }
+
+  .payments-section-header p {
+    font-size: 0.85rem;
   }
 
   .payments-table tr {
