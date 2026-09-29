@@ -139,3 +139,12 @@
 .no-habits {
     color: var(--text-muted);
 }
+
+.habit-checkbox:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.habit-checkbox:disabled:hover {
+    border-color: #d1d5db;
+}

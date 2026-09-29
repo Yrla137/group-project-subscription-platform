@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import type { useUserHabits } from "../hooks/useUserHabits";
 import "./Habits.css";
+import { isAfter, startOfDay } from "date-fns";
 
 // Types taken straight from the hook, so they always match what Calendar passes down
 type UserHabitsHook = ReturnType<typeof useUserHabits>;
@@ -23,6 +24,9 @@ const EMPTY_STATE_MESSAGES: Record<number, string> = {
 };
 
 export default function Habits({ selectedDate, habits, error, onToggleCompletion }: HabitsViewProps) {
+
+    const isFutureDay = isAfter(startOfDay(selectedDate), startOfDay(new Date()));
+
     // Same order as tasks: open habits first, completed ones last
     const sortedHabits = [...habits].sort((a, b) => {
         if (!!a.is_completed_today === !!b.is_completed_today) return 0;
@@ -51,6 +55,8 @@ export default function Habits({ selectedDate, habits, error, onToggleCompletion
                                 className="habit-checkbox"
                                 checked={!!habit.is_completed_today}
                                 onChange={() => onToggleCompletion(habit.id, !!habit.is_completed_today)}
+                                disabled={isFutureDay}
+                                title={isFutureDay ? "You can check off this habit on the day" : undefined}
                                 aria-label={`Mark ${habit.habit_title} as done`}
                             />
                             <div className="habit-text-content">
