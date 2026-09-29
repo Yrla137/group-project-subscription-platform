@@ -12,6 +12,10 @@
   --radius: 12px;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -255,6 +259,15 @@ h1,h2,h3{
 .bottom-nav a.active {
   color: var(--primary);
   font-weight: 600;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+a:hover {
+  color: var(--primary-hover);
 }
 
 @media (min-width: 768px) {
