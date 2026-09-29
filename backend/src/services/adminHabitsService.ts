@@ -38,17 +38,28 @@ const createDefaultHabit = async (data: CreateHabit): Promise<Habit> => {
 };
 
 // PATCH - only allowed on default (catalog) habits
+// PATCH - only allowed on default (catalog) habits
 const updateDefaultHabit = async (id: number, data: UpdateHabit): Promise<Habit | null> => {
     const { habit_title, habit_description, default_duration_minutes } = data;
+
+    // Unlike the other fields, the duration can be cleared by sending null.
+    // $4 tells the query whether it was sent at all, so a missing field leaves it unchanged.
+    const hasDuration = default_duration_minutes !== undefined;
 
     const result = await pool.query(
         `UPDATE habits
          SET habit_title = COALESCE($1, habit_title),
              habit_description = COALESCE($2, habit_description),
-             default_duration_minutes = COALESCE($3, default_duration_minutes)
-         WHERE id = $4 AND created_by IS NULL
+             default_duration_minutes = CASE WHEN $4::boolean THEN $3::int ELSE default_duration_minutes END
+         WHERE id = $5 AND created_by IS NULL
          RETURNING id, habit_title, habit_description, default_duration_minutes, created_by, created_at`,
-        [habit_title ?? null, habit_description ?? null, default_duration_minutes ?? null, id]
+        [
+            habit_title ?? null,
+            habit_description ?? null,
+            hasDuration ? default_duration_minutes : null,
+            hasDuration,
+            id,
+        ]
     );
 
     return result.rows[0] || null;

@@ -73,7 +73,8 @@ export default function DefaultHabits() {
                 habit_title: trimmedTitle,
                 // An empty string clears the description (the backend keeps the old value for null)
                 habit_description: description.trim(),
-                default_duration_minutes: parsedDuration,
+                // null clears the duration; undefined would leave the old value
+                default_duration_minutes: parsedDuration ?? null,
             })
             : await createHabit({
                 habit_title: trimmedTitle,
