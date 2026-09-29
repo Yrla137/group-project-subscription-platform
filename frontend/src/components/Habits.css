@@ -1,3 +1,5 @@
+/* Mirrors Tasks.css so habits and tasks look the same in the calendar */
+
 .habit-container {
     padding: 20px;
     font-family: inherit;
@@ -17,13 +19,16 @@
     color: #1f2937;
 }
 
+/* A Link styled as a button */
 .habit-add-btn {
+    display: inline-block;
     background-color: #ff6b6b;
     color: white;
     border: none;
     padding: 8px 16px;
     border-radius: 20px;
     font-weight: 600;
+    text-decoration: none;
     cursor: pointer;
     transition: background 0.2s;
 }
@@ -32,46 +37,41 @@
     background-color: #fa5252;
 }
 
-.habit-date-group {
-    margin-bottom: 25px;
-}
-
-.habit-date-heading {
-    font-size: 1.1rem;
-    color: #4b5563;
-    margin-bottom: 12px;
-}
-
-
 .habit-card {
     background: #ffffff;
+    max-width: 450px;
     border-radius: 16px;
     padding: 16px 20px;
     margin-bottom: 12px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     border: 1px solid #f3f4f6;
-    border-left: 6px solid #ff6b6b; 
+    border-left: 6px solid #ff6b6b;
     overflow: hidden;
     transition: all 0.2s ease;
 }
 
 .habit-card.completed {
-    background-color: #f9fafb;
-    opacity: 0.8;
+    background-color: #e0e0e0;
+    border-color: #cccccc;
+    border-left-color: #999999;
+    opacity: 0.7;
 }
 
 .habit-card-left {
     display: flex;
-    align-items: space-between;
+    align-items: center;
     gap: 15px;
+    min-width: 0;
 }
 
 .habit-checkbox {
     appearance: none;
     -webkit-appearance: none;
+    flex-shrink: 0;
     width: 20px;
     height: 20px;
     border: 2px solid #d1d5db;
@@ -80,7 +80,7 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: center;
     transition: all 0.2s ease;
     background-color: #ffffff;
 }
@@ -89,9 +89,13 @@
     border-color: #10b981;
 }
 
+.habit-checkbox:focus-visible {
+    outline: 2px solid #10b981;
+    outline-offset: 2px;
+}
 
 .habit-checkbox:checked {
-    background-color: #10b981; 
+    background-color: #10b981;
     border-color: #10b981;
 }
 
@@ -119,29 +123,17 @@
     margin: 2px 0 0 0;
 }
 
-
-
-/* Taggen till höger (t.ex. "Arbete") */
-/* .habit-badge {
+/* Small tag on the right, e.g. "20 min" */
+.habit-duration {
+    flex-shrink: 0;
     background-color: #f3f4f6;
     color: #4b5563;
     font-size: 0.75rem;
     font-weight: 600;
     padding: 4px 12px;
     border-radius: 12px;
-} */
-
-.habit-empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 12px;
-    padding: 24px 16px;
 }
 
-.habit-empty-message {
-    font-size: 0.95rem;
+.no-habits {
     color: var(--text-muted);
-    margin: 0;
 }
