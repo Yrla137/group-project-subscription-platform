@@ -107,6 +107,7 @@ const Calendar = () => {
             error={tasks.error}
             onUpdateTask={tasks.updateTask}
             onTaskCreated={handleTaskCreated}
+            horizon={horizon}
           />
           <Habits
             selectedDate={selectedDate}

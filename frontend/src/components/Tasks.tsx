@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import type { useTasks } from "../hooks/useTasks";
+import type { CalendarHorizon } from "./CalendarDatepicker";
 
 import CreateTaskForm from "./CreateTaskForm";
 import "./Tasks.css";
@@ -14,6 +15,7 @@ interface TaskViewProps {
     error: string | null;
     onUpdateTask: TasksHook["updateTask"];
     onTaskCreated: () => void;
+    horizon?: CalendarHorizon | null;
 }
 
 export default function Tasks({ selectedDate, tasks, error, onUpdateTask, onTaskCreated }: TaskViewProps) {
