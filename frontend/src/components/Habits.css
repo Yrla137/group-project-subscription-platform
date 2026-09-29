@@ -31,6 +31,7 @@
     text-decoration: none;
     cursor: pointer;
     transition: background 0.2s;
+    font-size: 0.8rem;
 }
 
 .habit-add-btn:hover {
