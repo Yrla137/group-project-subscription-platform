@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Task, CreateTask, UpdateTask } from "../types/TasksTypes"
 
-const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000/api";
 
 interface UseTasksResult {
     tasks: Task[];
@@ -18,21 +18,31 @@ export function useTasks(): UseTasksResult {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
+    const getAuthHeaders = () => {
+        const token = localStorage.getItem("token");
+        return {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        };
+    };
+
     const fetchTasks = useCallback(async () => {
         setIsLoading(true);
         setError(null);
 
         try {
-            const res = await fetch(`${API_URL}/tasks`);
+            const res = await fetch(`${API_URL}/tasks`, {
+                headers: getAuthHeaders(), 
+            });
 
             if (!res.ok) {
-                throw new Error("Kunde inte hämta uppgifter");
+                throw new Error("Could not get tasks");
             }
 
             const json = await res.json();
             setTasks(json.data);
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Ett okänt fel inträffade");
+            setError(err instanceof Error ? err.message : "Unknown error");
         } finally {
             setIsLoading(false);
         }
@@ -46,20 +56,21 @@ export function useTasks(): UseTasksResult {
         try {
             const res = await fetch(`${API_URL}/tasks`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: getAuthHeaders(),
                 body: JSON.stringify(data),
             });
 
+            const json = await res.json();
+
             if (!res.ok) {
-                throw new Error("Kunde inte skapa uppgift");
+                throw new Error(json.message || "Could not create task");
+  
             }
 
-            const json = await res.json();
             setTasks((prev) => [...prev, json.data]);
             return json.data;
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Ett okänt fel inträffade");
-            return null;
+           throw (err)
         }
     }, []);
 
@@ -67,7 +78,7 @@ export function useTasks(): UseTasksResult {
         try {
             const res = await fetch(`${API_URL}/tasks/${id}`, {
                 method: "PATCH",
-                headers: { "Content-Type": "application/json" },
+                headers: getAuthHeaders(),
                 body: JSON.stringify(data),
             });
 
@@ -93,16 +104,17 @@ export function useTasks(): UseTasksResult {
         try {
             const res = await fetch(`${API_URL}/tasks/${id}`, {
                 method: "DELETE",
+                headers: getAuthHeaders(),
             });
 
             if (!res.ok) {
-                throw new Error("Kunde inte radera uppgift");
+                throw new Error("Could not delete task");
             }
 
             setTasks((prev) => prev.filter((task) => task.id !== id));
             return true;
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Ett okänt fel inträffade");
+            setError(err instanceof Error ? err.message : "Unknown error");
             return false;
         }
     }, []);

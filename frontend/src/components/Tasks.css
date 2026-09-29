@@ -256,3 +256,14 @@
 .task-save-btn:hover {
     background-color: #ec5151;
 }
+
+.error-banner {
+    background-color: #ffe3e3; /* Mjuk ljusröd bakgrund */
+    color: #c92a2a;           /* Mörkröd text */
+    padding: 12px 16px;       /* Bra med utrymme runt texten */
+    border-radius: 8px;       /* Rundade hörn */
+    font-size: 14px;
+    margin-bottom: 16px;      /* Skapar ett snyggt avstånd nedåt mot fälten */
+    border: 1px solid #ffc9c9; /* En subtil kantlinje */
+    text-align: center;
+}

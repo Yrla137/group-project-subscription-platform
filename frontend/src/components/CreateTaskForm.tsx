@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useTasks } from "../hooks/useTasks";
 import { useAuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
+import { Lock } from "lucide-react";
 
 export default function CreateTaskForm({ onClose }: { onClose: () => void }) {
     const { createTask } = useTasks();
@@ -8,8 +10,9 @@ export default function CreateTaskForm({ onClose }: { onClose: () => void }) {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [date, setDate] = useState("");
+    const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
     const [color, setColor] = useState("coral");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const colors = [
         { name: "coral", hex: "#ff6b6b" },
@@ -20,23 +23,32 @@ export default function CreateTaskForm({ onClose }: { onClose: () => void }) {
 
     const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setErrorMessage("");
         
     const userId = user ? (user.user_id) : null;
 
         if (!userId) {
-        console.error("Ingen inloggad användare hittades!");
+        setErrorMessage("No logged in user found!");
         return;
         }
 
-        await createTask({
-            user_id: userId,
-            task_title: title,
-            task_description: description,
-            task_date: date,
-            color: color,
+        try {
+            const result = await createTask({
+                user_id: userId,
+                task_title: title,
+                task_description: description,
+                task_date: date,
+                color: color,
         });
 
-        onClose(); 
+            if (result) {
+                onClose();
+            }
+        } catch (err: any) {
+  
+            const msg = err instanceof Error ? err.message : "Unknown error";
+            setErrorMessage(msg);
+        }
     };
 
     return (
@@ -47,6 +59,8 @@ export default function CreateTaskForm({ onClose }: { onClose: () => void }) {
                     &times;
                 </button>
             </div>
+
+            {errorMessage && <div className="error-banner"><Lock size={15} strokeWidth={3} /><br />{errorMessage}. Click <Link to="/tiers">here</Link> to upgrade</div>}
 
             <input 
                 type="text" 
