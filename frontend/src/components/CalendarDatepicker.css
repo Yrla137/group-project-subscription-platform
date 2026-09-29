@@ -153,12 +153,12 @@
 }
 
 .week-day-dot--seminar {
-    background-color: #38A17F;
+    background-color: #00A391;
 }
 
 /* Only seminars above the user's tier: hollow green ring as a teaser */
 .week-day-dot--seminar-locked {
-    border-color: #38A17F;
+    border-color: #00A391;
     background-color: #ffffff;
 }
 
