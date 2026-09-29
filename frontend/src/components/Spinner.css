@@ -1,0 +1,37 @@
+.calendar-loading {
+    display: flex;
+    justify-content: center;
+    padding: 48px 0;
+}
+
+.calendar-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--bg-color);
+    border-top-color: #FF6B57;
+    border-radius: 50%;
+    animation: calendar-spin 0.8s linear infinite;
+}
+
+@keyframes calendar-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Respect users who have turned off animations in their OS */
+@media (prefers-reduced-motion: reduce) {
+    .calendar-spinner {
+        animation-duration: 2.4s;
+    }
+}
+
+/* Hidden visually but still read by screen readers */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}

@@ -1,35 +1,29 @@
-import { format } from "date-fns";
-import { useCalendarEvents } from "../hooks/useCalendarEvents";
 import type { SeminarCalendarEvent } from "../types/CalendarTypes";
 import SeminarCard from "./SeminarCard";
-import "./Seminars.css";
 
 type SeminarsProps = {
-    selectedDate: Date;
+    // Already filtered to the selected day by Calendar
+    seminars: SeminarCalendarEvent[];
+    error: string | null;
 };
 
-const Seminars = ({ selectedDate }: SeminarsProps) => {
-    const isoDate = format(selectedDate, "yyyy-MM-dd");
+const Seminars = ({ seminars, error }: SeminarsProps) => {
+    if (error) {
+        return (
+            <div>
+                <h2>Seminars</h2>
+                <p className="status-text status-text--error">Couldn't load seminars. Try reloading the page.</p>
+            </div>
+        );
+    }
 
-    // Same endpoint as the calendar, so locking and tier info come from the backend
-    const { events, isLoading, error } = useCalendarEvents(isoDate, isoDate);
-
-    // Filter on date too, so the previous day's seminars don't flash while loading
-    const seminars = events.filter(
-        (event): event is SeminarCalendarEvent => event.type === "seminar" && event.date === isoDate
-    );
-
-    if (isLoading && seminars.length === 0) return <p>Loading seminars…</p>;
-    if (error) return <p>Something went wrong: {error}</p>;
     if (seminars.length === 0) return null;
 
     return (
-        <div className="seminar-container">
-            
+        <div>
             <h2>Seminars</h2>
 
             <div className="seminar-list">
-
                 {seminars.map((seminar) => (
                     <SeminarCard
                         key={seminar.id}
