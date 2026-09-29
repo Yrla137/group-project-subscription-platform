@@ -3,8 +3,14 @@ import { useTasks } from "../hooks/useTasks";
 import { useAuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import { Lock } from "lucide-react";
+import type { CalendarHorizon } from "./CalendarDatepicker";
 
-export default function CreateTaskForm({ onClose }: { onClose: () => void }) {
+interface CreateTaskFormProps {
+    onClose: () => void;
+    horizon?: CalendarHorizon | null; // <--- Ta emot horizon här
+}
+
+export default function CreateTaskForm({ onClose, horizon }: CreateTaskFormProps) {
     const { createTask } = useTasks();
     const { user } = useAuthContext();
 
@@ -51,6 +57,12 @@ export default function CreateTaskForm({ onClose }: { onClose: () => void }) {
         }
     };
 
+    const todayString = new Date().toISOString().split("T")[0];
+
+    const maxDateString = horizon 
+        ? horizon.end.toISOString().split("T")[0] 
+        : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
+
     return (
         <form onSubmit={handleSubmit} className="task-form">
             <div className="task-form-header">
@@ -77,6 +89,8 @@ export default function CreateTaskForm({ onClose }: { onClose: () => void }) {
             <input 
                 type="date" 
                 value={date} 
+                min={todayString}
+                max={maxDateString}
                 onChange={(e) => setDate(e.target.value)} 
                 required 
             />
