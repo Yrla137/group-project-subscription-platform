@@ -8,22 +8,43 @@ export interface CalendarHorizon {
     end: Date;
 }
 
+// Which kinds of events a day has; one dot is drawn per kind
+export interface DayEventTypes {
+    task: boolean;
+    habit: boolean;
+    // A seminar the user has access to
+    seminar: boolean;
+    // A seminar above the user's tier (shown as a hollow teaser dot)
+    seminarLocked: boolean;
+}
+
 interface CalendarProps {
     selectedDate: Date;
     onSelectDate: (date: Date) => void;
-    // Dates with events the user has access to
-    markedDates?: Date[];
-    // Dates that only have locked seminars (teasers)
-    lockedDates?: Date[];
+    // Event types per day, keyed by "yyyy-MM-dd"
+    eventsByDate?: Record<string, DayEventTypes>;
     // The range where the user can see their own tasks and habits. null while loading.
     horizon?: CalendarHorizon | null;
+}
+
+// Screen reader text for a day, e.g. "Monday 28 September: tasks, habits"
+function describeDay(day: Date, types: DayEventTypes | undefined, locked: boolean): string {
+    const parts: string[] = [];
+    if (types?.task) parts.push("tasks");
+    if (types?.habit) parts.push("habits");
+    if (types?.seminar) parts.push("seminar");
+    else if (types?.seminarLocked) parts.push("seminar for a higher plan");
+
+    let label = format(day, "EEEE d MMMM", { locale: enUS });
+    if (parts.length > 0) label += `: ${parts.join(", ")}`;
+    if (locked) label += ", locked";
+    return label;
 }
 
 export default function CalendarDatepicker({
     selectedDate,
     onSelectDate,
-    markedDates = [],
-    lockedDates = [],
+    eventsByDate = {},
     horizon = null,
 }: CalendarProps) {
     const [showUpgradeNotice, setShowUpgradeNotice] = useState(false);
@@ -41,14 +62,6 @@ export default function CalendarDatepicker({
     useEffect(() => {
         setShowUpgradeNotice(false);
     }, [selectedDate]);
-
-    function hasEntry(date: Date): boolean {
-        return markedDates.some((d) => isSameDay(d, date));
-    }
-
-    function hasLockedEntry(date: Date): boolean {
-        return lockedDates.some((d) => isSameDay(d, date));
-    }
 
     function isOutsideHorizon(date: Date): boolean {
         if (!horizon) return false;
@@ -120,10 +133,7 @@ export default function CalendarDatepicker({
                     // Locked days can't be selected, but clicking them shows the upgrade notice
                     const locked = isOutsideHorizon(day);
                     const isActive = isSameDay(day, selectedDate);
-
-                    let dotClass = "week-day-nodot";
-                    if (hasEntry(day)) dotClass = "week-day-dot";
-                    else if (hasLockedEntry(day)) dotClass = "week-day-dot week-day-dot--locked";
+                    const types = eventsByDate[format(day, "yyyy-MM-dd")];
 
                     return (
                         <button
@@ -132,10 +142,24 @@ export default function CalendarDatepicker({
                             className={`week-day ${isActive ? "week-day--active" : ""} ${locked ? "week-day--disabled" : ""}`}
                             onClick={() => handleDayClick(day)}
                             aria-disabled={locked}
+                            aria-pressed={isActive}
+                            aria-label={describeDay(day, types, locked)}
                         >
                             <span className="week-day-label">{format(day, "EEE", { locale: enUS })}</span>
                             <span className="week-day-number">{format(day, "d")}</span>
-                            <span className={dotClass} aria-hidden="true" />
+
+                            {/* One dot per kind of event; the row keeps its height when empty */}
+                            <span className="week-day-dots" aria-hidden="true">
+                                {types?.task && <span className="week-day-dot week-day-dot--task" />}
+                                {types?.habit && <span className="week-day-dot week-day-dot--habit" />}
+                                {types?.seminar ? (
+                                    <span className="week-day-dot week-day-dot--seminar" />
+                                ) : (
+                                    types?.seminarLocked && (
+                                        <span className="week-day-dot week-day-dot--seminar-locked" />
+                                    )
+                                )}
+                            </span>
                         </button>
                     );
                 })}

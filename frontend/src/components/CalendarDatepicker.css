@@ -119,23 +119,45 @@
     color: var(--text-main);
 }
 
-/* Dot indicator */
-.week-day-dot,
-.week-day-nodot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
+/* Row of dots under the date; keeps its height on days without events */
+.week-day-dots {
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+    min-height: 7px;
 }
 
 .week-day-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    border: 1.5px solid transparent;
+}
+
+.week-day-dot--task {
+    background-color: #ff6b6b;
+}
+
+.week-day-dot--habit {
+    background-color: #f59e0b;
+}
+
+.week-day-dot--seminar {
     background-color: #38A17F;
 }
 
-/* Hollow ring for days that only have locked seminars (teasers) */
-.week-day-dot--locked {
-    background-color: transparent;
-    border: 1.5px solid #38A17F;
-    box-sizing: border-box;
+/* Only seminars above the user's tier: hollow green ring as a teaser */
+.week-day-dot--seminar-locked {
+    border-color: #38A17F;
+    background-color: #ffffff;
+}
+
+/* On the selected day, a white ring keeps the colors visible against the coral background */
+.week-day--active .week-day-dot {
+    width: 5px;
+    height: 5px;
+    outline: 3px solid #ffffff;
 }
 
 /* Active state */
@@ -163,9 +185,6 @@
     height: 7px;
 }
 
-.week-day--active .week-day-dot {
-    background-color: #ffffff;
-}
 
 .week-day--active .week-day-dot--locked {
     background-color: transparent;
