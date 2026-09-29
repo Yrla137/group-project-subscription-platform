@@ -92,7 +92,7 @@ export default function DefaultHabits() {
 
     async function handleDelete(habit: Habit) {
         const confirmed = window.confirm(
-            `Remove "${habit.habit_title}" from the default habits? Users won't be able to pick it anymore.`
+            `Remove "${habit.habit_title}" from the default habits? This habit will be deleted from every user's personal calendar.`
         );
         if (!confirmed) return;
 
