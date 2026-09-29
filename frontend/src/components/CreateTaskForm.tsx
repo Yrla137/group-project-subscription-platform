@@ -7,7 +7,7 @@ import type { CalendarHorizon } from "./CalendarDatepicker";
 
 interface CreateTaskFormProps {
     onClose: () => void;
-    horizon?: CalendarHorizon | null; // <--- Ta emot horizon här
+    horizon?: CalendarHorizon | null;
 }
 
 export default function CreateTaskForm({ onClose, horizon }: CreateTaskFormProps) {
