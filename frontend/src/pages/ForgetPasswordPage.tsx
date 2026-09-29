@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import "./ForgetPasswordPage.css";
+
 const ForgetPasswordPage = () => {
 
     const [message, setMessage] = useState<string | null>(null);
@@ -17,34 +19,52 @@ const ForgetPasswordPage = () => {
     };
 
   return (
+      <div className="forget-password-page">
+          <div className="forget-password-container">
+              <h2 className="forget-password-title">
+                  Forget Password
+              </h2>
 
-    <div>
-        <h2>Forget Password</h2>
-        <p>If you have forgotten your password, please enter your email address below and we will send you a link to reset your password.</p>
+              <p className="forget-password-text">
+                  If you have forgotten your password, please enter your email address below and we will send you a link to reset your password.
+              </p>
 
-        <form onSubmit={handleSubmit} className="forget-password-form">
-          <div className="forget-password-field">
-            <label className="forget-password-label" htmlFor="email">Email:</label>
-            <input
-              id="email"
-              className="forget-password-input"
-                type="email"
-                placeholder="Email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
+              <form onSubmit={handleSubmit} className="forget-password-form">
+                  <div className="forget-password-field">
+                      <label
+                          className="forget-password-label"
+                          htmlFor="email"
+                      >
+                          Email:
+                      </label>
+
+                      <input
+                          id="email"
+                          className="forget-password-input"
+                          type="email"
+                          placeholder="Email"
+                          required
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                      />
+                  </div>
+
+                  <button
+                      type="submit"
+                      className="forget-password-button"
+                  >
+                      Send Reset Link
+                  </button>
+              </form>
+
+              {message && (
+                  <p className="forget-password-message">
+                      {message}
+                  </p>
+              )}
           </div>
-            <button
-                type="submit"
-                className="forget-password-button">
-                Send Reset Link
-            </button>
-        </form>
-
-        {message && <p className="forget-password-message">{message}</p>}
-    </div>
+      </div>
   )
-}
+};
 
 export default ForgetPasswordPage
