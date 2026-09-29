@@ -6,6 +6,7 @@ import { useTiers } from '../hooks/useTiers';
 import { useAuthContext } from '../context/AuthContext';
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Spinner from "../components/Spinner";
 
 const CheckoutPage = () => {
 
@@ -69,16 +70,13 @@ const CheckoutPage = () => {
   return (
 
     <div>
-
       <h1>Checkout Page</h1>
 
       {tierError && <p>Error: {tierError}</p>}
       {paymentError && <p>Error: {paymentError}</p>}
 
-      {isPaymentLoading && <p>Loading payment information...</p>}
-
-        {isTierLoading ? (
-          <p>Loading tier details...</p>
+      {isTierLoading ? (
+        <Spinner />
         ) : (
           selectedTierDetails && (
             <div className="tier-details-container">
@@ -109,10 +107,12 @@ const CheckoutPage = () => {
               <input type="text" name="cvv" placeholder="123" required />
             </label>
 
-            <button className="submit-payment-form-button" type="submit" disabled={isPaymentLoading || selectedTier === null}>
-              {isPaymentLoading ? 'Processing payment details...' : 'Pay Now'}
+            <button
+              className="submit-payment-form-button"
+              type="submit"
+              disabled={isPaymentLoading || selectedTier === null}>
+              {isPaymentLoading ? <Spinner /> : 'Pay Now'}
             </button>
-
           </form>
         </div>
 

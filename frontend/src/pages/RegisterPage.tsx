@@ -4,6 +4,7 @@ import type { RegisterUser } from "../types/AuthTypes";
 import { useNavigate, Link } from "react-router-dom";
 import logo_pic from "../assets/logo_pic.png";
 import "./RegisterPage.css";
+import Spinner from "../components/Spinner";
 
 const RegisterPage = () => {
 
@@ -38,7 +39,6 @@ const RegisterPage = () => {
 
     }
   };
-
 
    return (
     <div className="register-page">
@@ -131,7 +131,7 @@ const RegisterPage = () => {
             className="register-button"
             type="submit"
             disabled={isLoading}>
-            {isLoading ? "Creating account..." : "Create account"}
+            {isLoading ? <Spinner /> : "Create account"}
           </button>
 
         </form>

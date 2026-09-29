@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUsers } from "../../hooks/useUsers";
 import { usePayments } from "../../hooks/usePayments";
 import { Receipt, Trash2 } from "lucide-react";
+import Spinner from "../../components/Spinner";
 
 const UserListPage = () => {
 
@@ -14,7 +15,7 @@ const UserListPage = () => {
   const [userToDelete, setUserToDelete] = useState<number | null>(null);
 
   const { error: userError, isLoading: isUserListLoading, fetchUsers, deleteUser } = useUsers();
-  const { fetchPaymentByUserId } = usePayments();
+  const { fetchPaymentByUserId, isLoading: isPaymentsLoading } = usePayments();
 
   const { loading: authLoading } = useAuthContext();
 
@@ -90,8 +91,8 @@ const handleConfirmDelete = async () => {
             {userError && <p>Error: {userError}</p>}
 
             {isUserListLoading ? (
-                <p>Loading users...</p>
-            ) : (
+                <Spinner />
+              ) : (
                 <table>
                     <thead>
                         <tr>
@@ -115,8 +116,11 @@ const handleConfirmDelete = async () => {
                                 <td>
                                 {user.role !== "administrator" && (
                                   <div className="action-buttons">
-                                    <button aria-label="View Payments" onClick={() => handleViewPayments(user)}>
-                                      <Receipt />
+                                    <button
+                                        aria-label="View Payments"
+                                        onClick={() => handleViewPayments(user)}
+                                        disabled={isPaymentsLoading}>
+                                        {isPaymentsLoading ? <Spinner /> : <Receipt />}
                                     </button>
 
                                     <button aria-label="Delete User" onClick={() => handleDeleteUser(user.id)}>
@@ -135,14 +139,18 @@ const handleConfirmDelete = async () => {
               <div className="modal">
                 <div className="modal-content">
                     <p>Are you sure you want to delete this user? This action cannot be undone.</p>
-                        <button onClick={handleConfirmDelete}>Yes</button>
-                          <button
-                            onClick={() => {
+                        <button
+                            onClick={handleConfirmDelete}
+                            disabled={isUserListLoading}>
+                            {isUserListLoading ? <Spinner /> : "Yes"}
+                        </button>
+                        <button
+                          onClick={() => {
                             setShowDeleteModal(false);
-                            setUserToDelete(null);
-                            }}>
-                            Cancel
-                          </button>
+                            setUserToDelete(null);}}
+                          disabled={isUserListLoading}>
+                          Cancel
+                      </button>
                   </div>
               </div>
             )}

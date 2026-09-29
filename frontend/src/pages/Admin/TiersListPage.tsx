@@ -5,8 +5,9 @@ import { Settings } from "lucide-react";
 import { useAuthContext } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import AddNewTierForm from "../../components/Admin/AddNewTierForm";
+import Spinner from "../../components/Spinner";
 
-const TiersList = () => {
+const TiersListPage = () => {
 
     const [selectedTier, setSelectedTier] = useState<number | null>(null);
 
@@ -185,7 +186,7 @@ const TiersList = () => {
             {tiersError && <p>Error: {tiersError}</p>}
 
             {isTiersLoading ? (
-                <p>Loading tiers...</p>
+                <Spinner />
             ) : (
                 <div>
                     {tiers.map((tier) => (
@@ -262,8 +263,15 @@ const TiersList = () => {
                                         placeholder="Max Future Days"
                                         required
                                     />
-                                    <button type="submit">Save</button>
-                                    <button type="button" onClick={handleCancelEdit}>Cancel</button>
+                                    <button type="submit" disabled={isTiersLoading}>
+                                        {isTiersLoading ? <Spinner /> : "Save"}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={handleCancelEdit}
+                                        disabled={isTiersLoading}>
+                                        Cancel
+                                    </button>
                                 </form>
                             )}
                         </div>
@@ -277,11 +285,11 @@ const TiersList = () => {
 
             <AddNewTierForm
                 showNewTierForm={showNewTierForm}
+                isLoading={isTiersLoading}
                 handleAddNewTier={handleAddNewTier}
                 handleAddNewTierChange={handleAddNewTierChange}
                 addNewTier={addNewTier}
-                handleCancelAddNewTier={handleCancelAddNewTier}
-            />
+                handleCancelAddNewTier={handleCancelAddNewTier}/>
 
             <div className="back-to-admin-link">
               <Link to="/admin">Back to Admin Profile</Link>
@@ -290,4 +298,4 @@ const TiersList = () => {
     );
 }
 
-export default TiersList;
+export default TiersListPage;

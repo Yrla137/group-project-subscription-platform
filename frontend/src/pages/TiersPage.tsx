@@ -5,6 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuthContext } from '../context/AuthContext';
 import type { UserWithTier } from "../types/UserType";
 import "./TiersPage.css";
+import Spinner from "../components/Spinner";
 
 const TiersPage = () => {
 
@@ -62,8 +63,8 @@ const TiersPage = () => {
 
       <div className="tiers-container">
         {isUserDataLoading || isTierLoading ? (
-          <div className="tiers-loading">Loading membership options...</div>
-        ) : (
+            <Spinner />
+          ) : (
           tiers.map((tier) => (
             <div 
               key={tier.id} 

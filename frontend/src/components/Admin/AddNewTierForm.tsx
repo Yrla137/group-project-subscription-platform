@@ -1,6 +1,8 @@
 import type { NewTierFormData } from "../../types/TierType";
+import Spinner from "../Spinner";
 interface AddNewTierFormProps {
     showNewTierForm: boolean;
+    isLoading: boolean;
     handleAddNewTier: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
     handleAddNewTierChange: (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -11,6 +13,7 @@ interface AddNewTierFormProps {
 
 const AddNewTierForm = ({
     showNewTierForm,
+    isLoading,
     handleAddNewTier,
     handleAddNewTierChange,
     addNewTier,
@@ -98,8 +101,13 @@ const AddNewTierForm = ({
                         </label>
 
                         <div className="add-tier-form-actions">
-                            <button type="submit">Save</button>
-                            <button type="button" onClick={handleCancelAddNewTier}>
+                            <button type="submit" disabled={isLoading}>
+                                {isLoading ? <Spinner /> : "Save"}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleCancelAddNewTier}
+                                disabled={isLoading}>
                                 Cancel
                             </button>
                         </div>

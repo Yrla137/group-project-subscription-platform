@@ -4,6 +4,7 @@ import { useUsers } from "../../hooks/useUsers";
 import { usePayments } from "../../hooks/usePayments";
 import type { PaymentWithTier } from "../../types/PaymentType";
 import type { UserWithTier } from "../../types/UserType";
+import Spinner from "../../components/Spinner";
 
 const UserPaymentsPage = () => {
 
@@ -75,7 +76,7 @@ const UserPaymentsPage = () => {
         <div>
             <h1>User Payments</h1>
 
-            {isLoading && <p>Loading payments...</p>}
+            {isLoading && <Spinner />}
 
             {error && <p>{error}</p>}
 
