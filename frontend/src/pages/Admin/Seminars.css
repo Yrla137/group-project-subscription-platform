@@ -1,156 +1,255 @@
-/* --- FORMULÄR --- */
-.seminar-form {
+/* =========================================================
+   Admin seminars page: form on the left, all seminars on the right
+   Own copy of the habits page styles. Everything is prefixed with
+   admin-seminars so it can't clash with HabitsPage.css or with the
+   user-facing seminar cards (.seminar-card) elsewhere in the app.
+   ========================================================= */
+
+/* ---- Page layout ---- */
+
+.admin-seminars-wrapper {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
+    gap: 50px;
     padding: 20px;
-    margin-top: 20px;
-    margin-bottom: 24px;
-    max-width: 450px;
 }
 
-.seminar-form .form-field {
+.admin-seminars-form-column,
+.admin-seminars-list-column {
+    flex: 1;
+    min-width: 0;
+}
+
+.admin-seminars-wrapper h2 {
+    margin-bottom: 30px;
+}
+
+/* Stack the two columns on narrower screens */
+@media (max-width: 1000px) {
+    .admin-seminars-wrapper {
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+
+
+/* ---- Form layout ---- */
+
+.admin-seminar-form {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 1.1rem;
+    width: 100%;
 }
 
-.seminar-form .form-field label {
-    font-size: 1rem;
-    color: var(--text);
+.admin-seminar-form .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
 }
 
-.seminar-form .form-field input,
-.seminar-form .form-field textarea,
-.seminar-form .form-field select {
-    font-family: inherit;
+.admin-seminar-form label {
     font-size: 0.9rem;
-    color: var(--text-main);
-    background-color: var(--bg-color);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius);
-    padding: 10px 12px;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    font-weight: 500;
+    color: #4b5563;
 }
 
-.form-field input:focus,
-.form-field textarea:focus,
-.form-field select:focus {
+
+/* ---- Inputs ---- */
+
+.admin-seminar-form input[type="text"],
+.admin-seminar-form input[type="datetime-local"],
+.admin-seminar-form select,
+.admin-seminar-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease;
+}
+
+.admin-seminar-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.admin-seminar-form input:focus,
+.admin-seminar-form select:focus,
+.admin-seminar-form textarea:focus {
     outline: none;
     border-color: var(--primary);
 }
 
-.form-field textarea {
-    resize: vertical;
-    min-height: 70px;
-}
 
-.form-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 4px;
-}
+/* ---- Form buttons ---- */
 
-.manage-seminars .seminar-list{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-
-}
-
-.manage-seminars .seminar-card {
-    flex-direction: column;
-
-}
-/* --- KNAPPAR --- */
-.btn {
+.admin-seminar-form .btn {
+    padding: 0.75rem 1.25rem;
+    border: 1px solid transparent;
+    border-radius: 20px;
     font-family: inherit;
-    font-size: 0.85rem;
+    font-size: 1rem;
     font-weight: 600;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 18px;
     cursor: pointer;
-    transition: background-color 0.15s ease, opacity 0.15s ease, transform 0.1s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
-.btn:active {
-    transform: scale(0.97);
+.admin-seminar-form .btn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
 }
 
-.btn:disabled {
+.admin-seminar-form .btn:disabled {
+    opacity: 0.7;
     cursor: not-allowed;
-    opacity: 0.6;
-    transform: none;
 }
 
-.btn-secondary {
-    background-color: var(--bg-color);
-    color: var(--text-main);
-    border: 1px solid var(--border-color);
+.admin-seminar-form .btn-primary {
+    background-color: var(--primary);
+    color: #ffffff;
 }
 
-.btn-secondary:hover:not(:disabled) {
-    background-color: var(--border-color);
+.admin-seminar-form .btn-primary:hover:not(:disabled) {
+    background-color: var(--primary-hover);
 }
 
-.btn-danger {
+.admin-seminar-form .btn-secondary {
+    border-color: var(--primary);
     background-color: transparent;
-    color: #dc2626;
-    border: 1px solid #fca5a5;
-    padding: 6px 12px;
-    font-size: 0.8rem;
+    color: var(--primary);
 }
 
-.btn-danger:hover:not(:disabled) {
-    background-color: #fef2f2;
-}
-
-.btn-edit {
-    background-color: transparent;
-    color: var(--text-muted);
-    border: 1px solid var(--border-color);
-    padding: 6px 12px;
-    font-size: 0.8rem;
-}
-
-.btn-edit:hover:not(:disabled) {
+.admin-seminar-form .btn-secondary:hover:not(:disabled) {
     background-color: var(--bg-color);
-    color: var(--text-main);
 }
 
-/* --- STATUSTEXTER --- */
-.status-text {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: 15px;
-}
-
-.status-text--error {
-    color: #dc2626;
-}
-
-/* --- SEMINARIELISTA --- */
-
-
-.seminar-card {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-}
-
-.seminar-card-title {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--text-main);
-}
-
-.seminar-card-date {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-}
-
-.seminar-card-actions {
+.admin-seminar-form .form-actions {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
+}
+
+/* The submit button fills the width */
+.admin-seminar-form .form-actions .btn-primary {
+    flex: 1;
+}
+
+
+/* ---- Messages ---- */
+
+.admin-seminars-wrapper .status-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.admin-seminars-wrapper .status-text--error {
+    margin: 0;
+    padding: 8px 12px;
+    border-left: 4px solid #dc2626;
+    border-radius: 6px;
+    background-color: #fef2f2;
+    font-size: 0.85rem;
+    color: #dc2626;
+}
+
+
+/* ---- Seminar list (right column) ---- */
+
+.admin-seminar-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Title | date | actions, so every card lines up the same way */
+.admin-seminar-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr 80px;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding: 16px 20px;
+    border: 1px solid #f3f4f6;
+    border-left: 6px solid #ff6b6b;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.admin-seminar-card--editing {
+    border-left-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
+.admin-seminar-card-text {
+    min-width: 0;
+}
+
+.admin-seminar-card-title {
+    font-weight: 600;
+    color: #1f2937;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.admin-seminar-card-tier {
+    margin-top: 2px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.admin-seminar-card-date {
+    font-size: 0.9rem;
+    color: #4b5563;
+}
+
+.admin-seminar-card-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Icon-only buttons on the cards */
+.admin-seminar-card .btn-edit,
+.admin-seminar-card .btn-danger {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.admin-seminar-card .btn-edit {
+    color: #4b5563;
+}
+
+.admin-seminar-card .btn-edit:hover:not(:disabled) {
+    color: var(--text-muted);
+}
+
+.admin-seminar-card .btn-danger {
+    color: #dc2626;
+}
+
+.admin-seminar-card .btn-danger:hover:not(:disabled) {
+    color: var(--primary-hover);
+}
+
+.admin-seminar-card .btn-edit:disabled,
+.admin-seminar-card .btn-danger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.admin-seminar-card .btn-edit:focus-visible,
+.admin-seminar-card .btn-danger:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 4px;
 }

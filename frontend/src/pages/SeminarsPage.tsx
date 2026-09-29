@@ -3,6 +3,7 @@ import { isValid, parseISO, startOfDay } from "date-fns";
 import { useSeminars } from "../hooks/useSeminars";
 import SeminarCard from "../components/SeminarCard";
 import "./SeminarsPage.css";
+import Spinner from "../components/Spinner";
 
 const SeminarsPage = () => {
   // The backend decides which seminars are locked for this user (is_locked)
@@ -21,7 +22,7 @@ const SeminarsPage = () => {
     <div className="seminars-page">
       <h1>Seminars</h1>
 
-      {isLoading && upcoming.length === 0 && <p className="status-text">Loading seminars…</p>}
+      {isLoading && upcoming.length === 0 && <Spinner />}
       {error && <p className="status-text status-text--error">Couldn't load seminars: {error}</p>}
 
       {!isLoading && !error && upcoming.length === 0 && (
