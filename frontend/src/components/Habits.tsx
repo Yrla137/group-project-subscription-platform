@@ -1,9 +1,15 @@
-import { useUserHabits } from "../hooks/useUserHabits";
 import { Link } from "react-router-dom";
+import type { useUserHabits } from "../hooks/useUserHabits";
 import "./Habits.css";
+
+// Types taken straight from the hook, so they always match what Calendar passes down
+type UserHabitsHook = ReturnType<typeof useUserHabits>;
 
 interface HabitsViewProps {
     selectedDate: Date;
+    habits: UserHabitsHook["todaysHabits"];
+    error: string | null;
+    onToggleCompletion: UserHabitsHook["toggleCompletion"];
 }
 
 const EMPTY_STATE_MESSAGES: Record<number, string> = {
@@ -16,19 +22,24 @@ const EMPTY_STATE_MESSAGES: Record<number, string> = {
     6: "Saturdays are perfect for a habit that sticks.",
 };
 
-export default function Habits({ selectedDate }: HabitsViewProps) {
-    const { todaysHabits, isTodaysLoading, error, toggleCompletion } = useUserHabits(selectedDate);
+export default function Habits({ selectedDate, habits, error, onToggleCompletion }: HabitsViewProps) {
+    if (error) {
+        return (
+            <div className="habit-container">
+                <p className="habit-error">Couldn't load your habits. Try reloading the page.</p>
+            </div>
+        );
+    }
 
-    if (isTodaysLoading) return <p className="habit-loading">Loading Habits...</p>;
-    if (error) return <p className="habit-error">Error: {error}</p>;
-
-    if (todaysHabits.length === 0) {
+    if (habits.length === 0) {
         const message = EMPTY_STATE_MESSAGES[selectedDate.getDay()];
 
         return (
             <div className="habit-container habit-empty-state">
                 <p className="habit-empty-message">{message}</p>
-                <Link to="/habits"><button className="habit-add-btn">Manage habits</button></Link>
+                <Link to="/habits" className="habit-add-btn">
+                    Manage habits
+                </Link>
             </div>
         );
     }
@@ -36,19 +47,19 @@ export default function Habits({ selectedDate }: HabitsViewProps) {
     return (
         <div className="habit-container">
             <div className="habit-header-section">
-                <h2 className="habit-main-title">Todays Habits</h2>
-                <Link to="/habits"><button className="habit-add-btn">+ New Habit</button></Link>
+                <h2 className="habit-main-title">Today's Habits</h2>
+                <Link to="/habits" className="habit-add-btn">
+                    + New Habit
+                </Link>
             </div>
-            {todaysHabits.map((habit) => (
+            {habits.map((habit) => (
                 <div key={habit.id} className={`habit-card ${habit.is_completed_today ? "completed" : ""}`}>
                     <div className="habit-card-left">
                         <div className="habit-text-content">
                             <span className={`habit-title ${habit.is_completed_today ? "line-through" : ""}`}>
                                 {habit.habit_title}
                             </span>
-                            {habit.habit_description && (
-                                <p className="habit-desc">{habit.habit_description}</p>
-                            )}
+                            {habit.habit_description && <p className="habit-desc">{habit.habit_description}</p>}
                             {habit.duration_minutes && (
                                 <span className="habit-duration">{habit.duration_minutes} min</span>
                             )}
@@ -58,7 +69,7 @@ export default function Habits({ selectedDate }: HabitsViewProps) {
                         type="checkbox"
                         className="habit-checkbox"
                         checked={!!habit.is_completed_today}
-                        onChange={() => toggleCompletion(habit.id, !!habit.is_completed_today)}
+                        onChange={() => onToggleCompletion(habit.id, !!habit.is_completed_today)}
                     />
                 </div>
             ))}
