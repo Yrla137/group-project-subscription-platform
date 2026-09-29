@@ -22,7 +22,11 @@ html {
 }
 
 .manage-habits-wrapper h2 {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+}
+
+.edit-habits-section:last-of-type h2 {
+    margin-top: 30px;
 }
 
 /* Stack the two columns on narrow screens */

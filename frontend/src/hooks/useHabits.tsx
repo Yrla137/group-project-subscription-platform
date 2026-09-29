@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import type { Habit, CreateHabit } from "../types/HabitsTypes";
+import type { Habit, CreateHabit, UpdateHabit } from "../types/HabitsTypes";
 import { useAuthContext } from "../context/AuthContext";
 import type { HabitLimit, UseHabitsResult } from "../types/HabitsTypes";
 
@@ -86,5 +86,71 @@ export function useHabits(): UseHabitsResult {
         [token]
     );
 
-    return { habits, isLoading, error, habitLimit, canCreateHabit, createHabit };
+    // Only works on the user's own custom habits; the backend answers 403 for default habits
+    const updateHabit = useCallback(
+        async (id: number, data: UpdateHabit): Promise<Habit | null> => {
+            if (!token) return null;
+
+            try {
+                const res = await fetch(`${API_URL}/habits/${id}`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (!res.ok) throw new Error("Failed to update habit");
+
+                const json = await res.json();
+
+                // Re-sort, since a new title can move the habit in the list
+                setHabits((prev) =>
+                    prev
+                        .map((habit) => (habit.id === id ? json.data : habit))
+                        .sort((a, b) => a.habit_title.localeCompare(b.habit_title))
+                );
+
+                return json.data;
+            } catch {
+                // Reported through the return value, so a failed update doesn't replace the list with an error
+                return null;
+            }
+        },
+        [token]
+    );
+
+    // Only works on the user's own custom habits; the backend answers 403 for default habits
+    const deleteHabit = useCallback(
+        async (id: number): Promise<boolean> => {
+            if (!token) return false;
+
+            try {
+                const res = await fetch(`${API_URL}/habits/${id}`, {
+                    method: "DELETE",
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (!res.ok) throw new Error("Failed to delete habit");
+
+                setHabits((prev) => prev.filter((habit) => habit.id !== id));
+
+                // One custom habit fewer, so the user may be able to create a new one again
+                setHabitLimit((prev) =>
+                    prev ? { ...prev, customHabitCount: Math.max(0, prev.customHabitCount - 1) } : prev
+                );
+
+                return true;
+            } catch {
+                // Reported through the return value, so a failed delete doesn't replace the list with an error
+                return false;
+            }
+        },
+        [token]
+    );
+
+
+
+    return { habits, isLoading, error, habitLimit, canCreateHabit, createHabit, updateHabit, deleteHabit };
 }

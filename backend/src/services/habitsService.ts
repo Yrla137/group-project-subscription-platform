@@ -104,14 +104,25 @@ const createHabit = async (data: CreateHabit, userId: number): Promise<Habit> =>
 const updateHabit = async (id: number, data: UpdateHabit, userId: number): Promise<Habit | null> => {
     const { habit_title, habit_description, default_duration_minutes } = data;
 
+    // Unlike the other fields, the duration can be cleared by sending null.
+    // $4 tells the query whether it was sent at all, so a missing field leaves it unchanged.
+    const hasDuration = default_duration_minutes !== undefined;
+
     const result = await pool.query(
         `UPDATE habits
          SET habit_title = COALESCE($1, habit_title),
              habit_description = COALESCE($2, habit_description),
-             default_duration_minutes = COALESCE($3, default_duration_minutes)
-         WHERE id = $4 AND created_by = $5
+             default_duration_minutes = CASE WHEN $4::boolean THEN $3::int ELSE default_duration_minutes END
+         WHERE id = $5 AND created_by = $6
          RETURNING id, habit_title, habit_description, default_duration_minutes, created_by, created_at`,
-        [habit_title ?? null, habit_description ?? null, default_duration_minutes ?? null, id, userId]
+        [
+            habit_title ?? null,
+            habit_description ?? null,
+            hasDuration ? default_duration_minutes : null,
+            hasDuration,
+            id,
+            userId,
+        ]
     );
 
     return result.rows[0] || null;

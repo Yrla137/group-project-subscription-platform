@@ -17,7 +17,7 @@ interface CreateHabit {
 interface UpdateHabit {
     habit_title?: string;
     habit_description?: string;
-    default_duration_minutes?: number;
+    default_duration_minutes?: number | null;
 }
 
 interface HabitLimit {
@@ -32,6 +32,8 @@ interface UseHabitsResult {
     habitLimit: HabitLimit | null;
     canCreateHabit: boolean;
     createHabit: (data: CreateHabit) => Promise<Habit | null>;
+    updateHabit: (id: number, data: UpdateHabit) => Promise<Habit | null>;
+    deleteHabit: (id: number) => Promise<boolean>;
 }
 
 export type { Habit, CreateHabit, UpdateHabit, HabitLimit, UseHabitsResult };
