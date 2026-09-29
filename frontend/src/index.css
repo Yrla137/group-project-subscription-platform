@@ -46,6 +46,7 @@ h1,h2,h3{
     border-radius: 20px;
     font-size: 0.80rem;
     margin-top: 0.5rem;
+    text-decoration: none;
 }
 
 .primary-btn:hover {
