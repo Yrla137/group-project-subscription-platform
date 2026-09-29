@@ -1,10 +1,10 @@
-.calendar-loading {
+.loading-spinner {
     display: flex;
     justify-content: center;
     padding: 48px 0;
 }
 
-.calendar-spinner {
+.spinner-span {
     width: 32px;
     height: 32px;
     border: 3px solid var(--bg-color);
@@ -20,8 +20,8 @@
 }
 
 /* Respect users who have turned off animations in their OS */
-@media (prefers-reduced-motion: reduce) {
-    .calendar-spinner {
+@media (prefers-r.educed-motion: reduce) {
+    spinner-span {
         animation-duration: 2.4s;
     }
 }
