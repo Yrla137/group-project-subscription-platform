@@ -36,6 +36,7 @@
 
 .habit-add-btn:hover {
     background-color: #fa5252;
+    color:#ffffff;
 }
 
 .habit-card {
@@ -50,7 +51,7 @@
     gap: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     border: 1px solid #f3f4f6;
-    border-left: 6px solid #ff6b6b;
+    border-left: 6px solid #F59E0B;
     overflow: hidden;
     transition: all 0.2s ease;
 }
@@ -137,4 +138,13 @@
 
 .no-habits {
     color: var(--text-muted);
+}
+
+.habit-checkbox:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.habit-checkbox:disabled:hover {
+    border-color: #d1d5db;
 }

@@ -8,7 +8,7 @@ import type { SeminarCalendarEvent } from "../types/CalendarTypes";
 
 import Seminars from "./Seminars";
 import CalendarDatepicker from "./CalendarDatepicker";
-import type { CalendarHorizon } from "./CalendarDatepicker";
+import type { CalendarHorizon, DayEventTypes } from "./CalendarDatepicker";
 import Tasks from "./Tasks";
 import Habits from "./Habits";
 import Spinner from "./Spinner";
@@ -34,6 +34,7 @@ const Calendar = () => {
   const tasks = useTasks();
   const habits = useUserHabits(selectedDate);
 
+
   const isAnyLoading = calendar.isLoading || tasks.isLoading || habits.isTodaysLoading;
 
   // Only the very first load shows the spinner. Later loads (switching day or month,
@@ -43,22 +44,22 @@ const Calendar = () => {
     if (!isAnyLoading) setHasLoadedOnce(true);
   }, [isAnyLoading]);
 
-  // Split dates into ones with accessible events and ones with only locked seminars
-  const { markedDates, lockedDates } = useMemo(() => {
-    const open = new Set<string>();
-    const locked = new Set<string>();
+  // Which kinds of events each day has, keyed by "yyyy-MM-dd"
+  const eventsByDate = useMemo(() => {
+    const map: Record<string, DayEventTypes> = {};
 
     for (const event of calendar.events) {
       if (!event.date) continue; // skip malformed events instead of crashing
 
-      if (event.type === "seminar" && event.isLocked) locked.add(event.date);
-      else open.add(event.date);
+      const day = (map[event.date] ??= { task: false, habit: false, seminar: false, seminarLocked: false });
+
+      if (event.type === "task") day.task = true;
+      else if (event.type === "habit") day.habit = true;
+      else if (event.isLocked) day.seminarLocked = true;
+      else day.seminar = true;
     }
 
-    return {
-      markedDates: [...open].map((date) => parseISO(date)),
-      lockedDates: [...locked].map((date) => parseISO(date)),
-    };
+    return map;
   }, [calendar.events]);
 
   // The calendar already fetched every seminar in the month, so no extra request is needed
@@ -94,8 +95,7 @@ const Calendar = () => {
       <CalendarDatepicker
         selectedDate={selectedDate}
         onSelectDate={setSelectedDate}
-        markedDates={markedDates}
-        lockedDates={lockedDates}
+        eventsByDate={eventsByDate}
         horizon={horizon}
       />
 

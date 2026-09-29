@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { useHabits } from "../hooks/useHabits";
 import { useUserHabits } from "../hooks/useUserHabits";
 import type { UserHabitWithDetails } from "../types/UserHabitsTypes";
+import type { Habit } from "../types/HabitsTypes";
 import "./HabitsPage.css";
 import Spinner from "../components/Spinner";
 import { Pencil, X, Lock, Plus } from "lucide-react";
@@ -21,17 +22,12 @@ export default function HabitsPage() {
   const {
     habits,
     isLoading: habitsLoading,
-    error: habitsError,
     habitLimit,
     canCreateHabit,
     createHabit,
+    updateHabit,
+    deleteHabit,
   } = useHabits();
-
-  const [showCustomHabitForm, setShowCustomHabitForm] = useState(false);
-  const [customTitle, setCustomTitle] = useState("");
-  const [customDescription, setCustomDescription] = useState("");
-  const [customDuration, setCustomDuration] = useState("");
-  const [isCreatingHabit, setIsCreatingHabit] = useState(false);
 
   const {
     userHabits,
@@ -40,8 +36,22 @@ export default function HabitsPage() {
     createUserHabit,
     updateUserHabit,
     deleteUserHabit,
+    // Needed after renaming or deleting a custom habit, since the schedules show its title
+    refetch: refetchUserHabits,
   } = useUserHabits(new Date(), false);
 
+  // ---- Custom habit form (create or edit) ----
+  const [showCustomHabitForm, setShowCustomHabitForm] = useState(false);
+  const [editingCustomHabitId, setEditingCustomHabitId] = useState<number | null>(null);
+  const [customTitle, setCustomTitle] = useState("");
+  const [customDescription, setCustomDescription] = useState("");
+  const [customDuration, setCustomDuration] = useState("");
+  const [isSavingCustomHabit, setIsSavingCustomHabit] = useState(false);
+  const [deletingCustomHabitId, setDeletingCustomHabitId] = useState<number | null>(null);
+  const [customFormError, setCustomFormError] = useState<string | null>(null);
+  const [customListError, setCustomListError] = useState<string | null>(null);
+
+  // ---- Schedule form ----
   const [selectedHabitId, setSelectedHabitId] = useState<number | "">("");
   const [scheduleType, setScheduleType] = useState<"DAILY" | "WEEKLY">("DAILY");
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
@@ -51,6 +61,10 @@ export default function HabitsPage() {
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
   const formRef = useRef<HTMLFormElement>(null);
+  const customTitleRef = useRef<HTMLInputElement>(null);
+
+  // The user's own habits; default habits have created_by = null
+  const customHabits = habits.filter((habit) => habit.created_by !== null);
 
   useEffect(() => {
     if (!selectedHabitId || editingId) return; // don't override values while editing
@@ -62,9 +76,7 @@ export default function HabitsPage() {
   }, [selectedHabitId, habits, editingId]);
 
   function toggleDay(day: string) {
-    setSelectedDays((prev) =>
-      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
-    );
+    setSelectedDays((prev) => (prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]));
   }
 
   function resetForm() {
@@ -75,28 +87,107 @@ export default function HabitsPage() {
     setDuration("");
   }
 
-  async function handleCreateCustomHabit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!customTitle.trim()) return;
+  // ---- Custom habits: create, edit, delete ----
 
-    setIsCreatingHabit(true);
+  function closeCustomHabitForm() {
+    setShowCustomHabitForm(false);
+    setEditingCustomHabitId(null);
+    setCustomTitle("");
+    setCustomDescription("");
+    setCustomDuration("");
+    setCustomFormError(null);
+  }
 
-    const newHabit = await createHabit({
-      habit_title: customTitle.trim(),
-      habit_description: customDescription.trim() || undefined,
-      default_duration_minutes: customDuration ? Number(customDuration) : undefined,
+  function startEditCustomHabit(habit: Habit) {
+    setEditingCustomHabitId(habit.id);
+    setCustomTitle(habit.habit_title);
+    setCustomDescription(habit.habit_description ?? "");
+    setCustomDuration(habit.default_duration_minutes ? String(habit.default_duration_minutes) : "");
+    setCustomFormError(null);
+    setShowCustomHabitForm(true);
+
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    // Wait for the form to render before moving focus to the title
+    requestAnimationFrame(() => {
+      customTitleRef.current?.focus({ preventScroll: true });
+      customTitleRef.current?.select();
     });
+  }
 
-    if (newHabit) {
-      setSelectedHabitId(newHabit.id);
-      setCustomTitle("");
-      setCustomDescription("");
-      setCustomDuration("");
-      setShowCustomHabitForm(false);
+  async function handleSaveCustomHabit() {
+    const trimmedTitle = customTitle.trim();
+    if (!trimmedTitle) return;
+
+    setIsSavingCustomHabit(true);
+    setCustomFormError(null);
+
+    const parsedDuration = customDuration ? Number(customDuration) : undefined;
+
+    if (editingCustomHabitId) {
+      const updated = await updateHabit(editingCustomHabitId, {
+        habit_title: trimmedTitle,
+        habit_description: customDescription.trim(),
+        // null clears the duration; undefined would leave the old value
+        default_duration_minutes: customDuration ? Number(customDuration) : null,
+      });
+
+      setIsSavingCustomHabit(false);
+
+      if (!updated) {
+        setCustomFormError("Couldn't save your changes. Try again.");
+        return;
+      }
+
+      closeCustomHabitForm();
+      refetchUserHabits();
+      return;
     }
 
-    setIsCreatingHabit(false);
+    const newHabit = await createHabit({
+      habit_title: trimmedTitle,
+      habit_description: customDescription.trim() || undefined,
+      default_duration_minutes: parsedDuration,
+    });
+
+    setIsSavingCustomHabit(false);
+
+    if (!newHabit) {
+      setCustomFormError("Couldn't create the habit. Try again.");
+      return;
+    }
+
+    // Select the new habit, so it's ready to be scheduled right away
+    setSelectedHabitId(newHabit.id);
+    closeCustomHabitForm();
   }
+
+  async function handleDeleteCustomHabit(habit: Habit) {
+    const confirmed = window.confirm(
+      `Delete "${habit.habit_title}"? It will also be removed from your schedule, including statistics.`
+    );
+    if (!confirmed) return;
+
+    setDeletingCustomHabitId(habit.id);
+    setCustomListError(null);
+
+    const deleted = await deleteHabit(habit.id);
+
+    setDeletingCustomHabitId(null);
+
+    if (!deleted) {
+      setCustomListError(`Couldn't delete "${habit.habit_title}". Try again.`);
+      return;
+    }
+
+    if (editingCustomHabitId === habit.id) closeCustomHabitForm();
+    if (selectedHabitId === habit.id) resetForm();
+
+    // The database removed its schedules too, so the schedule list needs to catch up
+    refetchUserHabits();
+  }
+
+  // ---- Schedules ----
 
   function startEdit(uh: UserHabitWithDetails) {
     setEditingId(uh.id);
@@ -118,8 +209,7 @@ export default function HabitsPage() {
     e.preventDefault();
     if (!selectedHabitId) return;
 
-    const recurrence_rule =
-      scheduleType === "DAILY" ? "DAILY" : `WEEKLY:${selectedDays.join(",")}`;
+    const recurrence_rule = scheduleType === "DAILY" ? "DAILY" : `WEEKLY:${selectedDays.join(",")}`;
 
     if (scheduleType === "WEEKLY" && selectedDays.length === 0) {
       return; // require at least one day selected
@@ -146,7 +236,7 @@ export default function HabitsPage() {
   }
 
   async function handleDelete(id: number) {
-    const confirmed = window.confirm("Are you sure you want to remove this habit?");
+    const confirmed = window.confirm("Are you sure you want to remove this habit? All of the associated statistics will be lost.");
     if (!confirmed) return;
 
     setDeletingId(id);
@@ -154,7 +244,11 @@ export default function HabitsPage() {
     setDeletingId(null);
   }
 
-  const isAnyActionInProgress = isSubmitting || deletingId !== null;
+  const isAnyActionInProgress =
+    isSubmitting || deletingId !== null || isSavingCustomHabit || deletingCustomHabitId !== null;
+
+  // Editing an existing custom habit is always allowed, even when the limit for new ones is reached
+  const isCustomFormVisible = showCustomHabitForm && (canCreateHabit || editingCustomHabitId !== null);
 
   return (
     <div className="manage-habits-wrapper">
@@ -181,10 +275,11 @@ export default function HabitsPage() {
           </div>
 
           <div className="form-field">
-            {showCustomHabitForm && canCreateHabit ? (
+            {isCustomFormVisible ? (
               <div className="custom-habit-form">
-                <label htmlFor="custom_title">New habit title</label>
+                <label htmlFor="custom_title">{editingCustomHabitId ? "Habit title" : "New habit title"}</label>
                 <input
+                  ref={customTitleRef}
                   id="custom_title"
                   type="text"
                   value={customTitle}
@@ -208,22 +303,26 @@ export default function HabitsPage() {
                   onChange={(e) => setCustomDuration(e.target.value)}
                 />
 
-                {habitsError && <p className="status-text status-text--error">{habitsError}</p>}
+                {customFormError && (
+                  <p className="status-text status-text--error" role="alert">
+                    {customFormError}
+                  </p>
+                )}
 
                 <div className="custom-habit-form-actions">
                   <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={handleCreateCustomHabit}
-                    disabled={isCreatingHabit || !customTitle.trim()}
+                    onClick={handleSaveCustomHabit}
+                    disabled={isSavingCustomHabit || !customTitle.trim()}
                   >
-                    {isCreatingHabit ? "Creating..." : "Create habit"}
+                    {isSavingCustomHabit ? "Saving..." : editingCustomHabitId ? "Save changes" : "Create habit"}
                   </button>
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    onClick={() => setShowCustomHabitForm(false)}
-                    disabled={isCreatingHabit}
+                    onClick={closeCustomHabitForm}
+                    disabled={isSavingCustomHabit}
                   >
                     Cancel
                   </button>
@@ -238,7 +337,11 @@ export default function HabitsPage() {
                   disabled={!!editingId || !canCreateHabit}
                   aria-describedby={habitLimit ? "habit-limit-notice" : undefined}
                 >
-                  {canCreateHabit ? <Plus size={16} strokeWidth={3} aria-hidden="true" /> : <Lock size={16} aria-hidden="true" />}
+                  {canCreateHabit ? (
+                    <Plus size={16} strokeWidth={3} aria-hidden="true" />
+                  ) : (
+                    <Lock size={16} aria-hidden="true" />
+                  )}
                   Add custom habit
                 </button>
 
@@ -297,7 +400,6 @@ export default function HabitsPage() {
                 <span className="schedule-switch-track" aria-hidden="true">
                   <span className="schedule-switch-thumb" />
                 </span>
-
               </button>
 
               {scheduleType === "WEEKLY" && (
@@ -338,51 +440,111 @@ export default function HabitsPage() {
       </div>
 
       <div className="edit-habits">
+        {/* ---- Schedules ---- */}
+        <section className="edit-habits-section">
+          {userHabitsLoading && <Spinner />}
+          {error && <p className="status-text status-text--error">{error}</p>}
 
-        {userHabitsLoading && <Spinner />}
-        {error && <p className="status-text status-text--error">{error}</p>}
+          {userHabits.length > 0 && <h2>Edit habit schedules</h2>}
 
-        {userHabits.length > 0 && <h2>Edit habits</h2>}
+          <ul className="habit-list">
+            {userHabits.map((uh) => (
+              <li
+                key={uh.id}
+                className={`habit-card ${editingId === uh.id ? "habit-card--editing" : ""}`}
+                aria-current={editingId === uh.id ? "true" : undefined}
+              >
+                <div>
+                  <div className="habit-card-title">{uh.habit_title}</div>
+                </div>
+                <div className="habit-card-date">
+                  {uh.recurrence_rule === "DAILY" ? "Every day" : uh.recurrence_rule?.replace("WEEKLY:", "")}
+                  {uh.duration_minutes ? ` · ${uh.duration_minutes} min` : ""}
+                </div>
 
-        <ul className="habit-list">
-          {userHabits.map((uh) => (
+                <div className="habit-card-actions">
+                  <button
+                    type="button"
+                    className="btn btn-edit"
+                    onClick={() => startEdit(uh)}
+                    disabled={isAnyActionInProgress}
+                    aria-label={`Edit schedule for ${uh.habit_title}`}
+                  >
+                    <Pencil size={16} aria-hidden="true" />
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => handleDelete(uh.id)}
+                    disabled={isAnyActionInProgress}
+                    aria-label={deletingId === uh.id ? `Removing ${uh.habit_title}` : `Remove ${uh.habit_title}`}
+                  >
+                    {deletingId === uh.id ? "…" : <X size={16} aria-hidden="true" />}
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
 
-            <li
-              key={uh.id}
-              className={`habit-card ${editingId === uh.id ? "habit-card--editing" : ""}`}
-              aria-current={editingId === uh.id ? "true" : undefined}
-            >
-              <div>
-                <div className="habit-card-title">{uh.habit_title}</div>
-              </div>
-              <div className="habit-card-date">
-                {uh.recurrence_rule === "DAILY" ? "Every day" : uh.recurrence_rule?.replace("WEEKLY:", "")}
-                {uh.duration_minutes ? ` · ${uh.duration_minutes} min` : ""}
-              </div>
+        {/* ---- Custom habits ---- */}
+        {customHabits.length > 0 && (
+          <section className="edit-habits-section">
+            <h2>Edit custom habits</h2>
 
-              <div className="habit-card-actions">
-                <button
-                  type="button"
-                  className="btn btn-edit"
-                  onClick={() => startEdit(uh)}
-                  disabled={isAnyActionInProgress}
-                  aria-label={`Edit ${uh.habit_title}`}
+            {customListError && (
+              <p className="status-text status-text--error" role="alert">
+                {customListError}
+              </p>
+            )}
+
+            <ul className="habit-list">
+              {customHabits.map((habit) => (
+                <li
+                  key={habit.id}
+                  className={`habit-card ${editingCustomHabitId === habit.id ? "habit-card--editing" : ""}`}
+                  aria-current={editingCustomHabitId === habit.id ? "true" : undefined}
                 >
-                  <Pencil size={16} aria-hidden="true" />
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={() => handleDelete(uh.id)}
-                  disabled={isAnyActionInProgress}
-                  aria-label={deletingId === uh.id ? `Removing ${uh.habit_title}` : `Remove ${uh.habit_title}`}
-                >
-                  {deletingId === uh.id ? "…" : <X size={16} aria-hidden="true" />}
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+                  <div className="habit-card-text">
+                    <div className="habit-card-title">{habit.habit_title}</div>
+                    {habit.habit_description && (
+                      <p className="habit-card-description">{habit.habit_description}</p>
+                    )}
+                  </div>
+
+                  <div className="habit-card-date">
+                    {habit.default_duration_minutes ? `${habit.default_duration_minutes} min` : null}
+                  </div>
+
+                  <div className="habit-card-actions">
+                    <button
+                      type="button"
+                      className="btn btn-edit"
+                      onClick={() => startEditCustomHabit(habit)}
+                      disabled={isAnyActionInProgress}
+                      aria-label={`Edit ${habit.habit_title}`}
+                    >
+                      <Pencil size={16} aria-hidden="true" />
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => handleDeleteCustomHabit(habit)}
+                      disabled={isAnyActionInProgress}
+                      aria-label={
+                        deletingCustomHabitId === habit.id
+                          ? `Deleting ${habit.habit_title}`
+                          : `Delete ${habit.habit_title}`
+                      }
+                    >
+                      {deletingCustomHabitId === habit.id ? "…" : <X size={16} aria-hidden="true" />}
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
       </div>
     </div>
   );

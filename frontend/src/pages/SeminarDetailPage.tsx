@@ -6,6 +6,7 @@ import { Lock, ArrowLeft, CalendarDays } from "lucide-react";
 
 import { useSeminar } from "../hooks/useSeminar";
 import "./SeminarDetailPage.css";
+import Spinner from "../components/Spinner";
 
 // e.g. "Sunday 27 September 2026" and "19:00", or null if the date is invalid
 function formatDateParts(seminarDate: string): { day: string; time: string } | null {
@@ -33,7 +34,7 @@ const SeminarDetailPage = () => {
         return (
             <div className="seminar-detail">
                 {backLink}
-                <p className="status-text">Loading seminar…</p>
+                <Spinner />
             </div>
         );
     }

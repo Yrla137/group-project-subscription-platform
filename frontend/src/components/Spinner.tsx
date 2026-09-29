@@ -2,9 +2,9 @@ import "./Spinner.css";
 
 const Spinner = () => {
   return (
-      <div className="calendar-loading" role="status">
-          <span className="calendar-spinner" aria-hidden="true" />
-          <span className="visually-hidden">Loading calendar</span>
+      <div className="loading-spinner" role="status">
+          <span className="spinner-span" aria-hidden="true" />
+          <span className="visually-hidden">Loading...</span>
       </div>
   )
 }

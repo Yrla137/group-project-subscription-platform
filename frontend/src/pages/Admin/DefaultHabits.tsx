@@ -73,7 +73,8 @@ export default function DefaultHabits() {
                 habit_title: trimmedTitle,
                 // An empty string clears the description (the backend keeps the old value for null)
                 habit_description: description.trim(),
-                default_duration_minutes: parsedDuration,
+                // null clears the duration; undefined would leave the old value
+                default_duration_minutes: parsedDuration ?? null,
             })
             : await createHabit({
                 habit_title: trimmedTitle,
@@ -92,7 +93,7 @@ export default function DefaultHabits() {
 
     async function handleDelete(habit: Habit) {
         const confirmed = window.confirm(
-            `Remove "${habit.habit_title}" from the default habits? Users won't be able to pick it anymore.`
+            `Remove "${habit.habit_title}" from the default habits? This habit will be deleted from every user's personal calendar.`
         );
         if (!confirmed) return;
 
