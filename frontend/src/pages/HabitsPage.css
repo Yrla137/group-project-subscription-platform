@@ -1,39 +1,426 @@
-.schedule-type-toggle {
+html {
+    scroll-padding-top: calc(100px);
+}
+
+/* =========================================================
+   Habits page: form on the left, the user's habits on the right
+   Everything is scoped to this page so nothing leaks elsewhere
+   ========================================================= */
+
+/* ---- Page layout ---- */
+
+.manage-habits-wrapper {
     display: flex;
+    gap: 50px;
+    padding: 20px;
+}
+
+.manage-habits,
+.edit-habits {
+    flex: 1;
+    min-width: 0;
+}
+
+.manage-habits-wrapper h2 {
+    margin-bottom: 30px;
+}
+
+/* Stack the two columns on narrow screens */
+@media (max-width: 800px) {
+    .manage-habits-wrapper {
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+
+
+/* ---- Form layout ---- */
+
+.manage-habits .habit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+}
+
+.manage-habits .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+/* <label> for inputs, .form-label for groups without a single input (Schedule) */
+.manage-habits label,
+.manage-habits .form-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #4b5563;
+}
+
+
+/* ---- Inputs ---- */
+
+.manage-habits input[type="text"],
+.manage-habits input[type="number"],
+.manage-habits select,
+.manage-habits textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease;
+}
+
+.manage-habits textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.manage-habits input:focus,
+.manage-habits select:focus,
+.manage-habits textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.manage-habits select:disabled {
+    background-color: #f3f4f6;
+    color: var(--text-muted);
+    cursor: not-allowed;
+}
+
+
+/* ---- Buttons ---- */
+
+.manage-habits .btn {
+    padding: 0.75rem 1.25rem;
+    border: 1px solid transparent;
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.manage-habits .btn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.manage-habits .btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Main action, same as the register button */
+.manage-habits .btn-primary {
+    background-color: var(--primary);
+    color: #ffffff;
+}
+
+.manage-habits .btn-primary:hover:not(:disabled) {
+    background-color: var(--primary-hover);
+}
+
+/* Secondary action: outlined in the primary color, with room for an icon */
+.manage-habits .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border-color: var(--primary);
+    background-color: transparent;
+    color: var(--primary);
+}
+
+.manage-habits .btn-secondary:hover:not(:disabled) {
+    background-color: var(--bg-color);
+}
+
+.manage-habits .btn-secondary svg {
+    padding-top: 2px;
+}
+
+.manage-habits .form-actions,
+.manage-habits .custom-habit-form-actions {
+    display: flex;
+    flex-wrap: wrap;
     gap: 8px;
 }
 
-.weekday-picker {
+/* The submit button fills the width, like on the register page */
+.manage-habits .form-actions .btn-primary {
+    flex: 1;
+}
+
+
+/* ---- Schedule: toggle with weekdays to the right ---- */
+
+.manage-habits .schedule-row {
     display: flex;
-    gap: 6px;
-    margin-top: 8px;
     flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    min-height: 36px;
 }
 
-.weekday-btn {
-    padding: 6px 12px;
-    border: 1px solid var(--color-border, #ccc);
-    border-radius: var(--radius, 8px);
+.manage-habits .schedule-switch {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    border: none;
     background: none;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #4b5563;
     cursor: pointer;
+}
+
+.manage-habits .schedule-switch-track {
+    position: relative;
+    width: 40px;
+    height: 22px;
+    border-radius: 11px;
+    background-color: #d1d5db;
+    transition: background-color 0.2s ease;
+}
+
+.manage-habits .schedule-switch-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+}
+
+.manage-habits .schedule-switch[aria-checked="true"] .schedule-switch-track {
+    background-color: var(--primary);
+}
+
+.manage-habits .schedule-switch[aria-checked="true"] .schedule-switch-thumb {
+    transform: translateX(18px);
+}
+
+.manage-habits .schedule-switch:focus-visible .schedule-switch-track {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.manage-habits .weekday-picker {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    animation: weekday-slide-in 0.5s ease-out;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #4b5563;
+}
+
+.manage-habits .weekday-btn {
+    padding: 0.4rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 20px;
+    background-color: #ffffff;
+    font-family: inherit;
     font-size: 0.85rem;
-    transition: background-color 0.15s ease, color 0.15s ease;
+    font-weight: 500;
+    color: #4b5563;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
-.weekday-btn--active {
-    background-color: var(--primary, #FF6B57);
+.manage-habits .weekday-btn:hover {
+    border-color: var(--primary);
+}
+
+.manage-habits .weekday-btn--active {
+    border-color: var(--primary);
+    background-color: var(--primary);
     color: #ffffff;
-    border-color: transparent;
 }
 
-.habit-limit-text {
-    margin-top: 6px;
+.manage-habits .weekday-btn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+@keyframes weekday-slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+/* ---- Custom habit form ---- */
+
+.manage-habits .custom-habit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: var(--radius);
+    background-color: var(--card-bg);
+}
+
+.manage-habits .custom-habit-form input,
+.manage-habits .custom-habit-form textarea {
+    margin-bottom: 0.6rem;
+}
+
+
+/* ---- Messages ---- */
+
+.manage-habits .status-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Same as .register-error */
+.manage-habits .status-text--error {
+    margin: 0;
+    padding: 8px 12px;
+    border-left: 4px solid #dc2626;
+    border-radius: 6px;
+    background-color: #fef2f2;
+    font-size: 0.85rem;
+    color: #dc2626;
+}
+
+.manage-habits .habit-limit-text {
+    padding-top: 0;
+    text-align: center;
     font-size: 0.75rem;
     color: var(--text-muted);
 }
 
-.habit-limit-text--reached {
-    padding: 8px 12px;
+.manage-habits .habit-limit-text--reached {
+    padding: 0px 12px 8px;
+    border-radius: 6px;
     background-color: var(--bg-color);
-    border-radius: var(--radius);
+}
+
+.manage-habits .habit-limit-link:hover {
+    text-decoration: underline;
+}
+
+
+/* ---- The user's habits (right column) ---- */
+
+.edit-habits .habit-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Title | schedule | actions, so every card lines up the same way */
+.edit-habits .habit-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr 80px;
+    align-items: center;
+    max-width: none;
+}
+
+.edit-habits .habit-card-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Icon-only buttons on the cards */
+.edit-habits .btn-edit,
+.edit-habits .btn-danger {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.edit-habits .btn-edit {
+    color: #4b5563;
+}
+
+.edit-habits .btn-edit:hover:not(:disabled) {
+    color: var(--text-muted);
+}
+
+.edit-habits .btn-danger {
+    color: #dc2626;
+}
+
+.edit-habits .btn-danger:hover:not(:disabled) {
+    color: var(--primary-hover);
+}
+
+.edit-habits .btn-edit:disabled,
+.edit-habits .btn-danger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.edit-habits .btn-edit:focus-visible,
+.edit-habits .btn-danger:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+.edit-habits .habit-card-text {
+    min-width: 0;
+}
+
+.edit-habits .habit-card-description {
+    margin: 2px 0 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.edit-habits .habit-card--editing {
+    border-left-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
+
+/* ---- Reduced motion ---- */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .manage-habits .schedule-switch-track,
+    .manage-habits .schedule-switch-thumb {
+        transition: none;
+    }
+
+    .manage-habits .weekday-picker {
+        animation: none;
+    }
+}
+
+@media screen and (max-width:1000px) {
+    .manage-habits-wrapper {
+        flex-direction: column;
+        }
 }

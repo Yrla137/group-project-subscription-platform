@@ -23,26 +23,11 @@ const EMPTY_STATE_MESSAGES: Record<number, string> = {
 };
 
 export default function Habits({ selectedDate, habits, error, onToggleCompletion }: HabitsViewProps) {
-    if (error) {
-        return (
-            <div className="habit-container">
-                <p className="habit-error">Couldn't load your habits. Try reloading the page.</p>
-            </div>
-        );
-    }
-
-    if (habits.length === 0) {
-        const message = EMPTY_STATE_MESSAGES[selectedDate.getDay()];
-
-        return (
-            <div className="habit-container habit-empty-state">
-                <p className="habit-empty-message">{message}</p>
-                <Link to="/habits" className="habit-add-btn">
-                    Manage habits
-                </Link>
-            </div>
-        );
-    }
+    // Same order as tasks: open habits first, completed ones last
+    const sortedHabits = [...habits].sort((a, b) => {
+        if (!!a.is_completed_today === !!b.is_completed_today) return 0;
+        return a.is_completed_today ? 1 : -1;
+    });
 
     return (
         <div className="habit-container">
@@ -52,27 +37,34 @@ export default function Habits({ selectedDate, habits, error, onToggleCompletion
                     + New Habit
                 </Link>
             </div>
-            {habits.map((habit) => (
-                <div key={habit.id} className={`habit-card ${habit.is_completed_today ? "completed" : ""}`}>
-                    <div className="habit-card-left">
-                        <div className="habit-text-content">
-                            <span className={`habit-title ${habit.is_completed_today ? "line-through" : ""}`}>
-                                {habit.habit_title}
-                            </span>
-                            {habit.habit_description && <p className="habit-desc">{habit.habit_description}</p>}
-                            {habit.duration_minutes && (
-                                <span className="habit-duration">{habit.duration_minutes} min</span>
-                            )}
+
+            {error ? (
+                <p className="habit-error">Couldn't load your habits. Try reloading the page.</p>
+            ) : sortedHabits.length === 0 ? (
+                <p className="no-habits">{EMPTY_STATE_MESSAGES[selectedDate.getDay()]}</p>
+            ) : (
+                sortedHabits.map((habit) => (
+                    <div key={habit.id} className={`habit-card ${habit.is_completed_today ? "completed" : ""}`}>
+                        <div className="habit-card-left">
+                            <input
+                                type="checkbox"
+                                className="habit-checkbox"
+                                checked={!!habit.is_completed_today}
+                                onChange={() => onToggleCompletion(habit.id, !!habit.is_completed_today)}
+                                aria-label={`Mark ${habit.habit_title} as done`}
+                            />
+                            <div className="habit-text-content">
+                                <span className={`habit-title ${habit.is_completed_today ? "line-through" : ""}`}>
+                                    {habit.habit_title}
+                                </span>
+                                {habit.habit_description && <p className="habit-desc">{habit.habit_description}</p>}
+                            </div>
                         </div>
+
+                        {habit.duration_minutes && <span className="habit-duration">{habit.duration_minutes} min</span>}
                     </div>
-                    <input
-                        type="checkbox"
-                        className="habit-checkbox"
-                        checked={!!habit.is_completed_today}
-                        onChange={() => onToggleCompletion(habit.id, !!habit.is_completed_today)}
-                    />
-                </div>
-            ))}
+                ))
+            )}
         </div>
     );
 }

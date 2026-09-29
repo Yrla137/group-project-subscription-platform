@@ -1,8 +1,11 @@
+import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useHabits } from "../hooks/useHabits";
 import { useUserHabits } from "../hooks/useUserHabits";
 import type { UserHabitWithDetails } from "../types/UserHabitsTypes";
 import "./HabitsPage.css";
+import Spinner from "../components/Spinner";
+import { Pencil, X, Lock, Plus } from "lucide-react";
 
 const WEEKDAYS = [
   { value: "MON", label: "Mon" },
@@ -154,205 +157,233 @@ export default function HabitsPage() {
   const isAnyActionInProgress = isSubmitting || deletingId !== null;
 
   return (
-    <div className="manage-habits">
-      <h2>Manage habits</h2>
+    <div className="manage-habits-wrapper">
+      <div className="manage-habits">
+        <h2>Manage habits</h2>
 
-      <form ref={formRef} className="seminar-form" onSubmit={handleSubmit}>
-        <div className="form-field">
-          <label htmlFor="habit_id">Habit</label>
-          <select
-            id="habit_id"
-            value={selectedHabitId}
-            onChange={(e) => setSelectedHabitId(e.target.value ? Number(e.target.value) : "")}
-            required
-            disabled={!!editingId}
-          >
-            <option value="">Select a habit…</option>
-            {habits.map((habit) => (
-              <option key={habit.id} value={habit.id}>
-                {habit.habit_title}
-              </option>
-            ))}
-          </select>
-        </div>
+        <form ref={formRef} className="habit-form" onSubmit={handleSubmit}>
+          <div className="form-field">
+            <label htmlFor="habit_id">Habit</label>
+            <select
+              id="habit_id"
+              value={selectedHabitId}
+              onChange={(e) => setSelectedHabitId(e.target.value ? Number(e.target.value) : "")}
+              required
+              disabled={!!editingId}
+            >
+              <option value="">Select a habit…</option>
+              {habits.map((habit) => (
+                <option key={habit.id} value={habit.id}>
+                  {habit.habit_title}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div className="form-field">
-          {showCustomHabitForm && canCreateHabit ? (
-            <div className="custom-habit-form">
-              <label htmlFor="custom_title">New habit title</label>
-              <input
-                id="custom_title"
-                type="text"
-                value={customTitle}
-                onChange={(e) => setCustomTitle(e.target.value)}
-                placeholder="e.g. Cold shower"
-              />
+          <div className="form-field">
+            {showCustomHabitForm && canCreateHabit ? (
+              <div className="custom-habit-form">
+                <label htmlFor="custom_title">New habit title</label>
+                <input
+                  id="custom_title"
+                  type="text"
+                  value={customTitle}
+                  onChange={(e) => setCustomTitle(e.target.value)}
+                  placeholder="e.g. Cold shower"
+                />
 
-              <label htmlFor="custom_description">Description (optional)</label>
-              <textarea
-                id="custom_description"
-                value={customDescription}
-                onChange={(e) => setCustomDescription(e.target.value)}
-              />
+                <label htmlFor="custom_description">Description (optional)</label>
+                <textarea
+                  id="custom_description"
+                  value={customDescription}
+                  onChange={(e) => setCustomDescription(e.target.value)}
+                />
 
-              <label htmlFor="custom_duration">Default duration (minutes, optional)</label>
-              <input
-                id="custom_duration"
-                type="number"
-                min={1}
-                value={customDuration}
-                onChange={(e) => setCustomDuration(e.target.value)}
-              />
+                <label htmlFor="custom_duration">Default duration (minutes, optional)</label>
+                <input
+                  id="custom_duration"
+                  type="number"
+                  min={1}
+                  value={customDuration}
+                  onChange={(e) => setCustomDuration(e.target.value)}
+                />
 
-              {habitsError && <p className="status-text status-text--error">{habitsError}</p>}
+                {habitsError && <p className="status-text status-text--error">{habitsError}</p>}
 
-              <div className="custom-habit-form-actions">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={handleCreateCustomHabit}
-                  disabled={isCreatingHabit || !customTitle.trim()}
-                >
-                  {isCreatingHabit ? "Creating..." : "Create habit"}
-                </button>
+                <div className="custom-habit-form-actions">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={handleCreateCustomHabit}
+                    disabled={isCreatingHabit || !customTitle.trim()}
+                  >
+                    {isCreatingHabit ? "Creating..." : "Create habit"}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => setShowCustomHabitForm(false)}
+                    disabled={isCreatingHabit}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
                 <button
                   type="button"
                   className="btn btn-secondary"
-                  onClick={() => setShowCustomHabitForm(false)}
-                  disabled={isCreatingHabit}
+                  onClick={() => setShowCustomHabitForm(true)}
+                  disabled={!!editingId || !canCreateHabit}
+                  aria-describedby={habitLimit ? "habit-limit-notice" : undefined}
                 >
-                  Cancel
+                  {canCreateHabit ? <Plus size={16} strokeWidth={3} aria-hidden="true" /> : <Lock size={16} aria-hidden="true" />}
+                  Add custom habit
                 </button>
-              </div>
-            </div>
-          ) : (
-            <>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => setShowCustomHabitForm(true)}
-                disabled={!!editingId || !canCreateHabit}
-                aria-describedby={habitLimit ? "habit-limit-notice" : undefined}
-              >
-                + Add custom habit
-              </button>
 
-              {habitLimit && (
-                <p
-                  id="habit-limit-notice"
-                  className={`habit-limit-text ${!canCreateHabit ? "habit-limit-text--reached" : ""}`}
-                >
-                  {canCreateHabit
-                    ? `${habitLimit.customHabitCount} of ${habitLimit.maxCustomHabits} custom habits used`
-                    : habitLimit.maxCustomHabits === 0
-                      ? "Your plan doesn't include custom habits. Upgrade your subscription to create your own."
-                      : `Your plan allows ${habitLimit.maxCustomHabits} custom habits. Upgrade your subscription to create more.`}
-                </p>
-              )}
-            </>
-          )}
-        </div>
-
-        <div className="form-field">
-          <label htmlFor="duration">Duration (minutes)</label>
-          <input
-            id="duration"
-            type="number"
-            min={1}
-            value={duration}
-            onChange={(e) => setDuration(e.target.value)}
-            placeholder="e.g. 20"
-          />
-        </div>
-
-        <div className="form-field">
-          <label>Schedule</label>
-          <div className="schedule-type-toggle">
-            <button
-              type="button"
-              className={`btn ${scheduleType === "DAILY" ? "btn-primary" : "btn-secondary"}`}
-              onClick={() => setScheduleType("DAILY")}
-            >
-              Every day
-            </button>
-            <button
-              type="button"
-              className={`btn ${scheduleType === "WEEKLY" ? "btn-primary" : "btn-secondary"}`}
-              onClick={() => setScheduleType("WEEKLY")}
-            >
-              Specific days
-            </button>
+                {habitLimit && (
+                  <p
+                    id="habit-limit-notice"
+                    className={`habit-limit-text ${!canCreateHabit ? "habit-limit-text--reached" : ""}`}
+                  >
+                    {canCreateHabit ? (
+                      `${habitLimit.customHabitCount} of ${habitLimit.maxCustomHabits} custom habits used`
+                    ) : habitLimit.maxCustomHabits === 0 ? (
+                      <>
+                        Your plan doesn't include custom habits.{" "}
+                        <Link to="/tiers" className="habit-limit-link">
+                          Upgrade your subscription
+                        </Link>{" "}
+                        to create your own.
+                      </>
+                    ) : (
+                      <>
+                        Your plan allows {habitLimit.maxCustomHabits} custom habits.{" "}
+                        <Link to="/tiers" className="habit-limit-link">
+                          Upgrade your subscription
+                        </Link>{" "}
+                        to create more.
+                      </>
+                    )}
+                  </p>
+                )}
+              </>
+            )}
           </div>
 
-          {scheduleType === "WEEKLY" && (
-            <div className="weekday-picker">
-              {WEEKDAYS.map((day) => (
-                <button
-                  key={day.value}
-                  type="button"
-                  className={`weekday-btn ${selectedDays.includes(day.value) ? "weekday-btn--active" : ""}`}
-                  onClick={() => toggleDay(day.value)}
-                >
-                  {day.label}
-                </button>
-              ))}
+          <div className="form-field">
+            <label htmlFor="duration">Duration (minutes, optional)</label>
+            <input
+              id="duration"
+              type="number"
+              min={1}
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
+              placeholder="e.g. 20"
+            />
+          </div>
+
+          <div className="form-field">
+            <div className="schedule-row">
+              <button
+                type="button"
+                role="switch"
+                aria-checked={scheduleType === "DAILY"}
+                className="schedule-switch"
+                onClick={() => setScheduleType((type) => (type === "DAILY" ? "WEEKLY" : "DAILY"))}
+              >
+                Every day
+                <span className="schedule-switch-track" aria-hidden="true">
+                  <span className="schedule-switch-thumb" />
+                </span>
+
+              </button>
+
+              {scheduleType === "WEEKLY" && (
+                <div className="weekday-picker" role="group" aria-label="Days">
+                  Schedule:
+                  {WEEKDAYS.map((day) => (
+                    <button
+                      key={day.value}
+                      type="button"
+                      className={`weekday-btn ${selectedDays.includes(day.value) ? "weekday-btn--active" : ""}`}
+                      onClick={() => toggleDay(day.value)}
+                      aria-pressed={selectedDays.includes(day.value)}
+                    >
+                      {day.label}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </div>
 
-        <div className="form-actions">
-          <button
-            type="submit"
-            className="btn btn-primary"
-            disabled={isAnyActionInProgress || habitsLoading || !selectedHabitId}
-          >
-            {isSubmitting ? "Saving..." : editingId ? "Save changes" : "Add habit"}
-          </button>
-
-          {editingId && (
-            <button type="button" className="btn btn-secondary" onClick={resetForm} disabled={isSubmitting}>
-              Cancel
+          <div className="form-actions">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={isAnyActionInProgress || habitsLoading || !selectedHabitId}
+            >
+              {isSubmitting ? "Saving..." : editingId ? "Save changes" : "Add habit"}
             </button>
-          )}
-        </div>
-      </form>
 
-      {userHabitsLoading && <p className="status-text">Loading your habits...</p>}
-      {error && <p className="status-text status-text--error">{error}</p>}
-
-      <ul className="seminar-list">
-        {userHabits.map((uh) => (
-          <li key={uh.id} className="seminar-card">
-            <div className="seminar-card-title">{uh.habit_title}</div>
-            {uh.habit_description && (
-              <p className="seminar-card-description">{uh.habit_description}</p>
+            {editingId && (
+              <button type="button" className="btn btn-secondary" onClick={resetForm} disabled={isSubmitting}>
+                Cancel
+              </button>
             )}
-            <div className="seminar-card-date">
-              {uh.recurrence_rule === "DAILY" ? "Every day" : uh.recurrence_rule?.replace("WEEKLY:", "")}
-              {uh.duration_minutes ? ` · ${uh.duration_minutes} min` : ""}
-            </div>
+          </div>
+        </form>
+      </div>
 
-            <div className="seminar-card-actions">
-              <button
-                type="button"
-                className="btn btn-edit"
-                onClick={() => startEdit(uh)}
-                disabled={isAnyActionInProgress}
-              >
-                Edit
-              </button>
-              <button
-                type="button"
-                className="btn btn-danger"
-                onClick={() => handleDelete(uh.id)}
-                disabled={isAnyActionInProgress}
-              >
-                {deletingId === uh.id ? "Removing..." : "Remove"}
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <div className="edit-habits">
+
+        {userHabitsLoading && <Spinner />}
+        {error && <p className="status-text status-text--error">{error}</p>}
+
+        {userHabits.length > 0 && <h2>Edit habits</h2>}
+
+        <ul className="habit-list">
+          {userHabits.map((uh) => (
+
+            <li
+              key={uh.id}
+              className={`habit-card ${editingId === uh.id ? "habit-card--editing" : ""}`}
+              aria-current={editingId === uh.id ? "true" : undefined}
+            >
+              <div>
+                <div className="habit-card-title">{uh.habit_title}</div>
+              </div>
+              <div className="habit-card-date">
+                {uh.recurrence_rule === "DAILY" ? "Every day" : uh.recurrence_rule?.replace("WEEKLY:", "")}
+                {uh.duration_minutes ? ` · ${uh.duration_minutes} min` : ""}
+              </div>
+
+              <div className="habit-card-actions">
+                <button
+                  type="button"
+                  className="btn btn-edit"
+                  onClick={() => startEdit(uh)}
+                  disabled={isAnyActionInProgress}
+                  aria-label={`Edit ${uh.habit_title}`}
+                >
+                  <Pencil size={16} aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() => handleDelete(uh.id)}
+                  disabled={isAnyActionInProgress}
+                  aria-label={deletingId === uh.id ? `Removing ${uh.habit_title}` : `Remove ${uh.habit_title}`}
+                >
+                  {deletingId === uh.id ? "…" : <X size={16} aria-hidden="true" />}
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

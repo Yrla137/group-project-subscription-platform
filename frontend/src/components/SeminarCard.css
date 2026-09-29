@@ -1,4 +1,4 @@
-*{
+* {
     box-sizing: border-box;
 }
 
@@ -63,7 +63,7 @@
 
 .seminar-card-btn {
     margin-left: auto;
- }
+}
 
 .seminar-card-btn .primary-btn {
     white-space: nowrap;
@@ -101,5 +101,14 @@
 
     .seminar-card-info {
         max-width: 100%;
+    }
+
+    .seminar-card-btn {
+        margin-left: 0;
+    }
+    .seminar-card-img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 2/1;
     }
 }

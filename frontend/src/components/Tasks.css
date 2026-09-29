@@ -26,6 +26,8 @@
     font-weight: 600;
     cursor: pointer;
     transition: background 0.2s;
+    font-size: 0.8rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 .task-add-btn:hover {
