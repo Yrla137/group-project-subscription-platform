@@ -33,9 +33,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<DashboardPage />} />
-            <Route path="seminars" element={<SeminarsPage />} />
-            <Route path="seminars/:id" element={<SeminarDetailPage />} />
-            <Route path="habits" element={<HabitsPage />} />
+            <Route path="seminars" element={<ProtectedRoute><SeminarsPage /></ProtectedRoute>} />
+            <Route path="seminars/:id" element={<ProtectedRoute><SeminarDetailPage /></ProtectedRoute>} />
+            <Route path="habits" element={<ProtectedRoute><HabitsPage /></ProtectedRoute>} />
             
             <Route path="tiers" element={<TiersPage />} />
             <Route path="checkout" element={ <ProtectedRoute><CheckoutPage/></ProtectedRoute> } />
