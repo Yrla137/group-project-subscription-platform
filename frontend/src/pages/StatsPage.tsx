@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { format, getISOWeek, parseISO, startOfISOWeek, subDays } from "date-fns";
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useStats } from "../hooks/useStats";
 import type { StatsDay } from "../types/StatsTypes";
 import Spinner from "../components/Spinner";
@@ -14,6 +14,8 @@ const RANGES = [
 
 // Same orange as the habit dots in the calendar
 const HABIT_COLOR = "#f59e0b";
+// Same coral as the task dots in the calendar
+const TASK_COLOR = "#ff6b6b";
 
 interface WeekPoint {
     week: string; // "w.40"
@@ -61,6 +63,15 @@ const StatsPage = () => {
     const weeks = useMemo(() => (stats ? groupByWeek(stats.days) : []), [stats]);
     const hasHabits = stats !== null && stats.summary.habitRate !== null;
 
+    const tasksDone = stats?.summary.tasksDone ?? 0;
+    const tasksTotal = stats?.summary.tasksTotal ?? 0;
+    const tasksPercent = tasksTotal > 0 ? Math.round((tasksDone / tasksTotal) * 100) : 0;
+
+    const taskPie = [
+        { name: "Completed", value: tasksDone, color: TASK_COLOR },
+        { name: "Not done", value: tasksTotal - tasksDone, color: "#f3f4f6" },
+    ];
+
     return (
         <div className="stats-page">
             <div className="stats-header">
@@ -93,13 +104,6 @@ const StatsPage = () => {
                         </div>
 
                         <div className="stats-card">
-                            <span className="stats-card-label">Tasks completed</span>
-                            <span className="stats-card-value">
-                                {stats.summary.tasksDone} of {stats.summary.tasksTotal}
-                            </span>
-                        </div>
-
-                        <div className="stats-card">
                             <span className="stats-card-label">Current streak</span>
                             <span className="stats-card-value">
                                 {stats.summary.currentStreak} {stats.summary.currentStreak === 1 ? "day" : "days"}
@@ -117,6 +121,41 @@ const StatsPage = () => {
                                     <span className="stats-card-sub">
                                         {stats.summary.mostConsistent.done} of {stats.summary.mostConsistent.scheduled}{" "}
                                         days
+                                    </span>
+                                </>
+                            ) : (
+                                <span className="stats-card-value">–</span>
+                            )}
+                        </div>
+                        <div className="stats-card">
+                            <span className="stats-card-label">Tasks completed</span>
+
+                            {tasksTotal > 0 ? (
+                                <>
+                                    <div className="stats-donut" role="img" aria-label={`${tasksDone} of ${tasksTotal} tasks completed`}>
+                                        <ResponsiveContainer width="100%" height={110}>
+                                            <PieChart>
+                                                <Pie
+                                                    data={taskPie}
+                                                    dataKey="value"
+                                                    innerRadius={34}
+                                                    outerRadius={50}
+                                                    startAngle={90}
+                                                    endAngle={-270}
+                                                    stroke="none"
+                                                >
+                                                    {taskPie.map((slice) => (
+                                                        <Cell key={slice.name} fill={slice.color} />
+                                                    ))}
+                                                </Pie>
+                                            </PieChart>
+                                        </ResponsiveContainer>
+                                        <span className="stats-donut-label" aria-hidden="true">
+                                            {tasksPercent}%
+                                        </span>
+                                    </div>
+                                    <span className="stats-card-sub">
+                                        {tasksDone} of {tasksTotal} tasks
                                     </span>
                                 </>
                             ) : (
