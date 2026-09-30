@@ -7,9 +7,26 @@
 
 /* ---- Page layout ---- */
 
+.admin-seminars-page {
+    max-width: 1100px;
+    margin: auto;
+    padding: 4rem 0;
+    background-color: var(--bg-color);
+}
+
+.admin-seminars-page h1 {
+    margin: 0 0 1.75rem;
+    font-size: 2.75rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: #111;
+    text-align: center;
+}
+
 .admin-seminars-wrapper {
     display: flex;
-    gap: 50px;
+    gap: 75px;
     padding: 20px;
 }
 
@@ -20,7 +37,7 @@
 }
 
 .admin-seminars-wrapper h2 {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 /* Stack the two columns on narrower screens */

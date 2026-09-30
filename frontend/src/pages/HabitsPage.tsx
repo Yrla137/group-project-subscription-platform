@@ -257,6 +257,8 @@ export default function HabitsPage() {
 
         <div className="manage-habits">
 
+          <h2>{editingId ? "Edit habit" : "Start a habit"}</h2>
+
           <form ref={formRef} className="habit-form" onSubmit={handleSubmit}>
             
             <div className="form-field">
@@ -280,6 +282,9 @@ export default function HabitsPage() {
             <div className="form-field">
               {isCustomFormVisible ? (
                 <div className="custom-habit-form">
+
+                  <h3>Custom habit</h3>
+
                   <label htmlFor="custom_title">{editingCustomHabitId ? "Habit title" : "New habit title"}</label>
                   <input
                     ref={customTitleRef}

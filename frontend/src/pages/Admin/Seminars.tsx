@@ -134,6 +134,8 @@ export default function ManageSeminars() {
     const isAnyActionInProgress = isSubmitting || deletingId !== null;
 
     return (
+        <div className="admin-seminars-page">
+            <h1>Manage Seminars</h1>
         <div className="admin-seminars-wrapper">
             {/* Left column: the form */}
             <div className="admin-seminars-form-column">
@@ -219,7 +221,7 @@ export default function ManageSeminars() {
 
             {/* Right column: all seminars */}
             <div className="admin-seminars-list-column">
-                <h2>Seminars</h2>
+                <h2>Edit seminars</h2>
 
                 {isLoading && <Spinner />}
                 {error && <p className="status-text status-text--error">{error}</p>}
@@ -277,6 +279,7 @@ export default function ManageSeminars() {
                     ))}
                 </ul>
             </div>
+        </div>
         </div>
     );
 }
