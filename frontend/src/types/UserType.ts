@@ -16,6 +16,7 @@ interface User {
 type UserWithTier = User & {
     tier_title: string;
     level_number: number;
+    max_todos_per_day?: number;
 };
 
 // Update User //

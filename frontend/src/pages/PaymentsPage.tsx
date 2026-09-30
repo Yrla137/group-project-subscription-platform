@@ -3,6 +3,7 @@ import { usePayments } from "../hooks/usePayments";
 import type { PaymentWithTier } from "../types/PaymentType";
 import { useAuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import Spinner from "../components/Spinner";
 
 const PaymentsPage = () => {
 
@@ -35,7 +36,7 @@ const PaymentsPage = () => {
         {paymentsError && <p>Error: {paymentsError}</p>}
 
         {paymentsLoading ? (
-            <p>Loading payments...</p>
+            <Spinner />
         ) : (payments.length === 0 ? (
             <p>You have no payments yet.</p>
         ) : (

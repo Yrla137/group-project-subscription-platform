@@ -1,18 +1,58 @@
+import { useEffect, useState } from "react";
 import Calendar from '../components/Calendar'
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthContext'
+import { useUsers } from '../hooks/useUsers';
+import type { UserWithTier } from '../types/UserType';
+import { useTasks } from "../hooks/useTasks";
+
+import { format } from "date-fns";
+
 import "./DashboardPage.css"
 import logo_pic from "../assets/logo_pic.png";
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 10) return "Good morning";
+    if (hour < 17) return "Good day";
+    return "Good evening";
+};
+
 const DashboardPage = () => {
-  const { user, loading } = useAuthContext();
+  const { user: authUser, loading, token } = useAuthContext();
+  const { fetchUserProfile } = useUsers();
+  
+  const tasks = useTasks();
+
+  const [profileData, setProfileData] = useState<UserWithTier | null>(null);+
+
+  useEffect(() => {
+    const loadProfile = async () => {
+      if (token) {
+        try {
+          const data = await fetchUserProfile();
+          setProfileData(data);
+        } catch (err) {
+          console.error("Couldn't get profile to dashboard", err);
+        }
+      }
+    };
+
+
+
+  if (!loading && authUser) {
+    loadProfile();
+    }
+  }, [token, authUser, loading, fetchUserProfile]);
 
   if (loading) {
     return <div className="flex justify-center items-center min-h-[50vh]">Loading...</div>;
   }
 
+
+
   // Start page
-  if (!user) {
+  if (!authUser) {
     return (
       <div className="landing-container">
         <section className="hero-section">
@@ -20,8 +60,6 @@ const DashboardPage = () => {
             Organize your life with <span className="highlight-text">LifeSync Planner</span>
             <span className="logo-dashboard"><img src={logo_pic} alt="Lifesync-logo"/></span>
           </h1>
-
-
 
           <p className="hero-subtitle">
             Your ultimate productivity hub. Take control of your daily tasks, build lasting habits, 
@@ -85,9 +123,47 @@ const DashboardPage = () => {
     );
   }
 
-  // Om användaren ÄR inloggad (Visar din vanliga dashboard med kalender)
+  const todayFormatted = format(new Date(), "yyyy-MM-dd");
+  const taskList = tasks.tasks || [];
+
+  const todaysTasks = taskList.filter((task: any) => {
+    if (!task.task_date) return false;
+    const taskDateOnly = task.task_date.substring(0, 10);
+    return taskDateOnly === todayFormatted;
+  });
+
+  const usedTasksCount = todaysTasks.length;
+  const maxTasks = profileData?.max_todos_per_day ?? 5;
+  const progressPercentage = Math.min((usedTasksCount / maxTasks) * 100, 100);
+  const greeting = getGreeting();
+  const firstName = profileData ? profileData.first_name : "User"
+
   return (
-    <div>
+    <div className="dashboard-page-container">
+      <div className="welcome-banner">
+        <div className="welcome-text-area">
+          <h1>
+            {greeting}, {firstName}! 🌿
+          </h1>
+          <p>
+            {new Date().toLocaleDateString("sv-SE", { weekday: "long", day: "numeric", month: "long" })} 
+            {" "}– Time to structure your day.
+          </p>
+        </div>
+<div className="quota-pill">
+          <span>{profileData?.tier_title || "Focus Pass"} kvot</span>
+          <div className="quota-bar-container">
+            <div 
+              className="quota-bar-fill" 
+              style={{ width: `${progressPercentage}%` }}
+            ></div>
+          </div>
+          <span className="quota-text">
+            {usedTasksCount} of {maxTasks} tasks used
+          </span>
+        </div>
+      </div>
+
       <Calendar />
     </div>
   );

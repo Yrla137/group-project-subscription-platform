@@ -87,8 +87,7 @@ const ConfirmationPage = () => {
                 <div className="confirmation-navigation">
                     <Link
                         to="/"
-                        className="back-to-dashboard-link"
-                    >
+                        className="back-to-dashboard-link">
                         Back to dashboard
                     </Link>
                 </div>

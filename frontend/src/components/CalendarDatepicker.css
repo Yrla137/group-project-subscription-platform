@@ -1,13 +1,16 @@
 /* Container */
 .week-calendar {
-    max-width: 700px;
+    background-color: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    max-width: 1100px;
     margin: auto;
     padding: 0 0 30px;
 }
 
 /* Header */
 .week-calendar-header {
-    max-width: 250px;
+    max-width: 300px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -22,6 +25,7 @@
     cursor: pointer;
     padding: 4px 12px;
     border-radius: 8px;
+    
     transition: background-color 0.15s ease, color 0.15s ease;
 }
 
@@ -67,6 +71,8 @@
     display: flex;
     justify-content: space-between;
     gap: 10px;
+    margin: 10px;
+
 }
 
 .week-day {
@@ -77,13 +83,14 @@
     gap: 5px;
     flex: 1;
     aspect-ratio: 6/7;
-    background-color: var(--card-bg);
+    background-color: #f1f3f1;
     border: none;
     padding: 8px 4px;
     border-radius: var(--radius);
     cursor: pointer;
     transition: background-color 0.15s ease, transform 0.1s ease;
     box-shadow: var(--shadow);
+
 }
 
 .week-day:hover {

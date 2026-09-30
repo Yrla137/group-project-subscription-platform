@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useUsers } from "../hooks/useUsers";
 import { useAuthContext } from "../context/AuthContext";
-import LogoutButton from "../components/LogoutButton";
 import type { UserWithTier } from "../types/UserType";
 import { Link } from "react-router-dom";
+import Spinner from "../components/Spinner";
 
 import { Settings } from "lucide-react";
 
@@ -80,8 +80,6 @@ const ProfilePage = () => {
   return (
     <div className="profile-page">
 
-        <LogoutButton />
-
         <div className="profile-navigation-links">
             <Link to="/profile" className="profile-nav-link">
                 Profile
@@ -98,9 +96,7 @@ const ProfilePage = () => {
       </h1>
 
       {isLoading && !userProfile && (
-        <p className="profile-loading">
-          Loading profile...
-        </p>
+        <Spinner />
       )}
 
       {error && (
@@ -183,7 +179,7 @@ const ProfilePage = () => {
                 className="edit-profile-save-button"
                 type="submit"
                 disabled={isLoading}>
-                {isLoading ? "Saving..." : "Save"}
+                {isLoading ? <Spinner /> : "Save"}
               </button>
 
               <button
@@ -235,7 +231,6 @@ const ProfilePage = () => {
             </button>
 
           </div>
-
         )
       )}
 

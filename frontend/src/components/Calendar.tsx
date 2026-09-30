@@ -13,6 +13,8 @@ import Tasks from "./Tasks";
 import Habits from "./Habits";
 import Spinner from "./Spinner";
 
+import "./Calendar.css";
+
 // Must match weekStartsOn in CalendarDatepicker (1 = Monday)
 const WEEK_STARTS_ON = 1;
 
@@ -99,7 +101,7 @@ const Calendar = () => {
       />
 
       {canSeeOwnContent ? (
-        <>
+        <div className="calendar-content-grid">
           <Tasks
             selectedDate={selectedDate}
             tasks={tasks.tasks}
@@ -114,7 +116,7 @@ const Calendar = () => {
             error={habits.error}
             onToggleCompletion={habits.toggleCompletion}
           />
-        </>
+        </div>
       ) : (
         <p>Upgrade your subscription to plan tasks and habits for this day.</p>
       )}
