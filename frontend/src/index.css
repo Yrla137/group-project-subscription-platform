@@ -89,13 +89,13 @@ h3 {
 .header-left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
   text-decoration: none;
 }
 
 .logo-icon {
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   overflow: hidden;
   display: flex;
@@ -120,14 +120,14 @@ h3 {
 }
 
 .logo-title {
-  font-size: 2rem;
+  font-size: 1.7rem;
   font-weight: 700;
   color: #ffffff;
   margin-top: 5px;
 }
 
 .logo-subtitle {
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 400;
   color: var(--primary);
   letter-spacing: 1.5px;
@@ -153,7 +153,7 @@ h3 {
   background-color: var(--bg-color);
 }
 
-.user-avatar {
+.app-header .user-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -161,25 +161,30 @@ h3 {
   border: 2px solid var(--primary);
 }
 
-.user-info {
+.app-header .user-info {
+  width: auto;
   display: flex;
+  gap: 5px;
   flex-direction: column;
   align-items: flex-start;
+  padding-left: 0;
 }
 
-.user-name {
+.app-header .user-name {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-muted);
+  margin: auto;
 }
 
-.user-tier-badge {
+.app-header .user-tier-badge {
   font-size: 0.7rem;
   background-color: #fef3c7;
   color: #b45309;
   padding: 1px 6px;
   border-radius: 10px;
   font-weight: 500;
+  margin: auto;
 }
 
 /* Dropdown-meny */
@@ -283,6 +288,24 @@ a:hover {
 }
 
 @media (min-width: 768px) {
+
+  .logo-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .logo-title {
+    font-size: 2rem;
+  }
+
+  .logo-subtitle {
+    font-size: 1rem;
+  }
+
+  .header-left {
+    gap: 10px;
+  }
+
   .app-container {
     max-width: 1032px;
   }
