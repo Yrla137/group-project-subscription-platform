@@ -156,12 +156,6 @@
     background-color: #00A391;
 }
 
-/* Only seminars above the user's tier: hollow green ring as a teaser */
-.week-day-dot--seminar-locked {
-    border-color: #00A391;
-    background-color: #ffffff;
-}
-
 /* On the selected day, a white ring keeps the colors visible against the coral background */
 .week-day--active .week-day-dot {
     outline: 2px solid #ffffff;

@@ -51,11 +51,10 @@ const Calendar = () => {
     for (const event of calendar.events) {
       if (!event.date) continue; // skip malformed events instead of crashing
 
-      const day = (map[event.date] ??= { task: false, habit: false, seminar: false, seminarLocked: false });
+      const day = (map[event.date] ??= { task: false, habit: false, seminar: false });
 
       if (event.type === "task") day.task = true;
       else if (event.type === "habit") day.habit = true;
-      else if (event.isLocked) day.seminarLocked = true;
       else day.seminar = true;
     }
 
