@@ -5,11 +5,21 @@
   --head-nav: #142823;
   --text-main: #212529;
   --text-muted: #6c757d;
-  --primary: #fa5252; 
+  --primary: #FF7056; 
   --primary-hover: #f13f3f;
   --border-color: #e9ecef;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   --radius: 12px;
+}
+
+
+/* --- MAIN CONTENT --- */
+.main-content {
+  background-color: var(--bg-color);
+  flex: 1;
+
+  overflow-y: auto;
+
 }
 
 * {
@@ -47,7 +57,7 @@ h1,h2,h3{
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    border-radius: 20px;
+    border-radius: 12px;
     font-size: 0.80rem;
     margin-top: 0.5rem;
     text-decoration: none;
@@ -213,14 +223,6 @@ h1,h2,h3{
   color: #dc2626;
 }
 
-/* --- MAIN CONTENT --- */
-.main-content {
-  background-color: var(--bg-color);
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
-  padding-bottom: 90px;
-}
 
 /* --- BOTTOM NAV --- */
 .bottom-nav {
@@ -235,7 +237,7 @@ h1,h2,h3{
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 1400px;
+  max-width: 1200px;
   z-index: 100;
 }
 
@@ -245,7 +247,7 @@ h1,h2,h3{
   align-items: center;
   text-decoration: none;
   color: var(--text-muted);
-  font-size: 0.75rem;
+  font-size: 0.5rem;
   gap: 4px;
   transition: color 0.2s;
   flex: 1;
@@ -270,6 +272,12 @@ a:hover {
   color: var(--primary-hover);
 }
 
+.link-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 @media (min-width: 768px) {
 .app-container {
   max-width: 1032px;
@@ -279,7 +287,7 @@ a:hover {
 
 @media (min-width: 1280px) {
 .app-container {
-  max-width: 1400px;
+  max-width: 1200px;
   } 
   
 }

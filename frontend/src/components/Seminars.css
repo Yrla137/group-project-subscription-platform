@@ -1,4 +1,6 @@
 .seminar-container {
     padding: 20px;
     font-family: inherit;
+    border-radius: 20px;
+    margin: 5px
 }
