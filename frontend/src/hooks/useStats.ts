@@ -15,6 +15,9 @@ export function useStats(from: string, to: string) {
     const [stats, setStats] = useState<StatsResponse["data"] | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    // Set when the user's tier doesn't include stats; requiredTier is the tier that does
+    const [isLocked, setIsLocked] = useState(false);
+    const [requiredTier, setRequiredTier] = useState<string | null>(null);
 
     useEffect(() => {
         if (!token) {
@@ -36,13 +39,21 @@ export function useStats(from: string, to: string) {
                     signal: controller.signal,
                 });
 
+                const body = await res.json().catch(() => null);
+
+                if (res.status === 403 && body?.code === "STATS_LOCKED") {
+                    setStats(null);
+                    setIsLocked(true);
+                    setRequiredTier(body.required_tier ?? null);
+                    return;
+                }
+
                 if (!res.ok) {
-                    const body = await res.json().catch(() => null);
                     throw new Error(body?.message ?? "Couldn't load your stats.");
                 }
 
-                const json: StatsResponse = await res.json();
-                setStats(json.data);
+                setIsLocked(false);
+                setStats((body as StatsResponse).data);
             } catch (err) {
                 if (err instanceof DOMException && err.name === "AbortError") return;
                 setError(err instanceof Error ? err.message : "Couldn't load your stats.");
@@ -56,5 +67,5 @@ export function useStats(from: string, to: string) {
         return () => controller.abort();
     }, [token, from, to]);
 
-    return { stats, isLoading, error };
+    return { stats, isLoading, error, isLocked, requiredTier };
 }

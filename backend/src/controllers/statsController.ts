@@ -22,6 +22,14 @@ export const getStatsController = async (req: Request, res: Response) => {
         const stats = await statsService.getStats(userId, from, to);
         return res.status(200).json(stats);
     } catch (error) {
+        if (error instanceof statsService.StatsLockedError) {
+            return res.status(403).json({
+                message: error.message,
+                code: "STATS_LOCKED",
+                required_tier: error.requiredTierTitle,
+            });
+        }
+
         if (error instanceof statsService.StatsValidationError) {
             return res.status(400).json({ message: error.message });
         }

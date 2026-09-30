@@ -80,6 +80,7 @@ const TiersPage = () => {
                   <li>✔️ Max {tier.max_todos_per_day ?? tier.max_todos_per_day} tasks a day</li>
                   <li>✔️ Plan {tier.max_future_days} days in the calendar</li>
                   <li>✔️ Create {tier.max_custom_habits} customized habits</li>
+                  {tier.level_number > 1 && (<li>✔️ Progress statistics</li>)}
                 </ul>
 
               <div className="tier-price-box">

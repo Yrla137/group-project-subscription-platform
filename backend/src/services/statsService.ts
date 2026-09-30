@@ -7,7 +7,17 @@ import type { StatsDay, StatsResponse, StatsSummary } from "../types/statsTypes"
 // Upper bound for a single request
 export const MAX_STATS_RANGE_DAYS = 366;
 
-export class StatsValidationError extends Error {}
+// Stats are a paid feature: users below this tier level get a 403 instead of their data
+export const STATS_MIN_TIER_LEVEL = 2;
+
+export class StatsValidationError extends Error { }
+
+export class StatsLockedError extends Error {
+    constructor(public readonly requiredTierTitle: string | null) {
+        super("Your plan doesn't include progress stats");
+        this.name = "StatsLockedError";
+    }
+}
 
 interface UserHabitRow {
     id: number;
@@ -25,6 +35,23 @@ interface TaskDayRow {
     day: string;
     total: number;
     done: number;
+}
+
+// Throws StatsLockedError when the user's tier is too low. Users without a tier count as level 1
+async function assertStatsAccess(userId: number): Promise<void> {
+    const result = await pool.query<{ user_level: number; required_title: string | null }>(
+        `SELECT COALESCE(t.level_number, 1) AS user_level,
+                (SELECT title FROM tiers WHERE level_number = $2 LIMIT 1) AS required_title
+         FROM users u
+         LEFT JOIN tiers t ON t.id = u.current_tier_id
+         WHERE u.id = $1`,
+        [userId, STATS_MIN_TIER_LEVEL]
+    );
+
+    const row = result.rows[0];
+    if (!row || row.user_level < STATS_MIN_TIER_LEVEL) {
+        throw new StatsLockedError(row?.required_title ?? null);
+    }
 }
 
 // created_at is converted to Swedish time, so a habit added at 00:30 counts from that Swedish day
@@ -91,6 +118,8 @@ function calculateStreaks(days: StatsDay[], today: string): { current: number; b
 }
 
 export async function getStats(userId: number, from: string, to: string): Promise<StatsResponse> {
+    await assertStatsAccess(userId);
+
     if (from > to) {
         throw new StatsValidationError("'from' must be on or before 'to'");
     }
