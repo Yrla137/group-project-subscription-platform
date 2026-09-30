@@ -1,5 +1,6 @@
 import type { SeminarCalendarEvent } from "../types/CalendarTypes";
 import SeminarCard from "./SeminarCard";
+import "./Seminars.css"
 
 type SeminarsProps = {
     // Already filtered to the selected day by Calendar
@@ -20,7 +21,7 @@ const Seminars = ({ seminars, error }: SeminarsProps) => {
     if (seminars.length === 0) return null;
 
     return (
-        <div>
+        <div className="seminar-container">
             <h2>Seminars</h2>
 
             <div className="seminar-list">

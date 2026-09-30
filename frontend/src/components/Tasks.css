@@ -1,7 +1,9 @@
-.task-container {
+.task-container { 
     padding: 20px;
     font-family: inherit;
     max-width: 600px;
+    border-radius: 20px;
+    margin-bottom: 5px
 }
 
 .task-header-section {
@@ -18,11 +20,11 @@
 }
 
 .task-add-btn {
-    background-color: #ff6b6b;
+    background-color: var(--primary);
     color: white;
     border: none;
     padding: 8px 16px;
-    border-radius: 20px;
+    border-radius: 12px;
     font-weight: 600;
     cursor: pointer;
     transition: background 0.2s;
@@ -61,7 +63,7 @@
 }
 
 .task-coral {
-    border-left: 6px solid #ff6b6b; 
+    border-left: 6px solid #FF7056; 
 }
 
 .task-blue {
