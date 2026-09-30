@@ -9,9 +9,26 @@ html {
 
 /* ---- Page layout ---- */
 
+.manage-habits-page {
+    max-width: 1100px;
+    margin: auto;
+    padding: 4rem 0;
+    background-color: var(--bg-color);
+}
+
+.manage-habits-page h1 {
+    margin: 0 0 1.75rem;
+    font-size: 2.75rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: #111;
+    text-align: center;
+}
+
 .manage-habits-wrapper {
     display: flex;
-    gap: 50px;
+    gap: 75px;
     padding: 20px;
 }
 
@@ -22,11 +39,17 @@ html {
 }
 
 .manage-habits-wrapper h2 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+    font-weight: 600;
 }
 
 .edit-habits-section:last-of-type h2 {
     margin-top: 30px;
+}
+
+.edit-habits-section:first-of-type h2 {
+    margin-top: 0;
 }
 
 /* Stack the two columns on narrow screens */
@@ -88,7 +111,7 @@ html {
 .manage-habits select:focus,
 .manage-habits textarea:focus {
     outline: none;
-    border-color: var(--primary);
+    border-color: #F59E0B;
 }
 
 .manage-habits select:disabled {
@@ -112,7 +135,7 @@ html {
 }
 
 .manage-habits .btn:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid #F59E0B;
     outline-offset: 2px;
 }
 
@@ -123,12 +146,12 @@ html {
 
 /* Main action, same as the register button */
 .manage-habits .btn-primary {
-    background-color: var(--primary);
+    background-color: #F59E0B;
     color: #ffffff;
 }
 
 .manage-habits .btn-primary:hover:not(:disabled) {
-    background-color: var(--primary-hover);
+    background-color: #C57F08;
 }
 
 /* Secondary action: outlined in the primary color, with room for an icon */
@@ -137,9 +160,9 @@ html {
     align-items: center;
     justify-content: center;
     gap: 6px;
-    border-color: var(--primary);
+    border-color: #F59E0B;
     background-color: transparent;
-    color: var(--primary);
+    color: #F59E0B;
 }
 
 .manage-habits .btn-secondary:hover:not(:disabled) {
@@ -210,7 +233,7 @@ html {
 }
 
 .manage-habits .schedule-switch[aria-checked="true"] .schedule-switch-track {
-    background-color: var(--primary);
+    background-color: #F59E0B;
 }
 
 .manage-habits .schedule-switch[aria-checked="true"] .schedule-switch-thumb {
@@ -218,7 +241,7 @@ html {
 }
 
 .manage-habits .schedule-switch:focus-visible .schedule-switch-track {
-    outline: 2px solid var(--primary);
+    outline: 2px solid #F59E0B;
     outline-offset: 2px;
 }
 
@@ -247,17 +270,17 @@ html {
 }
 
 .manage-habits .weekday-btn:hover {
-    border-color: var(--primary);
+    border-color: #F59E0B;
 }
 
 .manage-habits .weekday-btn--active {
-    border-color: var(--primary);
-    background-color: var(--primary);
+    border-color: #F59E0B;
+    background-color: #F59E0B;
     color: #ffffff;
 }
 
 .manage-habits .weekday-btn:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid #F59E0B;
     outline-offset: 2px;
 }
 
@@ -374,7 +397,7 @@ html {
 }
 
 .edit-habits .btn-danger:hover:not(:disabled) {
-    color: var(--primary-hover);
+    color: #C57F08;
 }
 
 .edit-habits .btn-edit:disabled,
@@ -385,7 +408,7 @@ html {
 
 .edit-habits .btn-edit:focus-visible,
 .edit-habits .btn-danger:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid #F59E0B;
     outline-offset: 2px;
     border-radius: 4px;
 }
@@ -404,8 +427,8 @@ html {
 }
 
 .edit-habits .habit-card--editing {
-    border-left-color: var(--primary);
-    box-shadow: 0 0 0 2px var(--primary);
+    border-left-color: #F59E0B;
+    box-shadow: 0 0 0 2px #F59E0B;
 }
 
 
