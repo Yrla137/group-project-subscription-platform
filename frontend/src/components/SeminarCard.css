@@ -10,14 +10,18 @@
     background-color: var(--card-bg);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
+    background-color: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
     align-items: center;
-    border-left: 6px solid #92b28d;
+    
     border: 1px solid var(--border-color);
+    border-left: 6px solid #92b28d;
 }
 
 .seminar-card-img {
     width: 150px;
-    height: 100px;
+    height: 130px;
     flex-shrink: 0;
     overflow: hidden;
     border-radius: var(--radius);
@@ -136,4 +140,26 @@
         width: 25px;
         height: 25px;
     }
+}
+
+.seminar-card-dashboard {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+}
+
+.seminar-card-dashboard .seminar-description{
+    margin:0 0 5px !important;
+}
+
+.seminar-card-dashboard .seminar-card-btn {
+    margin-top: 0;
+    display: flex;
+    align-items: flex-start;
+}
+
+.seminar-card-dashboard .seminar-card-btn .primary-btn {
+    margin-top: 0;
+    width: auto;
+    flex: 0 0 auto;
+    padding: 8px 16px !important;
 }

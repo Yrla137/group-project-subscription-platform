@@ -1,5 +1,5 @@
 import type { SeminarCalendarEvent } from "../types/CalendarTypes";
-import SeminarCard from "./SeminarCard";
+import SeminarCardDashboard from "./SeminarCardDashboard";
 import "./Seminars.css"
 
 type SeminarsProps = {
@@ -26,7 +26,7 @@ const Seminars = ({ seminars, error }: SeminarsProps) => {
 
             <div className="seminar-list">
                 {seminars.map((seminar) => (
-                    <SeminarCard
+                    <SeminarCardDashboard
                         key={seminar.id}
                         id={seminar.id}
                         title={seminar.title}

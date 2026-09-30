@@ -2,6 +2,17 @@
     font-family: inherit;
     max-width: 1100px;
     margin: 20px auto;
+    padding: 24px 30px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.seminar-container h2{
+    font-size: 1.5rem;
+        font-weight: bold;
+        color: #1f2937;
 }
 
 .seminar-container .seminar-list {
@@ -33,4 +44,58 @@
 .seminar-container .seminar-list .primary-btn{
     padding: 8px 8px;
     font-size: 0.8rem;
+}
+
+.seminar-container .header-desc {
+    margin: 0 auto 3rem;
+    max-width: 38rem;
+    color: #555;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    text-align: center;
+
+}
+
+.seminar-list {
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+p {
+    margin: 10px 0;
+}
+
+.seminar-description {
+    margin-bottom: 0;
+}
+
+@media (max-width: 600px) {
+    .seminar-container {
+        padding: 2.5rem 20px;
+    }
+
+    .seminar-container h1 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .seminar-container .header-desc {
+        margin-bottom: 1.5rem;
+    }
+
+    .seminar-container h2 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 380px) {
+    .seminar-container h1 {
+        font-size: 1.8rem;
+    }
 }
