@@ -9,10 +9,10 @@
     box-shadow: var(--shadow);
 }
 
-.seminar-container h2{
+.seminar-container h2 {
     font-size: 1.5rem;
-        font-weight: bold;
-        color: #1f2937;
+    font-weight: bold;
+    color: #1f2937;
 }
 
 .seminar-container .seminar-list {
@@ -21,8 +21,8 @@
     padding: 20px 0 0;
 }
 
-.seminar-container .seminar-time{
-    margin:0;
+.seminar-container .seminar-time {
+    margin: 0;
 }
 
 .seminar-container .seminar-description {
@@ -41,7 +41,7 @@
     min-width: 0;
 }
 
-.seminar-container .seminar-list .primary-btn{
+.seminar-container .seminar-list .primary-btn {
     padding: 8px 8px;
     font-size: 0.8rem;
 }
@@ -73,9 +73,20 @@ p {
     margin-bottom: 0;
 }
 
-@media (max-width: 600px) {
+
+@media screen and (max-width: 600px) {
+
+    .seminar-container .seminar-list,
+    .seminar-card-dashboard {
+        display: block;
+    }
+
+    .seminar-card-dashboard {
+        display: flex;
+    }
+
     .seminar-container {
-        padding: 2.5rem 20px;
+        padding: 15px 20px;
     }
 
     .seminar-container h1 {
@@ -92,6 +103,10 @@ p {
         margin-bottom: 15px;
         margin-top: 10px;
     }
+        .seminar-container-dashboard h2 {
+            margin-bottom: 0px;
+            margin-top: 0px;
+        }
 }
 
 @media (max-width: 380px) {

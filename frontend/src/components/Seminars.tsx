@@ -21,7 +21,7 @@ const Seminars = ({ seminars, error }: SeminarsProps) => {
     if (seminars.length === 0) return null;
 
     return (
-        <div className="seminar-container">
+        <div className="seminar-container seminar-container-dashboard">
             <h2>Seminars</h2>
 
             <div className="seminar-list">
