@@ -4,6 +4,7 @@ import type { PaymentWithTier } from "../types/PaymentType";
 import { useAuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import Spinner from "../components/Spinner";
+import "./PaymentsPage.css";
 
 const PaymentsPage = () => {
 
@@ -30,44 +31,86 @@ const PaymentsPage = () => {
     }, [fetchMyPayments, authLoading]);
 
     return (
-    <div>
-        <h1>My Payments</h1>
+        <div className="payments-page">
 
-        {paymentsError && <p>Error: {paymentsError}</p>}
+            <div className="payments-header">
+            <h2 className="payments-title">
+                Payment History
+            </h2>
 
-        {paymentsLoading ? (
-            <Spinner />
-        ) : (payments.length === 0 ? (
-            <p>You have no payments yet.</p>
-        ) : (
-            <table>
-                <thead>
+            <p className="payments-subtitle">
+                View your payment history and subscription details.
+            </p>
+            </div>
+
+            {paymentsError && (
+            <p className="payments-error">
+                Error: {paymentsError}
+            </p>
+            )}
+
+            {paymentsLoading ? (
+            <div className="payments-loading">
+                <Spinner />
+            </div>
+            ) : payments.length === 0 ? (
+            <div className="payments-empty">
+                <h3>No Payments Yet</h3>
+                <p>You have no payments yet.</p>
+            </div>
+            ) : (
+            <section className="payments-card">
+
+                <div className="payments-card-header">
+                <h2>Your Payments</h2>
+                <p>Your previous subscription payments.</p>
+                </div>
+
+                <div className="payments-table-wrapper">
+                <table className="payments-table">
+                    <thead>
                     <tr>
-                        <th>Tier Title:</th>
-                        <th>Tier Description:</th>
-                        <th>Amount:</th>
-                        <th>Payment Date:</th>
+                        <th>Tier</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Payment Date</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+
+                    <tbody>
                     {payments.map((payment) => (
                         <tr key={payment.id}>
-                            <td>{payment.tier_title}</td>
-                            <td>{payment.tier_description}</td>
-                            <td>{payment.amount}</td>
-                            <td>{new Date(payment.payment_date).toLocaleDateString()}</td>
+                        <td data-label="Tier">
+                            {payment.tier_title}
+                        </td>
+
+                        <td data-label="Description">
+                            {payment.tier_description}
+                        </td>
+
+                        <td data-label="Amount">
+                            {payment.amount}
+                        </td>
+
+                        <td data-label="Payment Date">
+                            {new Date(payment.payment_date).toLocaleDateString()}
+                        </td>
                         </tr>
                     ))}
-                </tbody>
-            </table>
-        ))}
+                    </tbody>
+                </table>
+                </div>
 
-        <div className="profile-navigation">
-            <Link to="/profile" className="profile-nav-link">
-                Back to Profile
+            </section>
+            )}
+
+            <div className="payments-navigation">
+            <Link to="/profile" className="payments-back-link">
+                ← Back to Profile
             </Link>
+            </div>
+
         </div>
-    </div>
     );
 };
 

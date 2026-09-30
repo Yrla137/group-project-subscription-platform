@@ -7,6 +7,7 @@ import { useAuthContext } from '../context/AuthContext';
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Spinner from "../components/Spinner";
+import "./CheckoutPage.css";
 
 const CheckoutPage = () => {
 
@@ -68,62 +69,156 @@ const CheckoutPage = () => {
   };
 
   return (
+    <div className="checkout-page">
 
-    <div>
-      <h1>Checkout Page</h1>
+      <div className="checkout-header">
+        <h1 className="checkout-title">
+          Checkout
+        </h1>
 
-      {tierError && <p>Error: {tierError}</p>}
-      {paymentError && <p>Error: {paymentError}</p>}
+        <p className="checkout-subtitle">
+          Review your subscription and enter your payment information.
+        </p>
+      </div>
+
+      {tierError && (
+        <p className="checkout-error">
+          Error: {tierError}
+        </p>
+      )}
+
+      {paymentError && (
+        <p className="checkout-error">
+          Error: {paymentError}
+        </p>
+      )}
 
       {isTierLoading ? (
-        <Spinner />
-        ) : (
-          selectedTierDetails && (
-            <div className="tier-details-container">
-              <h2>Selected Tier Details</h2>
-              <p>Title: {selectedTierDetails.title}</p>
-              <p>Level: {selectedTierDetails.level_number}</p>
-              <p>Description: {selectedTierDetails.tier_description}</p>
-              <p>Price: ${selectedTierDetails.price}</p>
-            </div>
-          )
-        )}
-
-        <div className="paymment-form-container">
-          <h3>Payment Information</h3>
-
-          <form className="payment-form" onSubmit={handleCreatePayment}>
-
-            <label>
-              Card Number:
-              <input type="text" name="cardNumber" placeholder="1234 5678 9012 3456" required />
-            </label>
-            <label>
-              Expiration Date:
-              <input type="text" name="expirationDate" placeholder="MM/YY" required />
-            </label>
-            <label>
-              CVV:
-              <input type="text" name="cvv" placeholder="123" required />
-            </label>
-
-            <button
-              className="submit-payment-form-button"
-              type="submit"
-              disabled={isPaymentLoading || selectedTier === null}>
-              {isPaymentLoading ? <Spinner /> : 'Pay Now'}
-            </button>
-          </form>
+        <div className="checkout-loading">
+          <Spinner />
         </div>
+      ) : (
+        selectedTierDetails && (
+          <section className="checkout-tier-card">
+
+            <div className="checkout-tier-header">
+              <div>
+                <span className="checkout-section-label">
+                  Selected Subscription
+                </span>
+
+                <h2>
+                  {selectedTierDetails.title}
+                </h2>
+              </div>
+
+              <div className="checkout-tier-price">
+                ${selectedTierDetails.price}
+              </div>
+            </div>
+
+            <div className="checkout-tier-details">
+              <div className="checkout-tier-detail">
+                <span>Level:</span>
+                <strong>
+                  {selectedTierDetails.level_number}
+                </strong>
+              </div>
+
+              <div className="checkout-tier-description">
+                <span>Description:</span>
+                <p>
+                  {selectedTierDetails.tier_description}
+                </p>
+              </div>
+            </div>
+
+          </section>
+        )
+      )}
+
+      <section className="payment-form-container">
+
+        <div className="payment-form-header">
+          <span className="checkout-section-label">
+            Secure Payment
+          </span>
+
+          <h2>
+            Payment Information
+          </h2>
+
+          <p>
+            Enter your card details to complete your subscription.
+          </p>
+        </div>
+
+        <form
+          className="payment-form"
+          onSubmit={handleCreatePayment}>
+
+          <div className="payment-form-field payment-card-number">
+            <label htmlFor="card-number">
+              Card Number
+            </label>
+
+            <input
+              id="card-number"
+              type="text"
+              name="cardNumber"
+              placeholder="1234 5678 9012 3456"
+              required/>
+          </div>
+
+          <div className="payment-form-row">
+
+            <div className="payment-form-field">
+              <label htmlFor="expiration-date">
+                Expiration Date
+              </label>
+
+              <input
+                id="expiration-date"
+                type="text"
+                name="expirationDate"
+                placeholder="MM/YY"
+                required/>
+            </div>
+
+            <div className="payment-form-field">
+              <label htmlFor="cvv">
+                CVV
+              </label>
+
+              <input
+                id="cvv"
+                type="text"
+                name="cvv"
+                placeholder="123"
+                required/>
+            </div>
+
+          </div>
+
+          <button
+            className="submit-payment-form-button"
+            type="submit"
+            disabled={isPaymentLoading || selectedTier === null}>
+            {isPaymentLoading ? <Spinner /> : "Pay Now"}
+          </button>
+
+        </form>
+
+      </section>
 
       <div className="tiers-navigation">
         <Link to="/tiers" className="tiers-nav-link">
-          Back to Tiers
+          ← Back to Tiers
         </Link>
       </div>
-      
+
     </div>
-  );
-}
+  )
+};
 
 export default CheckoutPage;

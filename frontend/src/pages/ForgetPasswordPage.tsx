@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { Link } from "react-router-dom";
 import "./ForgetPasswordPage.css";
 
 const ForgetPasswordPage = () => {
@@ -63,6 +63,11 @@ const ForgetPasswordPage = () => {
                   </p>
               )}
           </div>
+
+
+            <Link to="/login" className="forget-password-link">
+                Back to Login
+            </Link>
       </div>
   )
 };
