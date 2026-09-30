@@ -1,0 +1,241 @@
+/* Progress page. Everything is prefixed with stats- so it doesn't clash with other pages */
+
+.stats-page {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.stats-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.stats-header h1 {
+    margin: 0;
+}
+
+/* ---- Period buttons ---- */
+
+.stats-range {
+    display: flex;
+    gap: 6px;
+}
+
+.stats-range-btn {
+    padding: 0.4rem 0.9rem;
+    border: 1px solid #d1d5db;
+    border-radius: 20px;
+    background-color: #ffffff;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #4b5563;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.stats-range-btn:hover {
+    border-color: var(--primary);
+}
+
+.stats-range-btn--active {
+    border-color: var(--primary);
+    background-color: var(--primary);
+    color: #ffffff;
+}
+
+.stats-range-btn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* ---- Summary cards ---- */
+
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.stats-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    padding: 16px 20px;
+    border: 1px solid #f3f4f6;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.stats-card-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.stats-card-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+/* Habit names are longer than numbers, so they get a smaller size and are cut with … */
+.stats-card-value--text {
+    font-size: 1.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stats-card-sub {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* ---- Chart ---- */
+
+.stats-chart-card {
+    padding: 20px;
+    border: 1px solid #f3f4f6;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.stats-chart-card h2 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.stats-chart-sub {
+    margin: 4px 0 16px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.stats-chart {
+    width: 100%;
+}
+
+/* ---- Messages ---- */
+
+.stats-empty {
+    margin: 0;
+    padding: 24px 0;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.stats-link {
+    font-weight: 600;
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.stats-link:hover {
+    text-decoration: underline;
+}
+
+.stats-error {
+    margin: 0;
+    padding: 8px 12px;
+    border-left: 4px solid #dc2626;
+    border-radius: 6px;
+    background-color: #fef2f2;
+    font-size: 0.85rem;
+    color: #dc2626;
+}
+
+/* ---- Locked state: blurred preview with an upgrade notice on top ---- */
+
+.stats-locked {
+    position: relative;
+}
+
+.stats-locked-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    filter: blur(6px);
+    opacity: 0.7;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Covers the preview and centers the notice over it */
+.stats-locked-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin-bottom: 150px;
+}
+
+.stats-upgrade {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    max-width: 380px;
+    padding: 28px 24px;
+    border: 1px solid #f3f4f6;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    text-align: center;
+}
+
+.stats-upgrade h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #1f2937;
+}
+
+.stats-upgrade p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+.stats-upgrade-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    color: var(--bg-color);
+}
+
+.stats-upgrade-btn {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 0.75rem 1.5rem;
+    border-radius: 20px;
+    background-color: var(--primary);
+    font-weight: 600;
+    color: #ffffff;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.stats-upgrade-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+.stats-upgrade-btn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}

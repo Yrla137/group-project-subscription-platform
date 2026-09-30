@@ -25,6 +25,7 @@ import ConfirmationPage from "./pages/ConfirmationPage";
 
 import ProtectedRoute from "./components/Routes/ProtectedRoute";
 import AdminRoute from "./components/Routes/AdminRoute";
+import StatsPage from "./pages/StatsPage";
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
             <Route path="seminars" element={<ProtectedRoute><SeminarsPage /></ProtectedRoute>} />
             <Route path="seminars/:id" element={<ProtectedRoute><SeminarDetailPage /></ProtectedRoute>} />
             <Route path="habits" element={<ProtectedRoute><HabitsPage /></ProtectedRoute>} />
+            <Route path="stats" element={<ProtectedRoute><StatsPage /></ProtectedRoute>} />
             
             <Route path="tiers" element={<TiersPage />} />
             <Route path="checkout" element={ <ProtectedRoute><CheckoutPage/></ProtectedRoute> } />
