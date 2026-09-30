@@ -2,8 +2,9 @@
 .landing-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100%;
   color: #333;
+
 
 }
 
@@ -57,6 +58,10 @@
   line-height: 1.6;
 }
 
+.button-info-text {
+  margin-bottom:20px;
+}
+
 .hero-buttons {
   display: flex;
   gap: 1rem;
@@ -89,7 +94,7 @@
   padding: 1.75rem;
   border-radius: 1rem;
   border: 1px solid #f3f4f6;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -153,13 +158,15 @@
 .dashboard-page-container {
   background-color: #f8fffa;
     max-width: 1200px;
-    margin: 0;
+    margin: auto;
     padding: 20px;
 }
 
 .welcome-banner {
   background-color: #FFF;
     background: linear-gradient(135deg, #ffffff 0% #f8fafc 100%);
+    max-width: 1100px;
+    margin: auto;
     border: 1px solid #e2e8f0;
     border-radius: 16px;
     padding: 24px 30px;
@@ -167,7 +174,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    box-shadow: var(--shadow);
     flex-wrap: wrap;
     gap: 20px;
 }
@@ -187,32 +194,58 @@
 }
 
 .quota-pill {
-    background: #fff;
+    background: #f1f3f1;
     border: 1px solid #e2e8f0;
-    padding: 12px 18px;
+    padding: 10px 14px;
     border-radius: 12px;
-    font-size: 13px;
-    color: #475569;
+    font-size: 12px;
+    color: var(--text-main);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    min-width: 280px;
+    box-shadow: var(--shadow);
+}
+
+.quota-text-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    min-width: 200px;
+    flex-shrink: 0; 
 }
 
 .quota-bar-container {
-    background: #f1f5f9;
-    height: 6px;
-    border-radius: 3px;
+    background: #ffffff;
+    height: 8px;
+    border-radius: 4px;
     overflow: hidden;
+    flex-grow: 1; 
 }
 
 .quota-bar-fill {
-    background: #ff6b6b;
+    background: var(--primary);
     height: 100%;
-    border-radius: 3px;
+    border-radius: 4px;
 }
 
 .quota-text {
-    font-size: 11px;
+    font-size: 10px;
     color: #94a3b8;
+}
+
+.quota-upgrade-text {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 6px;
+    text-align: left;
+}
+
+.upgrade-link {
+    color: var(--primary, #ff7043); /* Använd din primärfärg eller orange ton */
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.upgrade-link:hover {
+    opacity: 0.8;
 }

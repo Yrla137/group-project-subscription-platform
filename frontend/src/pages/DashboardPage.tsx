@@ -38,8 +38,6 @@ const DashboardPage = () => {
       }
     };
 
-
-
   if (!loading && authUser) {
     loadProfile();
     }
@@ -66,7 +64,7 @@ const DashboardPage = () => {
             and unlock expert seminars to level up your routine.
           </p>
           
-          <p>
+          <p className="button-info-text">
             Sign in or create an account to start boosting your productivity today!
           </p>
 
@@ -146,24 +144,36 @@ const DashboardPage = () => {
             {greeting}, {firstName}! 🌿
           </h1>
           <p>
-            {new Date().toLocaleDateString("sv-SE", { weekday: "long", day: "numeric", month: "long" })} 
+            {new Date().toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long" })}
             {" "}– Time to structure your day.
           </p>
         </div>
-<div className="quota-pill">
-          <span>{profileData?.tier_title || "Focus Pass"} kvot</span>
-          <div className="quota-bar-container">
-            <div 
-              className="quota-bar-fill" 
-              style={{ width: `${progressPercentage}%` }}
-            ></div>
+        <div className="quota-container">
+        <div className="quota-pill">
+          <div className="quota-text-wrapper">
+            <span>{profileData?.tier_title || "Slacker"} quota</span>
+            <span className="quota-text">
+              {usedTasksCount} of {maxTasks} tasks used
+            </span>
           </div>
-          <span className="quota-text">
-            {usedTasksCount} of {maxTasks} tasks used
-          </span>
-        </div>
-      </div>
 
+          <div className="quota-bar-container">
+            <div
+              className="quota-bar-fill"
+              style={{ width: `${progressPercentage}%` }}>
+              </div>
+          </div>
+        </div>
+    
+    <p className="quota-upgrade-text">
+          Your plan allows {maxTasks} daily tasks.{" "}
+          <Link to="/tiers" className="upgrade-link">
+            Upgrade your subscription
+          </Link>{" "}
+          to create more.
+        </p>
+    </div>
+      </div>
       <Calendar />
     </div>
   );

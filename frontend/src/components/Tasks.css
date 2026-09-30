@@ -1,7 +1,7 @@
 .task-container { 
     padding: 20px;
     font-family: inherit;
-    max-width: 600px;
+    max-width: 550px;
     border-radius: 20px;
     margin-bottom: 5px
 }
@@ -11,6 +11,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    max-width: 450px;
 }
 
 .task-main-title {
@@ -49,13 +50,13 @@
 .task-card {
     background: #ffffff;
     max-width: 450px;
-    border-radius: 16px;
+    border-radius: var(--radius);
     padding: 16px 20px;
     margin-bottom: 12px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-shadow: var(--shadow);
     border: 1px solid #f3f4f6;
     border-left: 6px solid #ff6b6b; 
     overflow: hidden;
@@ -167,7 +168,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     width: 100%;
     max-width: 400px;
-    border-left: 6px solid #ff6b6b;  
+    border-left: 6px solid var(--primary);  
 }
 
 .task-form {
@@ -245,7 +246,7 @@
 }
 
 .task-save-btn {
-    background-color: #ff6b6b;
+    background-color: var(--primary);
     color: white;
     border: none;
     padding: 0.75rem;
