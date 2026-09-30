@@ -1,0 +1,231 @@
+.payments-page {
+  min-height: 100%;
+  padding: 2rem 1.25rem 6rem;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+}
+
+.payments-header {
+  max-width: 900px;
+  margin: 0 auto 1.75rem;
+}
+
+.payments-title {
+  color: var(--head-nav);
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.payments-subtitle {
+  margin: 0.5rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.payments-error {
+  max-width: 900px;
+  margin: 0 auto 1.5rem;
+  padding: 1rem 1.25rem;
+  background-color: #fff1f0;
+  border: 1px solid #ffd2ce;
+  border-radius: var(--radius);
+  color: #c92a2a;
+  font-size: 0.9rem;
+}
+
+.payments-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 10rem;
+}
+
+.payments-card {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.payments-card-header {
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.payments-card-header h2 {
+  margin: 0;
+  color: var(--head-nav);
+  font-size: 1.25rem;
+  font-weight: 750;
+}
+
+.payments-card-header p {
+  margin: 0.4rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.payments-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.payments-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+.payments-table th {
+  padding: 1rem 0.75rem;
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 750;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.payments-table td {
+  padding: 1.1rem 0.75rem;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.payments-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.payments-table tbody tr:hover {
+  background-color: #fffaf8;
+}
+
+.payments-empty {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.payments-empty h2 {
+  color: var(--head-nav);
+  font-size: 1.2rem;
+}
+
+.payments-empty p {
+  margin: 0.5rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.payments-navigation {
+  max-width: 900px;
+  margin: 1.5rem auto 0;
+}
+
+.payments-back-link {
+  color: var(--primary);
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 1.25rem;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.payments-back-link:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+  transform: translateX(-2px);
+}
+
+@media (max-width: 700px) {
+  .payments-page {
+    padding: 1.5rem 1rem 6rem;
+  }
+
+  .payments-title {
+    font-size: 1.75rem;
+  }
+
+  .payments-card {
+    padding: 1.25rem;
+  }
+
+  .payments-table thead {
+    display: none;
+  }
+
+  .payments-table,
+  .payments-table tbody,
+  .payments-table tr,
+  .payments-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .payments-table tr {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .payments-table tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  .payments-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border: none;
+    text-align: right;
+  }
+
+  .payments-table td::before {
+    content: attr(data-label);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 750;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-align: left;
+  }
+}
+
+@media (max-width: 380px) {
+  .payments-page {
+    padding: 1.25rem 0.85rem 6rem;
+  }
+
+  .payments-title {
+    font-size: 1.6rem;
+  }
+
+  .payments-card {
+    padding: 1rem;
+  }
+
+  .payments-table td {
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: left;
+  }
+
+  .payments-table td::before {
+    text-align: left;
+  }
+}

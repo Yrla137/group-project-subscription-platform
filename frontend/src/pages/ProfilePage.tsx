@@ -4,6 +4,7 @@ import { useAuthContext } from "../context/AuthContext";
 import type { UserWithTier } from "../types/UserType";
 import { Link } from "react-router-dom";
 import Spinner from "../components/Spinner";
+import "./ProfilePage.css";
 
 import { Settings } from "lucide-react";
 
@@ -80,23 +81,30 @@ const ProfilePage = () => {
   return (
     <div className="profile-page">
 
-        <div className="profile-navigation-links">
-            <Link to="/profile" className="profile-nav-link">
-                Profile
-            </Link>
+      <div className="profile-navigation-links">
+        <Link to="/profile" className="profile-nav-link">
+          Profile
+        </Link>
 
-            <Link to="/payments-page" className="profile-nav-link">
-                Payments
-            </Link>
-        </div>
+        <Link to="/payments-page" className="profile-nav-link">
+          Payments
+        </Link>
+      </div>
 
+      <div className="profile-header">
+        <h1 className="profile-title">
+          Profile
+        </h1>
 
-      <h1 className="profile-title">
-        Profile
-      </h1>
+        <p className="profile-subtitle">
+          Manage your account information.
+        </p>
+      </div>
 
       {isLoading && !userProfile && (
-        <Spinner />
+        <div className="profile-loading">
+          <Spinner />
+        </div>
       )}
 
       {error && (
@@ -110,17 +118,24 @@ const ProfilePage = () => {
 
           <form
             className="edit-profile-form"
-            onSubmit={handleUpdateProfile}>
+            onSubmit={handleUpdateProfile}
+          >
 
-            <h2 className="edit-profile-title">
-              Edit Profile
-            </h2>
+            <div className="edit-profile-header">
+              <h2 className="edit-profile-title">
+                Edit Profile
+              </h2>
+
+              <p>
+                Update your account information.
+              </p>
+            </div>
 
             <div className="edit-profile-field">
-
               <label
                 className="edit-profile-label"
-                htmlFor="profile-first-name">
+                htmlFor="profile-first-name"
+              >
                 First Name
               </label>
 
@@ -131,15 +146,15 @@ const ProfilePage = () => {
                 name="first_name"
                 value={editForm.first_name}
                 onChange={handleEditFormChange}
-                required/>
-
+                required
+              />
             </div>
 
             <div className="edit-profile-field">
-
               <label
                 className="edit-profile-label"
-                htmlFor="profile-last-name">
+                htmlFor="profile-last-name"
+              >
                 Last Name
               </label>
 
@@ -150,15 +165,15 @@ const ProfilePage = () => {
                 name="last_name"
                 value={editForm.last_name}
                 onChange={handleEditFormChange}
-                required/>
-
+                required
+              />
             </div>
 
             <div className="edit-profile-field">
-
               <label
                 className="edit-profile-label"
-                htmlFor="profile-email">
+                htmlFor="profile-email"
+              >
                 Email
               </label>
 
@@ -169,8 +184,8 @@ const ProfilePage = () => {
                 name="email"
                 value={editForm.email}
                 onChange={handleEditFormChange}
-                required/>
-
+                required
+              />
             </div>
 
             <div className="edit-profile-actions">
@@ -178,65 +193,96 @@ const ProfilePage = () => {
               <button
                 className="edit-profile-save-button"
                 type="submit"
-                disabled={isLoading}>
-                {isLoading ? <Spinner /> : "Save"}
+                disabled={isLoading}
+              >
+                {isLoading ? <Spinner /> : "Save Changes"}
               </button>
 
               <button
                 className="edit-profile-cancel-button"
                 type="button"
                 onClick={handleCancelEdit}
-                disabled={isLoading}>
+                disabled={isLoading}
+              >
                 Cancel
               </button>
 
             </div>
 
           </form>
+
         ) : (
-          <div className="profile-info">
 
-            <h2 className="profile-info-heading">
-              Account Information
-            </h2>
+          <section className="profile-info">
 
-            <p className="profile-name">
-              <strong>Name:</strong>
-                <span>
+            <div className="profile-info-header">
+              <div>
+                <h2 className="profile-info-heading">
+                  Account Information
+                </h2>
+
+                <p>
+                  Your personal account details.
+                </p>
+              </div>
+
+              <button
+                className="edit-profile-button"
+                type="button"
+                onClick={handleEditProfile}
+                aria-label="Edit Profile"
+              >
+                <Settings
+                  className="edit-profile-icon"
+                  size={24}
+                  strokeWidth={2.3}
+                />
+              </button>
+            </div>
+
+            <div className="profile-details">
+
+              <div className="profile-detail">
+                <span className="profile-detail-label">
+                  Name
+                </span>
+
+                <span className="profile-detail-value">
                   {userProfile.first_name} {userProfile.last_name}
                 </span>
-            </p>
+              </div>
 
-            <p className="profile-email">
-              <strong>Email:</strong>
-              <span>
-                {userProfile.email}
-              </span>
-            </p>
+              <div className="profile-detail">
+                <span className="profile-detail-label">
+                  Email
+                </span>
 
-            <p className="tier-level-role">
-              <strong>Tier:</strong>
-              <span>
-                {userProfile.tier_title} (Level {userProfile.level_number})
-              </span>
-            </p>
+                <span className="profile-detail-value">
+                  {userProfile.email}
+                </span>
+              </div>
 
-            <button
-              className="edit-profile-button"
-              type="button"
-              onClick={handleEditProfile}>
-              <Settings className="edit-profile-icon" />
+              <div className="profile-detail">
+                <span className="profile-detail-label">
+                  Tier
+                </span>
 
-              Edit Profile
-            </button>
+                <span className="profile-tier">
+                  {userProfile.tier_title}
+                  <span>
+                    Level {userProfile.level_number}
+                  </span>
+                </span>
+              </div>
 
-          </div>
+            </div>
+
+          </section>
         )
       )}
 
     </div>
-  );
+  )
 };
-
 
 export default ProfilePage;
