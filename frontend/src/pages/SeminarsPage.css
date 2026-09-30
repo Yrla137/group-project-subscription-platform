@@ -1,10 +1,35 @@
+.seminars-page {
+    max-width: 1100px;
+    margin: auto;
+    padding: 4rem 0;
+}
+
+.seminars-page h1 {
+    margin: 0 0 0.75rem;
+    font-size: 2.75rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color:#111;
+    text-align: center;
+}
+.seminars-page .header-desc{
+    margin: 0 auto 3rem;
+    max-width: 38rem;
+    color: #555;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    text-align: center;
+
+}
+
 .seminar-list {
     list-style: none;
     padding: 10px 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 25px;
 }
 
 p{

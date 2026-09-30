@@ -1,6 +1,7 @@
 .seminar-container {
-    padding: 20px;
     font-family: inherit;
+    max-width: 1100px;
+    margin: 20px auto;
 }
 
 .seminar-container .seminar-list {

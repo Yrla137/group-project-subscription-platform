@@ -22,6 +22,8 @@ const SeminarsPage = () => {
     <div className="seminars-page">
       <h1>Seminars</h1>
 
+      <p className="header-desc">Find inspiring seminars to guide you.</p>
+
       {isLoading && upcoming.length === 0 && <Spinner />}
       {error && <p className="status-text status-text--error">Couldn't load seminars: {error}</p>}
 
