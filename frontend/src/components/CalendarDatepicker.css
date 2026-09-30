@@ -3,6 +3,7 @@
     background-color: var(--card-bg);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
+    border: 1px solid #e2e8f0;
     max-width: 1100px;
     margin: auto;
     padding: 0 0 30px;
@@ -14,7 +15,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0 auto 12px;
+    margin: 12px auto 12px;
 }
 
 .week-nav-btn {

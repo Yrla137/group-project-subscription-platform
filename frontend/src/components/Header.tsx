@@ -4,6 +4,7 @@ import { useUsers } from "../hooks/useUsers";
 import type { UserWithTier } from "../types/UserType";
 
 import { Link } from "react-router-dom";
+import { LogOut } from "lucide-react";
 import logo_pic from "../assets/logo_pic.png";
 import userpic from "../assets/userpic.jpg";
 
@@ -94,7 +95,7 @@ const Header: React.FC = () => {
             </Link>
 
             <button onClick={logout} className="dropdown-item logout-btn">
-              Log out
+              Log out <LogOut />
             </button>
            </div>
           )}
