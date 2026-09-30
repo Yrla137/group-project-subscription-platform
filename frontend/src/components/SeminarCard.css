@@ -4,7 +4,7 @@
 
 .seminar-card {
     display: grid;
-    grid-template-columns: 150px 1fr 150px;
+    grid-template-columns: 150px 1fr 130px;
     gap: 20px;
     padding: 16px;
     background-color: var(--card-bg);
@@ -71,8 +71,7 @@
     align-items: center;
     text-align: center;
     gap: 3px;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding:8px;
     justify-content: center;
 }
 
