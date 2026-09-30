@@ -2,13 +2,13 @@
 .calendar-content-grid {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 25px;
     margin-top: 30px;
 
     background-color: var(--card-bg);
     border: 1px solid #e2e8f0;
-    border-radius: 16px;
-    padding: 24px;
+    border-radius: var(--radius);
+    padding: 15px 20px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
 }
 
@@ -26,6 +26,7 @@
         margin: 20px auto;
         grid-template-columns: 1fr 1fr;
         align-items: start;
-        gap: 20px;
+        gap: 60px;
+        padding: 24px 30px;
     }
 }
