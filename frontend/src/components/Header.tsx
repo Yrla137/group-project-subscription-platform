@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import { useUsers } from "../hooks/useUsers";
 import type { UserWithTier } from "../types/UserType";
@@ -14,6 +14,8 @@ const Header: React.FC = () => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [profileData, setProfileData] = useState<UserWithTier | null>(null);
+
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -31,6 +33,22 @@ const Header: React.FC = () => {
       loadProfile();
     }
   }, [token, authUser, loading, fetchUserProfile]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    if (dropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownOpen]);
 
   if (loading)  {
       return (
@@ -64,7 +82,7 @@ const Header: React.FC = () => {
             Log in
           </Link>
         ) : (
-          <div className="user-menu-wrapper" style={{ position: "relative" }}>
+          <div className="user-menu-wrapper" ref={menuRef} style={{ position: "relative" }}>
         <div 
           className="user-profile-menu" 
           onClick={() => setDropdownOpen(!dropdownOpen)}
