@@ -12,12 +12,12 @@ html {
 .manage-habits-page {
     max-width: 1100px;
     margin: auto;
-    padding: 4rem 0;
+    padding: 4rem 20px;
     background-color: var(--bg-color);
 }
 
 .manage-habits-page h1 {
-    margin: 0 0 1.75rem;
+    margin: 0 0 2.75rem;
     font-size: 2.75rem;
     font-weight: 800;
     line-height: 1.1;
@@ -26,7 +26,7 @@ html {
     text-align: center;
 }
 
-.manage-habits-page h2{
+.manage-habits-page h2 {
     margin-bottom: 25px;
 }
 
@@ -37,7 +37,6 @@ html {
 .manage-habits-wrapper {
     display: flex;
     gap: 75px;
-    padding: 20px;
 }
 
 .manage-habits,
@@ -163,7 +162,7 @@ html {
     justify-content: center;
     gap: 6px;
     border-color: #F59E0B;
-    background-color: transparent;
+    background-color:var(--card-bg);
     color: #F59E0B;
 }
 
@@ -451,5 +450,28 @@ html {
 @media screen and (max-width:1000px) {
     .manage-habits-wrapper {
         flex-direction: column;
-        }
+    }
+}
+
+@media (max-width: 600px) {
+    .manage-habits-page {
+        padding: 2.5rem 20px;
+    }
+
+    .manage-habits-page h1 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .manage-habits-page h2 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 380px) {
+    .manage-habits-page h1 {
+        font-size: 1.8rem;
+    }
 }
