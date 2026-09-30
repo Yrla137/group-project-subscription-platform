@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./LoginPage.css"
 import logo_pic from "../assets/logo_pic.png";
+import Spinner from "../components/Spinner";
 
 const LoginPage = () => {
 
@@ -92,11 +93,11 @@ const LoginPage = () => {
           )}
 
           <button
-            className="login-button"
+            className={`login-button ${isLoading ? "login-button-loading" : ""}`}
             type="submit"
             disabled={isLoading}>
-            {isLoading ? "Logging in..." : "Log in"}
-          </button>
+            {isLoading ? <Spinner /> : "Log in"}
+        </button>
 
         </form>      
         <div className="login-footer">

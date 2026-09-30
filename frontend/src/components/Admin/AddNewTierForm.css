@@ -1,0 +1,76 @@
+.add-tier-form-container {
+  padding: 1.5rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.add-tier-form-header {
+  margin-bottom: 1.25rem;
+}
+
+.add-tier-form-header h2 {
+  margin: 0 0 0.35rem;
+  color: #1f2937;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.add-tier-form-header p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+.add-tier-form {
+  width: 100%;
+}
+
+.add-tier-form > .tier-form-field {
+  margin-bottom: 1rem;
+}
+
+.add-tier-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .add-tier-form-container {
+    padding: 1.25rem;
+  }
+
+  .add-tier-form-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .add-tier-form-header p {
+    font-size: 0.85rem;
+  }
+
+  .add-tier-form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .add-tier-form-actions .tier-cancel-button,
+  .add-tier-form-actions .tier-save-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  .add-tier-form-container {
+    padding: 1rem;
+  }
+
+  .add-tier-form-header h2 {
+    font-size: 1.1rem;
+  }
+
+  .add-tier-form-header p {
+    font-size: 0.82rem;
+  }
+}

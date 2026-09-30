@@ -5,8 +5,10 @@ import { Settings } from "lucide-react";
 import { useAuthContext } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import AddNewTierForm from "../../components/Admin/AddNewTierForm";
+import Spinner from "../../components/Spinner";
+import "./TiersListPage.css";
 
-const TiersList = () => {
+const TiersListPage = () => {
 
     const [selectedTier, setSelectedTier] = useState<number | null>(null);
 
@@ -179,115 +181,296 @@ const TiersList = () => {
     }
 
     return (
-        <div>
-            <h1>Manage Tiers</h1>
+        <div className="tiers-page">
 
-            {tiersError && <p>Error: {tiersError}</p>}
+            <section className="tiers-header">
+                <div className="tiers-header-content">
+                    <h1 className="tiers-title">
+                        Manage Tiers
+                    </h1>
 
-            {isTiersLoading ? (
-                <p>Loading tiers...</p>
-            ) : (
-                <div>
-                    {tiers.map((tier) => (
-                        <div key={tier.id}>
-                            <h2>{tier.title}</h2>
+                    <p className="tiers-subtitle">
+                        Create and manage subscription tiers and their limits.
+                    </p>
+                </div>
+            </section>
 
-                            <p>{tier.tier_description}</p>
+            <main className="tiers-content">
 
-                            <p>Price: {tier.price}</p>
-                            <p>Level: {tier.level_number}</p>
-                            <p>Max todos per day: {tier.max_todos_per_day}</p>
-                            <p>Max custom habits: {tier.max_custom_habits}</p>
-                            <p>Max future days: {tier.max_future_days}</p>
+                {tiersError && (
+                    <div className="tiers-error">
+                        <p>{tiersError}</p>
+                    </div>
+                )}
+
+                {isTiersLoading ? (
+                    <div className="tiers-loading">
+                        <Spinner />
+                    </div>
+                ) : (
+                    <section className="tiers-section">
+
+                        <div className="tiers-section-header">
+                            <div>
+                                <h2>Subscription Tiers</h2>
+
+                                <p>
+                                    {tiers.length}{" "}
+                                    {tiers.length === 1 ? "tier" : "tiers"}{" "}
+                                    available
+                                </p>
+                            </div>
 
                             <button
-                                aria-label="Edit tier"
-                                onClick={() => handleEditTier(tier)}>
-                              <Settings/>
+                                className="add-tier-button"
+                                aria-label="Add New Tier"
+                                onClick={handleShowTierForm}>
+                                +
                             </button>
-                            {editing && selectedTier === tier.id && (
-                                <form onSubmit={handleUpdateTier}>
-                                    <input
-                                        type="text"
-                                        name="title"
-                                        value={editForm.title}
-                                        onChange={handleEditTierChange}
-                                        placeholder="Title"
-                                        required
-                                    />
-                                    <textarea
-                                        name="tier_description"
-                                        value={editForm.tier_description}
-                                        onChange={handleEditTierChange}
-                                        placeholder="Description"
-                                        required
-                                    />
-                                    <input
-                                        type="text"
-                                        name="price"
-                                        value={editForm.price}
-                                        onChange={handleEditTierChange}
-                                        placeholder="Price"
-                                        required
-                                    />
-                                    <input
-                                        type="number"
-                                        name="level_number"
-                                        value={editForm.level_number}
-                                        onChange={handleEditTierChange}
-                                        placeholder="Level Number"
-                                        required
-                                    />
-                                    <input
-                                        type="number"
-                                        name="max_todos_per_day"
-                                        value={editForm.max_todos_per_day}
-                                        onChange={handleEditTierChange}
-                                        placeholder="Max Todos Per Day"
-                                        required
-                                    />
-                                    <input
-                                        type="number"
-                                        name="max_custom_habits"
-                                        value={editForm.max_custom_habits}
-                                        onChange={handleEditTierChange}
-                                        placeholder="Max Custom Habits"
-                                        required
-                                    />
-                                    <input
-                                        type="number"
-                                        name="max_future_days"
-                                        value={editForm.max_future_days}
-                                        onChange={handleEditTierChange}
-                                        placeholder="Max Future Days"
-                                        required
-                                    />
-                                    <button type="submit">Save</button>
-                                    <button type="button" onClick={handleCancelEdit}>Cancel</button>
-                                </form>
-                            )}
                         </div>
-                    ))}
 
-                    <button aria-label="Add New Tier" onClick={handleShowTierForm}>
-                        +
-                    </button>
+                        <div className="tiers-list">
+
+                            {tiers.map((tier) => (
+                                <article
+                                    className="tier-card"
+                                    key={tier.id}>
+
+                                    <div className="tier-card-header">
+
+                                        <div>
+                                            <h2>{tier.title}</h2>
+
+                                            <span className="tier-level">
+                                                Level {tier.level_number}
+                                            </span>
+                                        </div>
+
+                                        <button
+                                            className="tier-edit-button"
+                                            aria-label="Edit tier"
+                                            onClick={() => handleEditTier(tier)}>
+                                            <Settings
+                                                size={25}
+                                                strokeWidth={2.2}/>
+                                        </button>
+
+                                    </div>
+
+                                    <p className="tier-description">
+                                        {tier.tier_description}
+                                    </p>
+
+                                    <div className="tier-price">
+                                        <span className="tier-price-label">
+                                            Price
+                                        </span>
+
+                                        <span className="tier-price-value">
+                                            {tier.price}
+                                        </span>
+                                    </div>
+
+                                    <div className="tier-limits">
+
+                                        <div className="tier-limit">
+                                            <span>Todos per day</span>
+                                            <strong>
+                                                {tier.max_todos_per_day}
+                                            </strong>
+                                        </div>
+
+                                        <div className="tier-limit">
+                                            <span>Custom habits</span>
+                                            <strong>
+                                                {tier.max_custom_habits}
+                                            </strong>
+                                        </div>
+
+                                        <div className="tier-limit">
+                                            <span>Future days</span>
+                                            <strong>
+                                                {tier.max_future_days}
+                                            </strong>
+                                        </div>
+
+                                    </div>
+
+                                    {editing && selectedTier === tier.id && (
+                                        <form
+                                            className="edit-tier-form"
+                                            onSubmit={handleUpdateTier}>
+
+                                            <div className="edit-tier-form-header">
+                                                <h3>Edit Tier</h3>
+                                                <p>
+                                                    Update the information and limits
+                                                    for this tier.
+                                                </p>
+                                            </div>
+
+                                            <div className="tier-form-field">
+                                                <label htmlFor={`title-${tier.id}`}>
+                                                    Title
+                                                </label>
+
+                                                <input
+                                                    id={`title-${tier.id}`}
+                                                    type="text"
+                                                    name="title"
+                                                    value={editForm.title}
+                                                    onChange={handleEditTierChange}
+                                                    placeholder="Title"
+                                                    required/>
+                                            </div>
+
+                                            <div className="tier-form-field">
+                                                <label htmlFor={`description-${tier.id}`}>
+                                                    Description
+                                                </label>
+
+                                                <textarea
+                                                    id={`description-${tier.id}`}
+                                                    name="tier_description"
+                                                    value={editForm.tier_description}
+                                                    onChange={handleEditTierChange}
+                                                    placeholder="Description"
+                                                    required/>
+                                            </div>
+
+                                            <div className="tier-form-grid">
+
+                                                <div className="tier-form-field">
+                                                    <label htmlFor={`price-${tier.id}`}>
+                                                        Price
+                                                    </label>
+
+                                                    <input
+                                                        id={`price-${tier.id}`}
+                                                        type="text"
+                                                        name="price"
+                                                        value={editForm.price}
+                                                        onChange={handleEditTierChange}
+                                                        placeholder="Price"
+                                                        required/>
+                                                </div>
+
+                                                <div className="tier-form-field">
+                                                    <label htmlFor={`level-${tier.id}`}>
+                                                        Level
+                                                    </label>
+
+                                                    <input
+                                                        id={`level-${tier.id}`}
+                                                        type="number"
+                                                        name="level_number"
+                                                        value={editForm.level_number}
+                                                        onChange={handleEditTierChange}
+                                                        placeholder="Level"
+                                                        required/>
+                                                </div>
+
+                                                <div className="tier-form-field">
+                                                    <label htmlFor={`todos-${tier.id}`}>
+                                                        Max Todos Per Day
+                                                    </label>
+
+                                                    <input
+                                                        id={`todos-${tier.id}`}
+                                                        type="number"
+                                                        name="max_todos_per_day"
+                                                        value={editForm.max_todos_per_day}
+                                                        onChange={handleEditTierChange}
+                                                        placeholder="Max Todos"
+                                                        required/>
+                                                </div>
+
+                                                <div className="tier-form-field">
+                                                    <label htmlFor={`habits-${tier.id}`}>
+                                                        Max Custom Habits
+                                                    </label>
+
+                                                    <input
+                                                        id={`habits-${tier.id}`}
+                                                        type="number"
+                                                        name="max_custom_habits"
+                                                        value={editForm.max_custom_habits}
+                                                        onChange={handleEditTierChange}
+                                                        placeholder="Max Habits"
+                                                        required/>
+                                                </div>
+
+                                                <div className="tier-form-field">
+                                                    <label htmlFor={`future-${tier.id}`}>
+                                                        Max Future Days
+                                                    </label>
+
+                                                    <input
+                                                        id={`future-${tier.id}`}
+                                                        type="number"
+                                                        name="max_future_days"
+                                                        value={editForm.max_future_days}
+                                                        onChange={handleEditTierChange}
+                                                        placeholder="Future Days"
+                                                        required/>
+                                                </div>
+
+                                            </div>
+
+                                            <div className="tier-form-actions">
+
+                                                <button
+                                                    type="button"
+                                                    className="tier-cancel-button"
+                                                    onClick={handleCancelEdit}
+                                                    disabled={isTiersLoading}>
+                                                    Cancel
+                                                </button>
+
+                                                <button
+                                                    type="submit"
+                                                    className="tier-save-button"
+                                                    disabled={isTiersLoading}>
+                                                    {isTiersLoading ? (
+                                                        <Spinner />
+                                                    ) : (
+                                                        "Save Changes"
+                                                    )}
+                                                </button>
+
+                                            </div>
+
+                                        </form>
+                                    )}
+
+                                </article>
+                            ))}
+
+                        </div>
+
+                    </section>
+                )}
+
+                <div className="add-tier-form-wrapper">
+                    <AddNewTierForm
+                        showNewTierForm={showNewTierForm}
+                        isLoading={isTiersLoading}
+                        handleAddNewTier={handleAddNewTier}
+                        handleAddNewTierChange={handleAddNewTierChange}
+                        addNewTier={addNewTier}
+                        handleCancelAddNewTier={handleCancelAddNewTier}/>
                 </div>
-            )}
 
-            <AddNewTierForm
-                showNewTierForm={showNewTierForm}
-                handleAddNewTier={handleAddNewTier}
-                handleAddNewTierChange={handleAddNewTierChange}
-                addNewTier={addNewTier}
-                handleCancelAddNewTier={handleCancelAddNewTier}
-            />
+                <div className="back-to-admin-link">
+                    <Link to="/admin">
+                        Back to Admin Profile
+                    </Link>
+                </div>
 
-            <div className="back-to-admin-link">
-              <Link to="/admin">Back to Admin Profile</Link>
-            </div>
+            </main>
+
         </div>
-    );
-}
+    )
+};
 
-export default TiersList;
+export default TiersListPage;
