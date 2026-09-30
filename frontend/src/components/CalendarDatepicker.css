@@ -4,8 +4,8 @@
     box-shadow:none;
     border:0;
     max-width: 1100px;
-    margin: auto;
-    padding: 0 0 20px;
+    margin: auto -10px;
+    padding: 0 0 10px;
 }
 
 /* Header */
