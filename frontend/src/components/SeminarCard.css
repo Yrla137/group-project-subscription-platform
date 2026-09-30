@@ -12,6 +12,7 @@
     box-shadow: var(--shadow);
     align-items: center;
     border-left: 6px solid #92b28d;
+    border: 1px solid var(--border-color);
 }
 
 .seminar-card-img {
@@ -98,7 +99,7 @@
 .seminar-card--locked h3,
 .seminar-card--locked .seminar-description,
 .seminar-card--locked .seminar-time {
-    opacity: 0.75;
+    opacity: 0.5;
 }
 
 @media screen and (max-width:768px) {
