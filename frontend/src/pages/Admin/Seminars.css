@@ -7,9 +7,26 @@
 
 /* ---- Page layout ---- */
 
+.admin-seminars-page {
+    max-width: 1100px;
+    margin: auto;
+    padding: 4rem 0;
+    background-color: var(--bg-color);
+}
+
+.admin-seminars-page h1 {
+    margin: 0 0 1.75rem;
+    font-size: 2.75rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: #111;
+    text-align: center;
+}
+
 .admin-seminars-wrapper {
     display: flex;
-    gap: 50px;
+    gap: 75px;
     padding: 20px;
 }
 
@@ -20,7 +37,7 @@
 }
 
 .admin-seminars-wrapper h2 {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 /* Stack the two columns on narrower screens */
@@ -80,7 +97,7 @@
 .admin-seminar-form select:focus,
 .admin-seminar-form textarea:focus {
     outline: none;
-    border-color: var(--primary);
+    border-color: #92b28d;
 }
 
 
@@ -98,7 +115,7 @@
 }
 
 .admin-seminar-form .btn:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid #92b28d;
     outline-offset: 2px;
 }
 
@@ -108,18 +125,18 @@
 }
 
 .admin-seminar-form .btn-primary {
-    background-color: var(--primary);
+    background-color: #92b28d;
     color: #ffffff;
 }
 
 .admin-seminar-form .btn-primary:hover:not(:disabled) {
-    background-color: var(--primary-hover);
+    background-color: #83A07F;
 }
 
 .admin-seminar-form .btn-secondary {
-    border-color: var(--primary);
+    border-color: #92b28d;
     background-color: transparent;
-    color: var(--primary);
+    color: #83A07F;
 }
 
 .admin-seminar-form .btn-secondary:hover:not(:disabled) {
@@ -177,12 +194,12 @@
     background: var(--card-bg);
     box-shadow: var(--shadow);
     transition: box-shadow 0.2s ease, border-color 0.2s ease;
-    border-left: 6px solid #00A391;
+    border-left: 6px solid #92b28d;
 }
 
 .admin-seminar-card--editing {
-    border-left-color: var(--primary);
-    box-shadow: 0 0 0 2px var(--primary);
+    border-left-color: #92b28d;
+    box-shadow: 0 0 0 2px #92b28d;
 }
 
 .admin-seminar-card-text {
@@ -238,7 +255,7 @@
 }
 
 .admin-seminar-card .btn-danger:hover:not(:disabled) {
-    color: var(--primary-hover);
+    color: #83A07F;
 }
 
 .admin-seminar-card .btn-edit:disabled,
@@ -249,7 +266,20 @@
 
 .admin-seminar-card .btn-edit:focus-visible,
 .admin-seminar-card .btn-danger:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid #92b28d;
     outline-offset: 2px;
     border-radius: 4px;
+}
+
+.admin-seminar-form .btn-primary {
+    white-space: nowrap;
+    background-color: #92b28d;
+}
+
+.admin-seminar-form .btn-primary:hover:not(:disabled) {
+    background-color: #83A07F;
+}
+
+.admin-seminar-form .btn-primary:hover {
+    background-color: #83A07F;
 }

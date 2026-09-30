@@ -12,10 +12,7 @@ export interface CalendarHorizon {
 export interface DayEventTypes {
     task: boolean;
     habit: boolean;
-    // A seminar the user has access to
     seminar: boolean;
-    // A seminar above the user's tier (shown as a hollow teaser dot)
-    seminarLocked: boolean;
 }
 
 interface CalendarProps {
@@ -33,7 +30,6 @@ function describeDay(day: Date, types: DayEventTypes | undefined, locked: boolea
     if (types?.task) parts.push("tasks");
     if (types?.habit) parts.push("habits");
     if (types?.seminar) parts.push("seminar");
-    else if (types?.seminarLocked) parts.push("seminar for a higher plan");
 
     let label = format(day, "EEEE d MMMM", { locale: enUS });
     if (parts.length > 0) label += `: ${parts.join(", ")}`;
@@ -163,13 +159,7 @@ export default function CalendarDatepicker({
                             <span className="week-day-dots" aria-hidden="true">
                                 {types?.task && <span className="week-day-dot week-day-dot--task" />}
                                 {types?.habit && <span className="week-day-dot week-day-dot--habit" />}
-                                {types?.seminar ? (
-                                    <span className="week-day-dot week-day-dot--seminar" />
-                                ) : (
-                                    types?.seminarLocked && (
-                                        <span className="week-day-dot week-day-dot--seminar-locked" />
-                                    )
-                                )}
+                                {types?.seminar && <span className="week-day-dot week-day-dot--seminar" />}
                             </span>
                         </button>
                     );
