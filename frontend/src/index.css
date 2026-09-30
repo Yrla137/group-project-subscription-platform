@@ -17,7 +17,6 @@
 .main-content {
   background-color: var(--bg-color);
   flex: 1;
-
   overflow-y: auto;
 
 }
