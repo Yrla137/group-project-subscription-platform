@@ -249,3 +249,10 @@
 .upgrade-link:hover {
     opacity: 0.8;
 }
+
+@media screen and (max-width:768px) {
+  .welcome-banner {
+      padding: 15px 20px;
+    }
+  
+}

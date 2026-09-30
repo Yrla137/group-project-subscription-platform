@@ -5,7 +5,7 @@
   --head-nav: #142823;
   --text-main: #212529;
   --text-muted: #6c757d;
-  --primary: #FF7056; 
+  --primary: #FF7056;
   --primary-hover: #f13f3f;
   --border-color: #e9ecef;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
@@ -18,7 +18,7 @@
   background-color: var(--bg-color);
   flex: 1;
   overflow-y: auto;
-   
+
 
 }
 
@@ -32,6 +32,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background-color: #000;
   color: var(--text-main);
+  padding-bottom: 69px;
 }
 
 .app-container {
@@ -45,22 +46,24 @@ body {
   /* position: relative; */
 }
 
-h1,h2,h3{
-  margin:0;
+h1,
+h2,
+h3 {
+  margin: 0;
 }
 
 .primary-btn {
-    background-color: var(--primary);
-    color: white;
-    border: none;
-    padding: 0.75rem 2rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    border-radius: var(--radius);
-    font-size: 0.80rem;
-    margin-top: 0.5rem;
-    text-decoration: none;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-radius: var(--radius);
+  font-size: 0.80rem;
+  margin-top: 0.5rem;
+  text-decoration: none;
 }
 
 .primary-btn:hover {
@@ -86,13 +89,13 @@ h1,h2,h3{
 .header-left {
   display: flex;
   align-items: center;
-  gap: 10px; 
+  gap: 7px;
   text-decoration: none;
 }
 
 .logo-icon {
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   overflow: hidden;
   display: flex;
@@ -110,24 +113,24 @@ h1,h2,h3{
 .logo-text-group {
   display: flex;
   flex-direction: row;
-  align-items:last baseline;
+  align-items: last baseline;
   gap: 10px;
   line-height: 1;
-  
+
 }
 
 .logo-title {
-  font-size: 2rem;
+  font-size: 1.7rem;
   font-weight: 700;
   color: #ffffff;
-  margin-top: 5px; 
+  margin-top: 5px;
 }
 
 .logo-subtitle {
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 400;
-  color: var(--primary); 
-  letter-spacing: 1.5px; 
+  color: var(--primary);
+  letter-spacing: 1.5px;
   margin-top: 2px;
 }
 
@@ -136,7 +139,7 @@ h1,h2,h3{
 }
 
 .user-profile-menu {
-  background-color:#0f1f1c;
+  background-color: #0f1f1c;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -150,7 +153,7 @@ h1,h2,h3{
   background-color: var(--bg-color);
 }
 
-.user-avatar {
+.app-header .user-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -158,25 +161,30 @@ h1,h2,h3{
   border: 2px solid var(--primary);
 }
 
-.user-info {
+.app-header .user-info {
+  width: auto;
   display: flex;
+  gap: 5px;
   flex-direction: column;
   align-items: flex-start;
+  padding-left: 0;
 }
 
-.user-name {
+.app-header .user-name {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-muted);
+  margin: auto;
 }
 
-.user-tier-badge {
+.app-header .user-tier-badge {
   font-size: 0.7rem;
   background-color: #fef3c7;
   color: #b45309;
   padding: 1px 6px;
   border-radius: 10px;
   font-weight: 500;
+  margin: auto;
 }
 
 /* Dropdown-meny */
@@ -195,7 +203,8 @@ h1,h2,h3{
   z-index: 10;
 }
 
-.dropdown-item, .dropdown-item-admin {
+.dropdown-item,
+.dropdown-item-admin {
   padding: 10px 12px;
   text-decoration: none;
   color: var(--text-main);
@@ -254,7 +263,7 @@ h1,h2,h3{
 }
 
 .bottom-nav a span:first-child {
-  font-size: 1.3rem; 
+  font-size: 0.9rem;
 }
 
 .bottom-nav a:hover,
@@ -279,15 +288,37 @@ a:hover {
 }
 
 @media (min-width: 768px) {
-.app-container {
-  max-width: 1032px;
-  } 
-  
+
+  .logo-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .logo-title {
+    font-size: 2rem;
+  }
+
+  .logo-subtitle {
+    font-size: 1rem;
+  }
+
+  .header-left {
+    gap: 10px;
+  }
+
+  .app-container {
+    max-width: 1032px;
+  }
+
+  .bottom-nav a span:first-child {
+    font-size: 1.3rem;
+  }
+
 }
 
 @media (min-width: 1280px) {
-.app-container {
-  max-width: 1200px;
-  } 
-  
+  .app-container {
+    max-width: 1200px;
+  }
+
 }
