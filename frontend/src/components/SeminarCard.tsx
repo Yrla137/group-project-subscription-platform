@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { format, parseISO, isValid } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { Lock } from "lucide-react";
+import { Lock, Crown } from "lucide-react";
 import "./SeminarCard.css";
 
 const FALLBACK_IMG = "/seminar_dummy.jpg";
@@ -68,7 +68,14 @@ const SeminarCard = ({ id, title, img, startsAt, description, isTierLocked, tier
 
             <div className="seminar-card-btn">
                 <Link to={target} className="primary-btn">
-                    {isTierLocked ? `Upgrade to ${requiredTier}` : "Read more"}
+                    {isTierLocked ? (
+                        <>
+                            Get {requiredTier}
+                            <Crown size={16} aria-hidden="true" />
+                        </>
+                    ) : (
+                        "Read more"
+                    )}
                 </Link>
             </div>
         </div>

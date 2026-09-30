@@ -2,3 +2,34 @@
     padding: 20px;
     font-family: inherit;
 }
+
+.seminar-container .seminar-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 20px 0 0;
+}
+
+.seminar-container .seminar-time{
+    margin:0;
+}
+
+.seminar-container .seminar-description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    font-size: 0.85rem;
+    color: var(--text-main);
+    margin: 0 0 10px;
+    white-space: unset;
+}
+
+.seminar-container .seminar-list .seminar-card {
+    min-width: 0;
+}
+
+.seminar-container .seminar-list .primary-btn{
+    padding: 8px 8px;
+    font-size: 0.8rem;
+}
