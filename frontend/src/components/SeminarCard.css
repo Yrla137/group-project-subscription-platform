@@ -11,7 +11,7 @@
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     align-items: center;
-    border-left: 6px solid #00A391;
+    border-left: 6px solid #92b28d;
 }
 
 .seminar-card-img {
@@ -46,7 +46,7 @@
 }
 
 .seminar-lock-badge {
-    background-color: var(--primary);
+    background-color: #92b28d;
     width: 34px;
     height: 34px;
     border-radius: 50%;
@@ -66,8 +66,13 @@
     margin-left: auto;
 }
 
-.seminar-card-btn .primary-btn {
+.seminar-card .primary-btn {
     white-space: nowrap;
+    background-color: #92b28d;
+}
+
+.seminar-card .primary-btn:hover {
+    background-color: #83A07F;
 }
 
 .seminar-time {

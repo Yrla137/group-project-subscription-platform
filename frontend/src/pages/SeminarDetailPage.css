@@ -17,12 +17,15 @@
 
 .seminar-flex div img {
     width: 100%;
+    border-radius: var(--radius);
 }
 
 .seminar-detail-tier{
     position: absolute;
     top: 10px;
     left: 10px;
+    background-color: #F3F6F2;
+    color: #83A07F;
 }
 
 .seminar-info, .seminar-detail-locked{
@@ -45,16 +48,6 @@
     color: var(--text-main);
 }
 
-.seminar-detail-tier {
-    display: inline-block;
-    padding: 0.1rem 0.5rem;
-    border-radius: 1rem;
-    background-color: #BBFFE2;
-    color: #0F8767;
-    font-size: 0.7rem;
-    font-weight: bold;
-}
-
 .seminar-detail-when {
     display: flex;
     align-items: center;
@@ -72,7 +65,8 @@
     margin-top: 5px;
     padding: 16px;
     border-radius: var(--radius);
-    background-color: var(--border-color);
+    background-color: var(--card-bg);
+    box-shadow: var(--shadow);
 }
 
 .seminar-detail-join p {

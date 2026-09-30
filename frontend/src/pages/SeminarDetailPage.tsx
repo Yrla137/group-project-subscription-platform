@@ -98,7 +98,7 @@ const SeminarDetailPage = () => {
                             }
                         }}
                     />
-                    <span className="seminar-detail-tier">{seminar.tier_title}</span>
+                    <span className="user-tier-badge seminar-detail-tier">{seminar.tier_title}</span>
                 </div>
 
                 <div className="seminar-info">
