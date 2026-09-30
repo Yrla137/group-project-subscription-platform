@@ -69,14 +69,16 @@
 
 /* Week days row */
 .week-days {
+    max-width: 900px;
     display: flex;
     justify-content: space-between;
-    gap: 10px;
+    gap: 5px;
     margin: 10px;
 
 }
 
 .week-day {
+    max-width: 120px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -109,7 +111,7 @@
 }
 
 .week-day--disabled:hover {
-    background-color: #eef4fe;
+    background-color: #dcdfe2;
 }
 
 .week-day--disabled:active {
@@ -117,7 +119,7 @@
 }
 
 .week-day-label {
-    font-size: 0.7rem;
+    font-size: 1rem;
     font-weight: 500;
     color: var(--text-muted);
     text-transform: capitalize;
@@ -166,7 +168,7 @@
 
 /* On the selected day, a white ring keeps the colors visible against the coral background */
 .week-day--active .week-day-dot {
-    outline: 2px solid #ffffff;
+    outline: 1px solid #ffffff;
 }
 
 /* Active state */
@@ -213,16 +215,32 @@
 
 @media screen and (min-width:768px) {
 
+    .week-calendar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }        
+    
+    .week-days {
+        width: 100%;
+        max-width: 900px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px; 
+        margin: 10px auto;
+    }
     .week-day {
         padding: 10px 10px 15px;
     }
 
+
+
     .week-day-number {
-        font-size: 1.1rem;
+        font-size: 2rem;
     }
 
     .week-day--active .week-day-number {
-        font-size: 1.5rem;
+        font-size: 2.5rem;
     }
 
 }
