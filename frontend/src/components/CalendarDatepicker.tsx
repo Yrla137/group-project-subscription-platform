@@ -60,11 +60,6 @@ export default function CalendarDatepicker({
             
     const days = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
 
-    const today = new Date().toLocaleDateString("en-US", {
-        day: "numeric",
-        month: "long",
-    });
-
     // Hide the notice again as soon as the user picks another date or week
     useEffect(() => {
         setShowUpgradeNotice(false);
@@ -106,6 +101,19 @@ export default function CalendarDatepicker({
     return (
         <div className="week-calendar">
             <div className="week-calendar-header">
+                
+                <span className="week-range-label">
+                    <span aria-label={monthLabelLong}>{monthLabel}</span>
+
+                    <button type="button" className="today-btn" onClick={goToToday}>
+                        Today
+                    </button>
+                </span>
+
+            </div>
+
+            <div className="week-days">
+
                 <button
                     type="button"
                     className="week-nav-btn"
@@ -114,28 +122,6 @@ export default function CalendarDatepicker({
                 >
                     ‹
                 </button>
-
-                <span className="week-range-label">
-                    <span aria-label={monthLabelLong}>{monthLabel}</span>
-
-                    <button type="button" className="today-btn" onClick={goToToday}>
-                        Today: {today}
-                    </button>
-                </span>
-
-                {/* Not using the disabled attribute, so a click can still show the upgrade notice */}
-                <button
-                    type="button"
-                    className={`week-nav-btn ${isLastAllowedWeek ? "week-nav-btn--disabled" : ""}`}
-                    onClick={goToNextWeek}
-                    aria-disabled={isLastAllowedWeek}
-                    aria-label="Next week"
-                >
-                    ›
-                </button>
-            </div>
-
-            <div className="week-days">
                 {days.map((day) => {
                     // Locked days can't be selected, but clicking them shows the upgrade notice
                     const locked = isOutsideHorizon(day);
@@ -164,6 +150,16 @@ export default function CalendarDatepicker({
                         </button>
                     );
                 })}
+                {/* Not using the disabled attribute, so a click can still show the upgrade notice */}
+                <button
+                    type="button"
+                    className={`week-nav-btn ${isLastAllowedWeek ? "week-nav-btn--disabled" : ""}`}
+                    onClick={goToNextWeek}
+                    aria-disabled={isLastAllowedWeek}
+                    aria-label="Next week"
+                >
+                    ›
+                </button>
             </div>
 
             {showUpgradeNotice && horizon && (
