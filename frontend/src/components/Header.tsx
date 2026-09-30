@@ -89,8 +89,8 @@ const Header: React.FC = () => {
               Profile
             </Link>
 
-            <Link to="/tiers" className="dropdown-item">
-              Membership
+            <Link to="/stats" className="dropdown-item">
+              Statistics
             </Link>
 
             <button onClick={logout} className="dropdown-item logout-btn">

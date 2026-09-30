@@ -56,6 +56,7 @@ h1,h2,h3{
 .primary-btn:hover {
   background-color: #fa4444;
   transform: translateY(-1px);
+  color: #ffffff;
 }
 
 
