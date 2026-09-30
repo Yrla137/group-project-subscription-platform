@@ -14,12 +14,15 @@ interface TaskViewProps {
     tasks: TasksHook["tasks"];
     error: string | null;
     onUpdateTask: TasksHook["updateTask"];
+    onDeleteTask: TasksHook["deleteTask"];
     onTaskCreated: () => void;
     horizon?: CalendarHorizon | null;
 }
 
-export default function Tasks({ selectedDate, tasks, error, onUpdateTask, onTaskCreated }: TaskViewProps) {
+export default function Tasks({ selectedDate, tasks, error, onUpdateTask, onTaskCreated, onDeleteTask }: TaskViewProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
 
     const formattedSelectedDate = format(selectedDate, "yyyy-MM-dd");
 
@@ -33,6 +36,21 @@ export default function Tasks({ selectedDate, tasks, error, onUpdateTask, onTask
         if (a.is_completed === b.is_completed) return 0;
         return a.is_completed ? 1 : -1;
     });
+
+    const handleDeleteClick = (id: number) => {
+        if (confirmDeleteId === id) {
+  
+            onDeleteTask(id);
+            setConfirmDeleteId(null);
+        } else {
+
+            setConfirmDeleteId(id);
+
+            setTimeout(() => {
+                setConfirmDeleteId((prev) => (prev === id ? null : prev));
+            }, 3000);
+        }
+    };
 
     return (
         <div className="task-container">
@@ -64,6 +82,7 @@ export default function Tasks({ selectedDate, tasks, error, onUpdateTask, onTask
                 sortedTasks.map((task) => {
                     const colorClass = task.color ? `task-${task.color}` : "task-coral";
                     const completedClass = task.is_completed ? "completed" : "";
+                    const isConfirming = confirmDeleteId === task.id;
 
                     return (
                         <div key={task.id} className={`task-card ${colorClass} ${completedClass}`}>
@@ -81,6 +100,14 @@ export default function Tasks({ selectedDate, tasks, error, onUpdateTask, onTask
                                     {task.task_description && <p className="task-desc">{task.task_description}</p>}
                                 </div>
                             </div>
+                            <button 
+                                className={`task-delete-btn ${isConfirming ? "confirming" : ""}`}
+                                onClick={() => handleDeleteClick(task.id)}
+                                
+                                title={isConfirming ? "Click again to confirm delete" : "Delete task"}
+                                                            >
+                                {isConfirming ? "Delete?" : "×"}
+                            </button>
                         </div>
                     );
                 })

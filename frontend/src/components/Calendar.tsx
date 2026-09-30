@@ -108,6 +108,7 @@ const Calendar = () => {
             error={tasks.error}
             onUpdateTask={tasks.updateTask}
             onTaskCreated={handleTaskCreated}
+            onDeleteTask={tasks.deleteTask}
             horizon={horizon}
           />
           <Habits
