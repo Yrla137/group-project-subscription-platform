@@ -41,7 +41,7 @@ p{
     margin-bottom: 0;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .seminars-page {
         padding: 2.5rem 20px;
     }
@@ -52,6 +52,7 @@ p{
     }
 
     .seminars-page .header-desc {
+        font-size: 0.95rem;
         margin-bottom: 1.5rem;
     }
 

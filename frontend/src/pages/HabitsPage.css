@@ -462,15 +462,21 @@ html {
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .manage-habits-page {
         padding: 2.5rem 20px;
     }
 
     .manage-habits-page h1 {
         font-size: 2rem;
-        margin-bottom: 1.5rem;
+        margin: 0 0 0.75rem;
     }
+
+        .manage-habits-page .header-desc {
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+    
+        }
 
     .manage-habits-page h2 {
         font-size: 1.2rem;
