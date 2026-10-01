@@ -1,12 +1,22 @@
 import "./Spinner.css";
 
 const Spinner = () => {
-  return (
-      <div className="loading-spinner" role="status">
-          <span className="spinner-span" aria-hidden="true" />
-          <span className="visually-hidden">Loading...</span>
-      </div>
-  )
-}
+    return (
+        <div className="spinner-container" role="status" aria-label="Loading">
+            <div className="spinner-orbit">
+                <span className="spinner-dot spinner-dot-one"></span>
+                <span className="spinner-dot spinner-dot-two"></span>
+                <span className="spinner-dot spinner-dot-three"></span>
+                <span className="spinner-dot spinner-dot-four"></span>
+                <span className="spinner-dot spinner-dot-five"></span>
+                <span className="spinner-dot spinner-dot-six"></span>
+            </div>
 
-export default Spinner
+            <p className="spinner-text">Loading...</p>
+        </div>
+    );
+};
+
+export default Spinner;
+
+

@@ -1,37 +1,203 @@
-.loading-spinner {
+.spinner-container {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    padding: 48px 0;
+    gap: 0.9rem;
+    padding: 2rem;
 }
 
-.spinner-span {
-    width: 32px;
-    height: 32px;
-    border: 3px solid var(--bg-color);
-    border-top-color: #FF6B57;
+/* Main animated area */
+.spinner-orbit {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    animation: orbit-rotate 3.8s ease-in-out infinite;
+}
+
+/* Shared dot styling */
+.spinner-dot {
+    position: absolute;
+    width: 13px;
+    height: 13px;
     border-radius: 50%;
-    animation: calendar-spin 0.8s linear infinite;
+    animation: dot-pulse 1.7s ease-in-out infinite;
 }
 
-@keyframes calendar-spin {
-    to {
+/* Coral */
+.spinner-dot-one {
+    top: 2px;
+    left: 28px;
+    background-color: var(--primary);
+}
+
+/* Warm yellow */
+.spinner-dot-two {
+    top: 11px;
+    right: 8px;
+    background-color: #f6c85f;
+    animation-delay: 0.18s;
+}
+
+/* Light green */
+.spinner-dot-three {
+    top: 39px;
+    right: 4px;
+    background-color: #47756a;
+    animation-delay: 0.36s;
+}
+
+/* Coral */
+.spinner-dot-four {
+    bottom: 2px;
+    left: 28px;
+    background-color: var(--primary);
+    animation-delay: 0.54s;
+}
+
+/* Warm yellow */
+.spinner-dot-five {
+    top: 39px;
+    left: 4px;
+    background-color: #f6c85f;
+    animation-delay: 0.72s;
+}
+
+/* Light green */
+.spinner-dot-six {
+    top: 11px;
+    left: 8px;
+    background-color: #47756a;
+    animation-delay: 0.9s;
+}
+
+/* Soft glow around each dot */
+.spinner-dot::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0.65);
+    animation: dot-ring 1.7s ease-out infinite;
+}
+
+.spinner-dot-one::after,
+.spinner-dot-four::after {
+    color: var(--primary);
+}
+
+.spinner-dot-two::after,
+.spinner-dot-five::after {
+    color: #f6c85f;
+}
+
+.spinner-dot-three::after,
+.spinner-dot-six::after {
+    color: #47756a;
+}
+
+.spinner-dot-two::after,
+.spinner-dot-five::after {
+    animation-delay: 0.18s;
+}
+
+.spinner-dot-three::after,
+.spinner-dot-six::after {
+    animation-delay: 0.36s;
+}
+
+.spinner-dot-four::after {
+    animation-delay: 0.54s;
+}
+
+.spinner-dot-five::after {
+    animation-delay: 0.72s;
+}
+
+.spinner-dot-six::after {
+    animation-delay: 0.9s;
+}
+
+/* Loading text */
+.spinner-text {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+}
+
+/*
+    The animation moves slowly,
+    then makes a quicker sweep,
+    before returning to a slower pace.
+*/
+@keyframes orbit-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    42% {
+        transform: rotate(45deg);
+    }
+
+    58% {
+        transform: rotate(225deg);
+    }
+
+    100% {
         transform: rotate(360deg);
     }
 }
 
-/* Respect users who have turned off animations in their OS */
-@media (prefers-reduced-motion: reduce) {
-    spinner-span {
-        animation-duration: 2.4s;
+/* Individual dot movement */
+@keyframes dot-pulse {
+    0%,
+    100% {
+        transform: scale(0.7);
+        opacity: 0.65;
+    }
+
+    35% {
+        transform: scale(0.9);
+        opacity: 0.85;
+    }
+
+    55% {
+        transform: scale(1.08);
+        opacity: 1;
+    }
+
+    75% {
+        transform: scale(0.9);
+        opacity: 0.85;
     }
 }
 
-/* Hidden visually but still read by screen readers */
-.visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
+/* Subtle expanding ring */
+@keyframes dot-ring {
+    0% {
+        opacity: 0;
+        transform: scale(0.65);
+    }
+
+    35% {
+        opacity: 0.22;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.35);
+    }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .spinner-orbit,
+    .spinner-dot,
+    .spinner-dot::after {
+        animation: none;
+    }
 }
