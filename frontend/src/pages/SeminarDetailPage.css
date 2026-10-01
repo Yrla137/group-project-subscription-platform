@@ -1,8 +1,10 @@
 .seminar-detail {
-    width: 100%;
+    max-width: 1140px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    margin: auto;
+    padding: 20px;
 }
 
 .seminar-flex {
@@ -26,6 +28,10 @@
     left: 10px;
     background-color: #F3F6F2;
     color: #83A07F;
+    border-radius: var(--radius);
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding:1px 6px;
 }
 
 .seminar-info, .seminar-detail-locked{

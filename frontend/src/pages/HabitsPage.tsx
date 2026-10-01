@@ -253,6 +253,7 @@ export default function HabitsPage() {
   return (
     <div className="manage-habits-page">
       <h1>Manage habits</h1>
+      <div className="header-desc">The best time to start was yesterday. The next best is today.</div>
       <div className="manage-habits-wrapper">
 
         <div className="manage-habits">

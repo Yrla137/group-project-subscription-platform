@@ -463,7 +463,7 @@ const TiersListPage = () => {
 
                 <div className="back-to-admin-link">
                     <Link to="/admin">
-                        Back to Admin Profile
+                        Back to Admin Panel
                     </Link>
                 </div>
 

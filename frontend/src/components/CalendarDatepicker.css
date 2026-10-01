@@ -1,37 +1,33 @@
 /* Container */
 .week-calendar {
-    background-color: var(--card-bg);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    border: 1px solid #e2e8f0;
+    background-color: transparent;
+    box-shadow:none;
+    border:0;
     max-width: 1100px;
-    margin: auto;
-    padding: 0 0 30px;
+    margin: auto -10px;
+    padding: 0 0 10px;
 }
 
 /* Header */
 .week-calendar-header {
-    max-width: 300px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin: 12px auto 12px;
+    justify-content: space-around;
+    margin: 17px auto 12px;
 }
 
 .week-nav-btn {
     background: none;
     border: none;
-    font-size: 1.25rem;
+    font-size: 2rem;
     color: var(--text-muted);
     cursor: pointer;
-    padding: 4px 12px;
     border-radius: 8px;
-    
+padding: 0;
     transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .week-nav-btn:hover {
-    background-color: var(--bg-color);
     color: var(--primary);
 }
 
@@ -48,18 +44,19 @@
 
 .week-range-label {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 10px;
     align-items: center;
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 1.1rem;
+    font-weight: 700;
     color: var(--text-main);
 }
 
 .today-btn {
     margin-top: 3px;
-    padding: 0.1rem 0.3rem;
+    padding: 0.2rem 0.5rem;
     border: 0;
-    font-size: 0.6rem;
+    font-size: 0.75rem;
     font-weight: bold;
     border-radius: 1rem;
     background-color: #f3f4f6;
@@ -72,8 +69,8 @@
     max-width: 900px;
     display: flex;
     justify-content: space-between;
-    gap: 5px;
-    margin: 10px;
+    gap: 6px;
+    margin: 0;
 
 }
 
@@ -119,7 +116,7 @@
 }
 
 .week-day-label {
-    font-size: 1rem;
+    font-size: 0.75rem;
     font-weight: 500;
     color: var(--text-muted);
     text-transform: capitalize;
@@ -142,7 +139,7 @@
 .week-day--active .week-day-dots {
     display: flex;
     justify-content: center;
-    gap: 6px;
+    gap: 4px;
     min-height: 7px;
 }
 
@@ -200,9 +197,7 @@
     display: flex;
     align-items: flex-start;
     gap: 6px;
-    margin-top: 10px;
     padding: 8px 12px;
-    background-color: var(--bg-color);
     border-radius: var(--radius);
     font-size: 0.75rem;
     color: var(--text-muted);
@@ -216,24 +211,55 @@
 @media screen and (min-width:768px) {
 
     .week-calendar {
+        background-color: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        border: 1px solid #e2e8f0;
+        max-width: 1100px;
+        margin: auto;
+        padding: 0 0 30px;
+    }
+
+    .week-calendar {
         display: flex;
         flex-direction: column;
         align-items: center;
-    }        
+    }
+
+        .week-days {
+            max-width: 900px;
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+            margin: 10px;
     
+        }
+
     .week-days {
         width: 100%;
         max-width: 900px;
         display: flex;
         justify-content: space-between;
-        gap: 10px; 
+        gap: 10px;
         margin: 10px auto;
     }
+
     .week-day {
         padding: 10px 10px 15px;
     }
 
+    .week-day-dot {
+        width: 8px;
+        height: 8px;
+    }
 
+    .week-day--active .week-day-dots {
+        gap: 6px;
+    }
+
+    .week-day--active .week-day-dot {
+        outline-width: 2px;
+    }
 
     .week-day-number {
         font-size: 2rem;
@@ -242,5 +268,9 @@
     .week-day--active .week-day-number {
         font-size: 2.5rem;
     }
+
+        .week-day-label {
+            font-size: 1rem;
+        }
 
 }

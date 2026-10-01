@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { startOfWeek, endOfWeek, addDays, addWeeks, format, isSameDay, isAfter } from "date-fns";
 import { enUS } from "date-fns/locale";
+import { Info } from "lucide-react";
 import "./CalendarDatepicker.css";
 
 export interface CalendarHorizon {
@@ -60,11 +62,6 @@ export default function CalendarDatepicker({
             
     const days = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
 
-    const today = new Date().toLocaleDateString("en-US", {
-        day: "numeric",
-        month: "long",
-    });
-
     // Hide the notice again as soon as the user picks another date or week
     useEffect(() => {
         setShowUpgradeNotice(false);
@@ -106,6 +103,19 @@ export default function CalendarDatepicker({
     return (
         <div className="week-calendar">
             <div className="week-calendar-header">
+                
+                <span className="week-range-label">
+                    <span aria-label={monthLabelLong}>{monthLabel}</span>
+
+                    <button type="button" className="today-btn" onClick={goToToday}>
+                        Today
+                    </button>
+                </span>
+
+            </div>
+
+            <div className="week-days">
+
                 <button
                     type="button"
                     className="week-nav-btn"
@@ -114,28 +124,6 @@ export default function CalendarDatepicker({
                 >
                     ‹
                 </button>
-
-                <span className="week-range-label">
-                    <span aria-label={monthLabelLong}>{monthLabel}</span>
-
-                    <button type="button" className="today-btn" onClick={goToToday}>
-                        Today: {today}
-                    </button>
-                </span>
-
-                {/* Not using the disabled attribute, so a click can still show the upgrade notice */}
-                <button
-                    type="button"
-                    className={`week-nav-btn ${isLastAllowedWeek ? "week-nav-btn--disabled" : ""}`}
-                    onClick={goToNextWeek}
-                    aria-disabled={isLastAllowedWeek}
-                    aria-label="Next week"
-                >
-                    ›
-                </button>
-            </div>
-
-            <div className="week-days">
                 {days.map((day) => {
                     // Locked days can't be selected, but clicking them shows the upgrade notice
                     const locked = isOutsideHorizon(day);
@@ -164,16 +152,23 @@ export default function CalendarDatepicker({
                         </button>
                     );
                 })}
+                {/* Not using the disabled attribute, so a click can still show the upgrade notice */}
+                <button
+                    type="button"
+                    className={`week-nav-btn ${isLastAllowedWeek ? "week-nav-btn--disabled" : ""}`}
+                    onClick={goToNextWeek}
+                    aria-disabled={isLastAllowedWeek}
+                    aria-label="Next week"
+                >
+                    ›
+                </button>
             </div>
 
             {showUpgradeNotice && horizon && (
                 <div className="tier-notice" role="status">
-                    <span className="material-symbols-rounded" aria-hidden="true">
-                        info
-                    </span>
+                    <Info size="16" />
                     <span>
-                        Your plan lets you plan until {format(horizon.end, "d MMM", { locale: enUS })}. Upgrade your
-                        subscription for a longer horizon.
+                        Your current tier lets you plan until {format(horizon.end, "d MMM", { locale: enUS })}. <Link to="/tier">Upgrade tier</Link> for a longer horizon.
                     </span>
                 </div>
             )}
