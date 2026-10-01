@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import Layout from "./components/Layout";
+import ScrollToTop from "./components/ScrollToTop";
 import DashboardPage from "./pages/DashboardPage";
 import SeminarsPage from "./pages/SeminarsPage";
 import SeminarDetailPage from "./pages/SeminarDetailPage";
@@ -32,6 +33,7 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<DashboardPage />} />
@@ -39,14 +41,14 @@ function App() {
             <Route path="seminars/:id" element={<ProtectedRoute><SeminarDetailPage /></ProtectedRoute>} />
             <Route path="habits" element={<ProtectedRoute><HabitsPage /></ProtectedRoute>} />
             <Route path="stats" element={<ProtectedRoute><StatsPage /></ProtectedRoute>} />
-            
+
             <Route path="tiers" element={<TiersPage />} />
-            <Route path="checkout" element={ <ProtectedRoute><CheckoutPage/></ProtectedRoute> } />
-            <Route path="payments-page" element={ <ProtectedRoute><PaymentsPage/></ProtectedRoute> } />
-            <Route path="confirmation" element={ <ProtectedRoute><ConfirmationPage/></ProtectedRoute> } />
+            <Route path="checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
+            <Route path="payments-page" element={<ProtectedRoute><PaymentsPage /></ProtectedRoute>} />
+            <Route path="confirmation" element={<ProtectedRoute><ConfirmationPage /></ProtectedRoute>} />
 
 
-            <Route path="profile" element={ <ProtectedRoute><ProfilePage/></ProtectedRoute> } />
+            <Route path="profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
 
             <Route path="forget-password" element={<ForgetPasswordPage />} />
 
@@ -58,8 +60,8 @@ function App() {
             <Route path="admin/habits" element={<AdminRoute><AdminHabitsPage /></AdminRoute>} />
 
           </Route>
-            <Route path="login" element={<LoginPage />} />
-            <Route path="register" element={<RegisterPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
