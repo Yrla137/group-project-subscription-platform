@@ -16,7 +16,7 @@ const RANGES = [
 // Same orange as the habit dots in the calendar
 const HABIT_COLOR = "#f59e0b";
 // Same coral as the task dots in the calendar
-const TASK_COLOR = "#ff6b6b";
+const TASK_COLOR = "var(--primary)";
 
 interface WeekPoint {
     week: string; // "w.40"
@@ -83,6 +83,7 @@ function StatsContent({ summary, weeks }: { summary: StatsSummary; weeks: WeekPo
                 <div className="stats-card">
                     <span className="stats-card-label">Habits followed</span>
                     <span className="stats-card-value">{formatPercent(summary.habitRate)}</span>
+                    <span className="stats-card-sub">Keep it up!</span>
                 </div>
 
                 <div className="stats-card">
@@ -137,11 +138,11 @@ function StatsContent({ summary, weeks }: { summary: StatsSummary; weeks: WeekPo
                                     </PieChart>
                                 </ResponsiveContainer>
                                 <span className="stats-donut-label" aria-hidden="true">
-                                    {tasksPercent}%
+                                    
                                 </span>
                             </div>
                             <span className="stats-card-sub">
-                                {tasksDone} of {tasksTotal} tasks
+                                {tasksPercent}% ({tasksDone} of {tasksTotal})
                             </span>
                         </>
                     ) : (
