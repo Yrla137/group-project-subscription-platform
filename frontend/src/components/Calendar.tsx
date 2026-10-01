@@ -119,7 +119,7 @@ const Calendar = () => {
           />
         </div>
       ) : (
-        <p>Upgrade your subscription to plan tasks and habits for this day.</p>
+        <p>Upgrade your membership to plan tasks and habits for this day.</p>
       )}
 
       <Seminars seminars={seminarsForSelectedDate} error={calendar.error} />

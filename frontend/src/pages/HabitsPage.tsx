@@ -363,19 +363,19 @@ export default function HabitsPage() {
                         `${habitLimit.customHabitCount} of ${habitLimit.maxCustomHabits} custom habits used`
                       ) : habitLimit.maxCustomHabits === 0 ? (
                         <>
-                          Your plan doesn't include custom habits.{" "}
+                          Your membership doesn't include custom habits.{" "}
                           <Link to="/tiers" className="habit-limit-link">
-                            Upgrade your subscription
+                            Upgrade
                           </Link>{" "}
                           to create your own.
                         </>
                       ) : (
                         <>
-                          Your plan allows {habitLimit.maxCustomHabits} custom habits.{" "}
+                          Your membership allows {habitLimit.maxCustomHabits} custom habits.{" "}
                           <Link to="/tiers" className="habit-limit-link">
-                            Upgrade your subscription
+                            Upgrade
                           </Link>{" "}
-                          to create more.
+                           to create more.
                         </>
                       )}
                     </p>

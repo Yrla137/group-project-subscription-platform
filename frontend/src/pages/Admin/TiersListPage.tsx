@@ -190,7 +190,7 @@ const TiersListPage = () => {
                     </h1>
 
                     <p className="tiers-subtitle">
-                        Create and manage subscription tiers and their limits.
+                        Create and manage membership tiers and their limits.
                     </p>
                 </div>
             </section>
@@ -212,7 +212,7 @@ const TiersListPage = () => {
 
                         <div className="tiers-section-header">
                             <div>
-                                <h2>Subscription Tiers</h2>
+                                <h2>Membership Tiers</h2>
 
                                 <p>
                                     {tiers.length}{" "}
