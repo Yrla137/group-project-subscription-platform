@@ -165,6 +165,12 @@ export const createPaymentController = async (req: Request, res: Response) => {
             });
         }
 
+        if (error instanceof Error && error.message.includes("same or lower level")) {
+            return res.status(409).json({
+                message: error.message
+            });
+        }
+
         if (error instanceof Error && error.message.includes("already subscribed")) {
             return res.status(409).json({
                 message: error.message

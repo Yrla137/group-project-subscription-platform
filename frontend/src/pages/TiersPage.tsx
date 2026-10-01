@@ -18,6 +18,10 @@ const TiersPage = () => {
 
   const navigate = useNavigate();
 
+  const currentTierLevel = loggedInUser?.current_tier_id
+  ? tiers.find(tier => tier.id === loggedInUser.current_tier_id)?.level_number
+  : undefined;
+
   // Fetch all tiers when the component mounts
   useEffect(() => {
     const getTiersInfo = async () => {
@@ -91,13 +95,15 @@ const TiersPage = () => {
               <div className="tier-action-container">
                 {loggedInUser === null ? (
                   <p className="tier-status-text">Unable to determine current tier.</p>
-                ) : loggedInUser.current_tier_id === tier.id ? (
+                  ) : loggedInUser.current_tier_id === tier.id ? (
                   <p className="current-tier-label">Current Tier</p>
-                ) : (
-                  <button className="primary-btn tier-select-button" 
-                  onClick={() => handleSelectTier(tier.id)}>
-                  Uppgrade to Tier</button>
-                )}
+                  ) : tier.level_number < currentTierLevel! ? (
+                    <p className="current-tier-label">Lower tier</p>
+                  ) : (
+                    <button className="primary-btn tier-select-button" 
+                    onClick={() => handleSelectTier(tier.id)}>
+                    Uppgrade to Tier</button>
+                  )}
               </div>
             </div>
         ))
