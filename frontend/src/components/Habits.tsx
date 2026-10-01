@@ -36,7 +36,7 @@ export default function Habits({ selectedDate, habits, error, onToggleCompletion
     return (
         <div className="habit-container">
             <div className="habit-header-section">
-                <h2 className="habit-main-title">Today's Habits</h2>
+                <h2 className="habit-main-title">Habits</h2>
                 <Link to="/habits" className="habit-add-btn">
                     + New Habit
                 </Link>

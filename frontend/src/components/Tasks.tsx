@@ -6,7 +6,6 @@ import type { CalendarHorizon } from "./CalendarDatepicker";
 import CreateTaskForm from "./CreateTaskForm";
 import "./Tasks.css";
 
-// Types taken straight from the hook, so they always match what Calendar passes down
 type TasksHook = ReturnType<typeof useTasks>;
 
 interface TaskViewProps {
@@ -55,7 +54,7 @@ export default function Tasks({ selectedDate, tasks, error, onUpdateTask, onTask
     return (
         <div className="task-container">
             <div className="task-header-section">
-                <h2 className="task-main-title">Daily Tasks</h2>
+                <h2 className="task-main-title">Tasks</h2>
                 <button className="task-add-btn" onClick={() => setIsModalOpen(true)}>
                     + New Task
                 </button>
