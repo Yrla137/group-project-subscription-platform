@@ -95,32 +95,35 @@ const Header: React.FC = () => {
           <img src={userpic} alt="User-avatar" className="user-avatar" />
         </div>
 
-        {dropdownOpen && (
-          <div className="dropdown-popup">
+            {dropdownOpen && (
+              <div className="dropdown-popup">
 
-            {isAdmin && (
-                  <Link to="/admin" className="dropdown-item-admin">
+                {isAdmin && (
+                  <Link to="/admin" className="dropdown-item-admin"
+                    onClick={() => setDropdownOpen(false)}>
                     Admin Panel
                   </Link>
-                )}            
-            
-            <Link to="/profile" className="dropdown-item">
-              Profile
-            </Link>
+                )}
 
-            <Link to="/stats" className="dropdown-item">
-              Statistics
-            </Link>
+                <Link to="/profile" className="dropdown-item"
+                  onClick={() => setDropdownOpen(false)}>
+                  Profile
+                </Link>
 
-            <button onClick={logout} className="dropdown-item logout-btn">
-              Log out <LogOut />
-            </button>
-           </div>
-          )}
+                <Link to="/stats" className="dropdown-item"
+                  onClick={() => setDropdownOpen(false)}>
+                  Statistics
+                </Link>
+
+                <button onClick={logout} className="dropdown-item logout-btn">
+                  Log out <LogOut />
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
-      )}
-    </div>
-  </header>
+    </header>
   );
 };
 
