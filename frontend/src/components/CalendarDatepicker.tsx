@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { startOfWeek, endOfWeek, addDays, addWeeks, format, isSameDay, isAfter } from "date-fns";
 import { enUS } from "date-fns/locale";
+import { Info } from "lucide-react";
 import "./CalendarDatepicker.css";
 
 export interface CalendarHorizon {
@@ -164,12 +166,9 @@ export default function CalendarDatepicker({
 
             {showUpgradeNotice && horizon && (
                 <div className="tier-notice" role="status">
-                    <span className="material-symbols-rounded" aria-hidden="true">
-                        info
-                    </span>
+                    <Info size="16" />
                     <span>
-                        Your plan lets you plan until {format(horizon.end, "d MMM", { locale: enUS })}. Upgrade your
-                        subscription for a longer horizon.
+                        Your current tier lets you plan until {format(horizon.end, "d MMM", { locale: enUS })}. <Link to="/tier">Upgrade tier</Link> for a longer horizon.
                     </span>
                 </div>
             )}

@@ -95,6 +95,10 @@
     gap: 10px;
 }
 
+.no-tasks{
+    color: var(--text-muted);
+}
+
 .task-checkbox {
     appearance: none;
     -webkit-appearance: none;

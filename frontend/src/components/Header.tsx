@@ -100,7 +100,7 @@ const Header: React.FC = () => {
 
             {isAdmin && (
                   <Link to="/admin" className="dropdown-item-admin">
-                    Admin Dashboard
+                    Admin Panel
                   </Link>
                 )}            
             

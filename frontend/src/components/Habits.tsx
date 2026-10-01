@@ -14,11 +14,11 @@ interface HabitsViewProps {
 }
 
 const EMPTY_STATE_MESSAGES: Record<number, string> = {
-    0: "Sundays are for resetting — plan a habit for the week ahead.",
+    0: "Sundays are for resetting - plan a habit for the week ahead.",
     1: "Mondays are great for starting new.",
     2: "A small habit today beats a big plan tomorrow.",
-    3: "Halfway there — why not build a habit to match?",
-    4: "Almost the weekend — a good day to build momentum.",
+    3: "Halfway there - why not build a habit to match?",
+    4: "Almost the weekend - a good day to build momentum.",
     5: "Fridays count too. Start something small.",
     6: "Saturdays are perfect for a habit that sticks.",
 };
