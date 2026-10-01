@@ -229,6 +229,16 @@ const TiersListPage = () => {
                             </button>
                         </div>
 
+                                        <div className="add-tier-form-wrapper">
+                    <AddNewTierForm
+                        showNewTierForm={showNewTierForm}
+                        isLoading={isTiersLoading}
+                        handleAddNewTier={handleAddNewTier}
+                        handleAddNewTierChange={handleAddNewTierChange}
+                        addNewTier={addNewTier}
+                        handleCancelAddNewTier={handleCancelAddNewTier}/>
+                </div>
+
                         <div className="tiers-list">
 
                             {tiers.map((tier) => (
@@ -451,15 +461,7 @@ const TiersListPage = () => {
                     </section>
                 )}
 
-                <div className="add-tier-form-wrapper">
-                    <AddNewTierForm
-                        showNewTierForm={showNewTierForm}
-                        isLoading={isTiersLoading}
-                        handleAddNewTier={handleAddNewTier}
-                        handleAddNewTierChange={handleAddNewTierChange}
-                        addNewTier={addNewTier}
-                        handleCancelAddNewTier={handleCancelAddNewTier}/>
-                </div>
+
 
                 <div className="back-to-admin-link">
                     <Link to="/admin">
