@@ -1,7 +1,7 @@
 .seminars-page {
     max-width: 1100px;
     margin: auto;
-    padding: 4rem 20px;
+    padding: 4rem 20px 2rem;
     background-color: var(--bg-color);
 }
 
