@@ -408,8 +408,7 @@
   .user-info {
     width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    justify-content: left;
     flex: none;
     text-align: center;
     padding-left: 0;
@@ -433,8 +432,7 @@
   .user-role {
     width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    justify-content: left;
     flex-shrink: 0;
   }
 
@@ -445,8 +443,7 @@
   .user-actions {
     width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    justify-content: left;
     gap: 0.6rem;
     min-width: 0;
     min-height: 2.75rem;

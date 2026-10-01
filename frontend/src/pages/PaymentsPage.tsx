@@ -55,8 +55,7 @@ const PaymentsPage = () => {
             </div>
             ) : payments.length === 0 ? (
             <div className="payments-empty">
-                <h3>No Payments Yet</h3>
-                <p>You have no payments yet.</p>
+                <h3>You have no payments yet</h3>
             </div>
             ) : (
             <section className="payments-card">

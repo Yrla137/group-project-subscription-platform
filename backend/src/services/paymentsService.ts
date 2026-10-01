@@ -42,15 +42,18 @@ const createPayment = async (
         // Start a transaction
         await client.query('BEGIN');
 
-        const userTierResult = await client.query('SELECT current_tier_id FROM users WHERE id = $1', [userId]);
+        const userTierResult = await client.query(
+            `SELECT tiers.level_number
+            FROM users
+            JOIN tiers ON users.current_tier_id = tiers.id
+            WHERE users.id = $1`,
+            [userId]
+        );
+
         if (userTierResult.rows.length === 0) {
             throw new Error(`User with id ${userId} not found`);
         }
-
-        if (userTierResult.rows[0].current_tier_id === data.tier_id){
-            throw new Error(`User with id ${userId} is already subscribed to tier ${data.tier_id}`);
-        }
-
+        
         // Get the price of the tier
         const tierPriceResult = await client.query(
             'SELECT price, level_number FROM tiers WHERE id = $1',
@@ -58,6 +61,13 @@ const createPayment = async (
         );
         if (tierPriceResult.rows.length === 0) {
             throw new Error(`Tier with id ${data.tier_id} not found`);
+        }
+
+        const currentLevel = userTierResult.rows[0].level_number;
+        const selectedLevel = tierPriceResult.rows[0].level_number;
+
+        if (selectedLevel <= currentLevel) {
+            throw new Error("Cannot purchase a tier at the same or lower level");
         }
 
         // Insert the new payment
