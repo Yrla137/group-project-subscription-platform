@@ -82,7 +82,7 @@ const AdminPage = () => {
               <div className="admin-card-content">
                 <h3>Manage Tiers</h3>
                 <p>
-                  Create and manage subscription tiers and their limits.
+                  Create and manage membership tiers and their limits.
                 </p>
               </div>
 

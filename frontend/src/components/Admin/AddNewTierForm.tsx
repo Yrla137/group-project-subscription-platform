@@ -32,7 +32,7 @@ const AddNewTierForm = ({
                     <div className="add-tier-form-header">
                         <h2>Add New Tier</h2>
                         <p>
-                            Create a new subscription tier and set its limits.
+                            Create a new membership tier and set its limits.
                         </p>
                     </div>
 

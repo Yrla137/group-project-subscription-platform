@@ -281,110 +281,6 @@ export default function HabitsPage() {
             </div>
 
             <div className="form-field">
-              {isCustomFormVisible ? (
-                <div className="custom-habit-form">
-
-                  <h3>Custom habit</h3>
-
-                  <label htmlFor="custom_title">{editingCustomHabitId ? "Habit title" : "New habit title"}</label>
-                  <input
-                    ref={customTitleRef}
-                    id="custom_title"
-                    type="text"
-                    value={customTitle}
-                    onChange={(e) => setCustomTitle(e.target.value)}
-                    placeholder="e.g. Cold shower"
-                  />
-
-                  <label htmlFor="custom_description">Description (optional)</label>
-                  <textarea
-                    id="custom_description"
-                    value={customDescription}
-                    onChange={(e) => setCustomDescription(e.target.value)}
-                  />
-
-                  <label htmlFor="custom_duration">Default duration (minutes, optional)</label>
-                  <input
-                    id="custom_duration"
-                    type="number"
-                    min={1}
-                    value={customDuration}
-                    onChange={(e) => setCustomDuration(e.target.value)}
-                  />
-
-                  {customFormError && (
-                    <p className="status-text status-text--error" role="alert">
-                      {customFormError}
-                    </p>
-                  )}
-
-                  <div className="custom-habit-form-actions">
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      onClick={handleSaveCustomHabit}
-                      disabled={isSavingCustomHabit || !customTitle.trim()}
-                    >
-                      {isSavingCustomHabit ? "Saving..." : editingCustomHabitId ? "Save changes" : "Create habit"}
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-secondary"
-                      onClick={closeCustomHabitForm}
-                      disabled={isSavingCustomHabit}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => setShowCustomHabitForm(true)}
-                    disabled={!!editingId || !canCreateHabit}
-                    aria-describedby={habitLimit ? "habit-limit-notice" : undefined}
-                  >
-                    {canCreateHabit ? (
-                      <Plus size={16} strokeWidth={3} aria-hidden="true" />
-                    ) : (
-                      <Lock size={16} aria-hidden="true" />
-                    )}
-                    Add custom habit
-                  </button>
-
-                  {habitLimit && (
-                    <p
-                      id="habit-limit-notice"
-                      className={`habit-limit-text ${!canCreateHabit ? "habit-limit-text--reached" : ""}`}
-                    >
-                      {canCreateHabit ? (
-                        `${habitLimit.customHabitCount} of ${habitLimit.maxCustomHabits} custom habits used`
-                      ) : habitLimit.maxCustomHabits === 0 ? (
-                        <>
-                          Your plan doesn't include custom habits.{" "}
-                          <Link to="/tiers" className="habit-limit-link">
-                            Upgrade your subscription
-                          </Link>{" "}
-                          to create your own.
-                        </>
-                      ) : (
-                        <>
-                          Your plan allows {habitLimit.maxCustomHabits} custom habits.{" "}
-                          <Link to="/tiers" className="habit-limit-link">
-                            Upgrade your subscription
-                          </Link>{" "}
-                          to create more.
-                        </>
-                      )}
-                    </p>
-                  )}
-                </>
-              )}
-            </div>
-
-            <div className="form-field">
               <label htmlFor="duration">Duration (minutes, optional)</label>
               <input
                 id="duration"
@@ -549,6 +445,110 @@ export default function HabitsPage() {
                   </li>
                 ))}
               </ul>
+
+              <div className="form-field">
+                {isCustomFormVisible ? (
+                  <div className="custom-habit-form">
+
+                    <h3>Custom habit</h3>
+
+                    <label htmlFor="custom_title">{editingCustomHabitId ? "Habit title" : "New habit title"}</label>
+                    <input
+                      ref={customTitleRef}
+                      id="custom_title"
+                      type="text"
+                      value={customTitle}
+                      onChange={(e) => setCustomTitle(e.target.value)}
+                      placeholder="e.g. Cold shower"
+                    />
+
+                    <label htmlFor="custom_description">Description (optional)</label>
+                    <textarea
+                      id="custom_description"
+                      value={customDescription}
+                      onChange={(e) => setCustomDescription(e.target.value)}
+                    />
+
+                    <label htmlFor="custom_duration">Default duration (minutes, optional)</label>
+                    <input
+                      id="custom_duration"
+                      type="number"
+                      min={1}
+                      value={customDuration}
+                      onChange={(e) => setCustomDuration(e.target.value)}
+                    />
+
+                    {customFormError && (
+                      <p className="status-text status-text--error" role="alert">
+                        {customFormError}
+                      </p>
+                    )}
+
+                    <div className="custom-habit-form-actions">
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={handleSaveCustomHabit}
+                        disabled={isSavingCustomHabit || !customTitle.trim()}
+                      >
+                        {isSavingCustomHabit ? "Saving..." : editingCustomHabitId ? "Save changes" : "Create habit"}
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={closeCustomHabitForm}
+                        disabled={isSavingCustomHabit}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-secondary-add"
+                      onClick={() => setShowCustomHabitForm(true)}
+                      disabled={!!editingId || !canCreateHabit}
+                      aria-describedby={habitLimit ? "habit-limit-notice" : undefined}
+                    >
+                      {canCreateHabit ? (
+                        <Plus size={16} strokeWidth={3} aria-hidden="true" />
+                      ) : (
+                        <Lock size={16} aria-hidden="true" />
+                      )}
+                      Add custom habit
+                    </button>
+
+                    {habitLimit && (
+                      <p
+                        id="habit-limit-notice"
+                        className={`habit-limit-text ${!canCreateHabit ? "habit-limit-text--reached" : ""}`}
+                      >
+                        {canCreateHabit ? (
+                          `${habitLimit.customHabitCount} of ${habitLimit.maxCustomHabits} custom habits used`
+                        ) : habitLimit.maxCustomHabits === 0 ? (
+                          <>
+                            Your membership doesn't include custom habits.{" "}
+                            <Link to="/tiers" className="habit-limit-link">
+                              Upgrade
+                            </Link>{" "}
+                            to create your own.
+                          </>
+                        ) : (
+                          <>
+                            Your membership allows {habitLimit.maxCustomHabits} custom habits.{" "}
+                            <Link to="/tiers" className="habit-limit-link">
+                              Upgrade
+                            </Link>{" "}
+                            to create more.
+                          </>
+                        )}
+                      </p>
+                    )}
+                  </>
+                )}
+              </div>
             </section>
           )}
         </div>

@@ -77,7 +77,7 @@ const CheckoutPage = () => {
         </h1>
 
         <p className="checkout-subtitle">
-          Review your subscription and enter your payment information.
+          Review your membership and enter your payment information.
         </p>
       </div>
 
@@ -104,7 +104,7 @@ const CheckoutPage = () => {
             <div className="checkout-tier-header">
               <div>
                 <span className="checkout-section-label">
-                  Selected Subscription
+                    Selected Membership
                 </span>
 
                 <h2>
@@ -149,7 +149,7 @@ const CheckoutPage = () => {
           </h2>
 
           <p>
-            Enter your card details to complete your subscription.
+            Enter your card details to complete your purchase.
           </p>
         </div>
 

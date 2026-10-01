@@ -39,7 +39,7 @@ const PaymentsPage = () => {
             </h2>
 
             <p className="payments-subtitle">
-                View your payment history and subscription details.
+                View your payment history and membership details.
             </p>
             </div>
 
@@ -62,7 +62,7 @@ const PaymentsPage = () => {
 
                 <div className="payments-card-header">
                 <h2>Your Payments</h2>
-                <p>Your previous subscription payments.</p>
+                     <p>Your previous membership payments.</p>
                 </div>
 
                 <div className="payments-table-wrapper">

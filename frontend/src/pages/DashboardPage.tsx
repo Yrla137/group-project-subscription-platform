@@ -166,9 +166,9 @@ const DashboardPage = () => {
         </div>
     
     <p className="quota-upgrade-text">
-          Your plan allows {maxTasks} daily tasks.{" "}
+          Your membership allows {maxTasks} daily tasks.{" "}
           <Link to="/tiers" className="upgrade-link">
-            Upgrade your subscription
+            Upgrade
           </Link>{" "}
           to create more.
         </p>
