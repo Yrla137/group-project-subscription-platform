@@ -74,12 +74,16 @@ p {
 }
 
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
 
-    .seminar-container .seminar-list,
-    .seminar-card-dashboard {
-        display: block;
+    .seminar-container .seminar-list
+    {
+        grid-template-columns: 1fr !important;
     }
+
+        .seminar-card-dashboard {
+            display: block;
+        }
 
     .seminar-card-dashboard {
         display: flex;
