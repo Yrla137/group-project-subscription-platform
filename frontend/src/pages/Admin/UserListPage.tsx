@@ -224,7 +224,7 @@ const handleConfirmDelete = async () => {
 
         <div className="users-back-link">
           <Link to="/admin">
-            Back to Admin Profile
+            Back to Admin Panel
           </Link>
         </div>
 

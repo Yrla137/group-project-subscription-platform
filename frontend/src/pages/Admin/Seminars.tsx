@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState, useRef } from "react";
 import { format, parseISO, isValid } from "date-fns";
 import { enUS } from "date-fns/locale";
@@ -6,6 +7,7 @@ import { useSeminars } from "../../hooks/useSeminars";
 import type { Seminar, CreateSeminarInput, UpdateSeminar } from "../../types/SeminarsTypes";
 import Spinner from "../../components/Spinner";
 import "./Seminars.css";
+import "./AdminPage.css";
 
 const emptyForm: CreateSeminarInput = {
     seminar_title: "",
@@ -134,152 +136,170 @@ export default function ManageSeminars() {
     const isAnyActionInProgress = isSubmitting || deletingId !== null;
 
     return (
-        <div className="admin-seminars-page">
-            <h1>Manage Seminars</h1>
-        <div className="admin-seminars-wrapper">
-            {/* Left column: the form */}
-            <div className="admin-seminars-form-column">
-                <h2>{editingId ? "Edit seminar" : "Create a seminar"}</h2>
-
-                <form ref={formRef} className="admin-seminar-form" onSubmit={handleSubmit} noValidate>
-                    <div className="form-field">
-                        <label htmlFor="seminar_title">Title</label>
-                        <input
-                            ref={titleInputRef}
-                            id="seminar_title"
-                            name="seminar_title"
-                            type="text"
-                            value={formData.seminar_title}
-                            onChange={handleChange}
-                            placeholder="e.g. Work-Life Balance 101"
-                            required
-                        />
-                    </div>
-
-                    <div className="form-field">
-                        <label htmlFor="seminar_description">Description</label>
-                        <textarea
-                            id="seminar_description"
-                            name="seminar_description"
-                            value={formData.seminar_description}
-                            onChange={handleChange}
-                        />
-                    </div>
-
-                    <div className="form-field">
-                        <label htmlFor="seminar_img">Image URL (optional)</label>
-                        <input
-                            id="seminar_img"
-                            name="seminar_img"
-                            type="text"
-                            value={formData.seminar_img ?? ""}
-                            onChange={handleChange}
-                            placeholder="https://images.unsplash.com/…"
-                        />
-                    </div>
-
-                    <div className="form-field">
-                        <label htmlFor="seminar_date">Date and time</label>
-                        <input
-                            id="seminar_date"
-                            name="seminar_date"
-                            type="datetime-local"
-                            value={formData.seminar_date}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
-                    <div className="form-field">
-                        <label htmlFor="tier_id">Tier</label>
-                        <select id="tier_id" name="tier_id" value={formData.tier_id} onChange={handleChange}>
-                            <option value={1}>Slacker</option>
-                            <option value={2}>Planner</option>
-                            <option value={3}>Try hard</option>
-                        </select>
-                    </div>
-
-                    {formError && (
-                        <p className="status-text status-text--error" role="alert">
-                            {formError}
-                        </p>
-                    )}
-
-                    <div className="form-actions">
-                        <button type="submit" className="btn btn-primary" disabled={isAnyActionInProgress}>
-                            {isSubmitting ? "Saving..." : editingId ? "Save changes" : "Create seminar"}
-                        </button>
-
-                        {editingId && (
-                            <button type="button" className="btn btn-secondary" onClick={cancelEdit} disabled={isSubmitting}>
-                                Cancel
-                            </button>
-                        )}
-                    </div>
-                </form>
-            </div>
-
-            {/* Right column: all seminars */}
-            <div className="admin-seminars-list-column">
-                <h2>Edit seminars</h2>
-
-                {isLoading && <Spinner />}
-                {error && <p className="status-text status-text--error">{error}</p>}
-                {listError && (
-                    <p className="status-text status-text--error" role="alert">
-                        {listError}
+        <div className="admin-page">
+            <section className="admin-header">
+                <div className="admin-header-content">
+                    <h1 className="admin-title">Manage Seminars</h1>
+                    <p className="admin-subtitle">
+                        Manage inspiring seminars for users.
                     </p>
-                )}
+                </div>
+            </section>
+            <div className="admin-seminars-page">
+                <div className="admin-seminars-wrapper">
+                    {/* Left column: the form */}
+                    <div className="admin-seminars-form-column">
+                        <h2>{editingId ? "Edit seminar" : "Create a seminar"}</h2>
 
-                {!isLoading && !error && seminars.length === 0 && (
-                    <p className="status-text">No seminars yet. Create the first one to the left.</p>
-                )}
+                        <form ref={formRef} className="admin-seminar-form" onSubmit={handleSubmit} noValidate>
+                            <div className="form-field">
+                                <label htmlFor="seminar_title">Title</label>
+                                <input
+                                    ref={titleInputRef}
+                                    id="seminar_title"
+                                    name="seminar_title"
+                                    type="text"
+                                    value={formData.seminar_title}
+                                    onChange={handleChange}
+                                    placeholder="e.g. Work-Life Balance 101"
+                                    required
+                                />
+                            </div>
 
-                <ul className="admin-seminar-list">
-                    {seminars.map((seminar) => (
-                        <li
-                            key={seminar.id}
-                            className={`admin-seminar-card ${editingId === seminar.id ? "admin-seminar-card--editing" : ""}`}
-                            aria-current={editingId === seminar.id ? "true" : undefined}
-                        >
-                            <div className="admin-seminar-card-text">
-                                <div className="admin-seminar-card-title">{seminar.seminar_title}</div>
-                                {seminar.tier_title && (
-                                    <div className="admin-seminar-card-tier">{seminar.tier_title}</div>
+                            <div className="form-field">
+                                <label htmlFor="seminar_description">Description</label>
+                                <textarea
+                                    id="seminar_description"
+                                    name="seminar_description"
+                                    value={formData.seminar_description}
+                                    onChange={handleChange}
+                                />
+                            </div>
+
+                            <div className="form-field">
+                                <label htmlFor="seminar_img">Image URL (optional)</label>
+                                <input
+                                    id="seminar_img"
+                                    name="seminar_img"
+                                    type="text"
+                                    value={formData.seminar_img ?? ""}
+                                    onChange={handleChange}
+                                    placeholder="https://images.unsplash.com/…"
+                                />
+                            </div>
+
+                            <div className="form-field">
+                                <label htmlFor="seminar_date">Date and time</label>
+                                <input
+                                    id="seminar_date"
+                                    name="seminar_date"
+                                    type="datetime-local"
+                                    value={formData.seminar_date}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-field">
+                                <label htmlFor="tier_id">Tier</label>
+                                <select id="tier_id" name="tier_id" value={formData.tier_id} onChange={handleChange}>
+                                    <option value={1}>Slacker</option>
+                                    <option value={2}>Planner</option>
+                                    <option value={3}>Try hard</option>
+                                </select>
+                            </div>
+
+                            {formError && (
+                                <p className="status-text status-text--error" role="alert">
+                                    {formError}
+                                </p>
+                            )}
+
+                            <div className="form-actions">
+                                <button type="submit" className="btn btn-primary" disabled={isAnyActionInProgress}>
+                                    {isSubmitting ? "Saving..." : editingId ? "Save changes" : "Create seminar"}
+                                </button>
+
+                                {editingId && (
+                                    <button type="button" className="btn btn-secondary" onClick={cancelEdit} disabled={isSubmitting}>
+                                        Cancel
+                                    </button>
                                 )}
                             </div>
+                        </form>
+                    </div>
 
-                            <div className="admin-seminar-card-date">{formatSeminarDate(seminar.seminar_date)}</div>
+                    {/* Right column: all seminars */}
+                    <div className="admin-seminars-list-column">
+                        <h2>Edit seminars</h2>
 
-                            <div className="admin-seminar-card-actions">
-                                <button
-                                    type="button"
-                                    className="btn btn-edit"
-                                    onClick={() => startEdit(seminar)}
-                                    disabled={isAnyActionInProgress}
-                                    aria-label={`Edit ${seminar.seminar_title}`}
+                        {isLoading && <Spinner />}
+                        {error && <p className="status-text status-text--error">{error}</p>}
+                        {listError && (
+                            <p className="status-text status-text--error" role="alert">
+                                {listError}
+                            </p>
+                        )}
+
+                        {!isLoading && !error && seminars.length === 0 && (
+                            <p className="status-text">No seminars yet. Create the first one to the left.</p>
+                        )}
+
+                        <ul className="admin-seminar-list">
+                            {seminars.map((seminar) => (
+                                <li
+                                    key={seminar.id}
+                                    className={`admin-seminar-card ${editingId === seminar.id ? "admin-seminar-card--editing" : ""}`}
+                                    aria-current={editingId === seminar.id ? "true" : undefined}
                                 >
-                                    <Pencil size={16} aria-hidden="true" />
-                                </button>
-                                <button
-                                    type="button"
-                                    className="btn btn-danger"
-                                    onClick={() => handleDelete(seminar)}
-                                    disabled={isAnyActionInProgress}
-                                    aria-label={
-                                        deletingId === seminar.id
-                                            ? `Deleting ${seminar.seminar_title}`
-                                            : `Delete ${seminar.seminar_title}`
-                                    }
-                                >
-                                    {deletingId === seminar.id ? "…" : <X size={16} aria-hidden="true" />}
-                                </button>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
+                                    <div className="admin-seminar-card-text">
+                                        <div className="admin-seminar-card-title">{seminar.seminar_title}</div>
+                                        {seminar.tier_title && (
+                                            <div className="admin-seminar-card-tier">{seminar.tier_title}</div>
+                                        )}
+                                    </div>
+
+                                    <div className="admin-seminar-card-date">{formatSeminarDate(seminar.seminar_date)}</div>
+
+                                    <div className="admin-seminar-card-actions">
+                                        <button
+                                            type="button"
+                                            className="btn btn-edit"
+                                            onClick={() => startEdit(seminar)}
+                                            disabled={isAnyActionInProgress}
+                                            aria-label={`Edit ${seminar.seminar_title}`}
+                                        >
+                                            <Pencil size={16} aria-hidden="true" />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="btn btn-danger"
+                                            onClick={() => handleDelete(seminar)}
+                                            disabled={isAnyActionInProgress}
+                                            aria-label={
+                                                deletingId === seminar.id
+                                                    ? `Deleting ${seminar.seminar_title}`
+                                                    : `Delete ${seminar.seminar_title}`
+                                            }
+                                        >
+                                            {deletingId === seminar.id ? "…" : <X size={16} aria-hidden="true" />}
+                                        </button>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+
+                <div className="back-to-admin-link">
+                    <Link to="/admin">
+                        Back to Admin Panel
+                    </Link>
+                </div>
+
             </div>
-        </div>
+
+            
         </div>
     );
 }
