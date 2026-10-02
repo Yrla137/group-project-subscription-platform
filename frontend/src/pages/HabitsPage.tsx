@@ -261,7 +261,7 @@ export default function HabitsPage() {
           <h2>{editingId ? "Edit habit" : "Start a habit"}</h2>
 
           <form ref={formRef} className="habit-form" onSubmit={handleSubmit}>
-            
+
             <div className="form-field">
               <label htmlFor="habit_id">Habit</label>
               <select
@@ -393,30 +393,29 @@ export default function HabitsPage() {
           </section>
 
           {/* ---- Custom habits ---- */}
-          {customHabits.length > 0 && (
-            <section className="edit-habits-section">
-              <h2>Edit custom habits</h2>
+          <section className="edit-habits-section">
+            <h2>Manage custom habits</h2>
 
-              {customListError && (
-                <p className="status-text status-text--error" role="alert">
-                  {customListError}
-                </p>
-              )}
+            {customListError && (
+              <p className="status-text status-text--error" role="alert">
+                {customListError}
+              </p>
+            )}
 
-              <ul className="habit-list">
-                {customHabits.map((habit) => (
-                  <li
-                    key={habit.id}
-                    className={`habit-card ${editingCustomHabitId === habit.id ? "habit-card--editing" : ""}`}
-                    aria-current={editingCustomHabitId === habit.id ? "true" : undefined}
-                  >
-                    <div className="habit-card-text">
-                      <div className="habit-card-title">{habit.habit_title}</div>
-                    </div>
+            <ul className="habit-list">
+              {customHabits.map((habit) => (
+                <li
+                  key={habit.id}
+                  className={`habit-card ${editingCustomHabitId === habit.id ? "habit-card--editing" : ""}`}
+                  aria-current={editingCustomHabitId === habit.id ? "true" : undefined}
+                >
+                  <div className="habit-card-text">
+                    <div className="habit-card-title">{habit.habit_title}</div>
+                  </div>
 
-                    <div className="habit-card-date">
-                      {habit.default_duration_minutes ? `${habit.default_duration_minutes} min` : null}
-                    </div>
+                  <div className="habit-card-date">
+                    {habit.default_duration_minutes ? `${habit.default_duration_minutes} min` : null}
+                  </div>
 
                     <div className="habit-card-actions">
                       <button
@@ -550,7 +549,6 @@ export default function HabitsPage() {
                 )}
               </div>
             </section>
-          )}
         </div>
       </div>
     </div>
