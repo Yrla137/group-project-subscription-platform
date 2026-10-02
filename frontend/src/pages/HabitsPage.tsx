@@ -549,7 +549,6 @@ export default function HabitsPage() {
                 )}
               </div>
             </section>
-          )}
         </div>
       </div>
     </div>
