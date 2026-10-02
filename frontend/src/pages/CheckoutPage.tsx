@@ -18,6 +18,13 @@ const CheckoutPage = () => {
   const [selectedTier, setSelectedTier] = useState<number | null>(null);
   const [selectedTierDetails, setSelectedTierDetails] = useState<Tier | null>(null);
 
+  const [expirationDate, setExpirationDate] = useState("");
+  const [expirationDateError, setExpirationDateError] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardNumberError, setCardNumberError] = useState("");
+  const [cvv, setCvv] = useState("");
+  const [cvvError, setCvvError] = useState("");
+
   const { loading: authLoading } = useAuthContext();
   const { tierId } = location.state || {};
   const { createPayment, error: paymentError, isLoading: isPaymentLoading } = usePayments();
@@ -50,9 +57,68 @@ const CheckoutPage = () => {
     getTierDetails();
   }, [tierId, fetchTierById, navigate, authLoading]);
 
+  const isCardNumberValid = (cardNumber: string) => {
+    const digitsOnly = cardNumber.replace(/\D/g, "");
+
+    return digitsOnly.length >= 15 && digitsOnly.length <= 19;
+    };
+
+  const isCvvValid = (cvv: string) => {
+    return /^\d{3}$/.test(cvv);
+  };
+
+  const isExpirationDateValid = (date: string) => {
+    const match = date.match(/^(\d{2})\/(\d{2})$/);
+
+    if (!match) {
+      return false;
+    }
+
+    const month = Number(match[1]);
+    const year = 2000 + Number(match[2]);
+
+    if (month < 1 || month > 12) {
+      return false;
+    }
+
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1;
+    const currentYear = today.getFullYear();
+
+    if (
+      year < currentYear ||
+      (year === currentYear && month < currentMonth)
+    ) {
+      return false;
+    }
+
+    return true;
+  };
+
   // Function to handle payment creation
   const handleCreatePayment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!isCardNumberValid(cardNumber)) {
+      setCardNumberError("Please enter a valid card number.");
+        return;
+      }
+
+      setCardNumberError("");
+
+    if (!isExpirationDateValid(expirationDate)) {
+      setExpirationDateError("Please enter a valid expiration date (MM/YY).");
+        return;
+      }
+
+      setExpirationDateError("");
+
+    if (!isCvvValid(cvv)) {
+      setCvvError("Please enter a valid CVV.");
+      return;
+    }
+
+      setCvvError("");
 
     try {
       if (selectedTier !== null) {
@@ -167,22 +233,67 @@ const CheckoutPage = () => {
               type="text"
               name="cardNumber"
               placeholder="1234 5678 9012 3456"
-              required/>
-          </div>
+              value={cardNumber}
+              inputMode="numeric"
+              autoComplete="cc-number"
+              aria-invalid={!!cardNumberError}
+              onChange={(e) => {
+                let value = e.target.value.replace(/\D/g, "");
 
+                if (value.length > 19) {
+                  value = value.slice(0, 19);
+                }
+
+                value = value.replace(/(.{4})/g, "$1 ").trim();
+
+                setCardNumber(value);
+                setCardNumberError("");
+              }}
+              required/>
+
+              {cardNumberError && (
+                <p className="checkout-error">
+                  {cardNumberError}
+                </p>
+              )}
+          </div>
+              
           <div className="payment-form-row">
 
             <div className="payment-form-field">
               <label htmlFor="expiration-date">
                 Expiration Date
               </label>
-
               <input
                 id="expiration-date"
                 type="text"
                 name="expirationDate"
                 placeholder="MM/YY"
+                value={expirationDate}
+                inputMode="numeric"
+                autoComplete="cc-exp"
+                aria-invalid={!!expirationDateError}
+                onChange={(e) => {
+                  let value = e.target.value.replace(/\D/g, "");
+
+                  if (value.length > 4) {
+                    value = value.slice(0, 4);
+                  }
+
+                  if (value.length > 2) {
+                    value = `${value.slice(0, 2)}/${value.slice(2)}`;
+                  }
+
+                  setExpirationDate(value);
+                  setExpirationDateError("");
+                }}
                 required/>
+
+                {expirationDateError && (
+                <p className="checkout-error">
+                  {expirationDateError}
+                </p>
+              )}
             </div>
 
             <div className="payment-form-field">
@@ -195,9 +306,30 @@ const CheckoutPage = () => {
                 type="text"
                 name="cvv"
                 placeholder="123"
-                required/>
-            </div>
+                value={cvv}
+                inputMode="numeric"
+                autoComplete="cc-csc"
+                aria-invalid={!!cvvError}
+                onChange={(e) => {
+                  let value = e.target.value.replace(/\D/g, "");
 
+                  if (value.length > 3) {
+                    value = value.slice(0, 3);
+                  }
+
+                  setCvv(value);
+                  setCvvError("");
+                }}
+                required
+                maxLength={3}
+                minLength={3}/>
+
+                {cvvError && (
+                <p className="checkout-error">
+                  {cvvError}
+                </p>
+              )}
+            </div>
           </div>
 
           <button
@@ -206,9 +338,7 @@ const CheckoutPage = () => {
             disabled={isPaymentLoading || selectedTier === null}>
             {isPaymentLoading ? <Spinner /> : "Pay Now"}
           </button>
-
         </form>
-
       </section>
 
       <div className="tiers-navigation">

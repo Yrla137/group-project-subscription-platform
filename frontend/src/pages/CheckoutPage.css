@@ -223,10 +223,7 @@
   font-size: 0.9rem;
   font-weight: 750;
   cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: none;
 }
 
 .submit-payment-form-button:hover:not(:disabled) {
@@ -238,6 +235,12 @@
 .submit-payment-form-button:disabled {
   cursor: not-allowed;
   opacity: 0.65;
+}
+
+.submit-payment-form-button:has(.spinner-container) {
+    background-color: white;
+    border-color: transparent;
+    opacity: 1;
 }
 
 .tiers-navigation {
