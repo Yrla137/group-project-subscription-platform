@@ -100,7 +100,11 @@ html {
 .manage-habits input[type="text"],
 .manage-habits input[type="number"],
 .manage-habits select,
-.manage-habits textarea {
+.manage-habits textarea,
+.edit-habits-section input[type="text"],
+.edit-habits-section input[type="number"],
+.edit-habits-section select,
+.edit-habits-section textarea{
     width: 100%;
     padding: 0.75rem;
     border: 1px solid #d1d5db;
@@ -112,18 +116,23 @@ html {
     transition: border-color 0.2s ease;
 }
 
-.manage-habits textarea {
+.manage-habits textarea,
+.edit-habits-section textarea {
     min-height: 80px;
     resize: vertical;
 }
 
 .manage-habits input:focus,
 .manage-habits select:focus,
-.manage-habits textarea:focus {
+.manage-habits textarea:focus,
+.edit-habits-section input:focus,
+.edit-habits-section select:focus,
+.edit-habits-section textarea:focus {
     outline: none;
     border-color: #F59E0B;
 }
 
+.edit-habits-section select:disabled,
 .manage-habits select:disabled {
     background-color: #f3f4f6;
     color: var(--text-muted);
@@ -133,7 +142,8 @@ html {
 
 /* ---- Buttons ---- */
 
-.manage-habits .btn {
+.manage-habits .btn,
+.edit-habits-section .btn {
     padding: 0.75rem 1.25rem;
     border: 1px solid transparent;
     border-radius: 20px;
@@ -144,28 +154,32 @@ html {
     transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
-.manage-habits .btn:focus-visible {
+.manage-habits .btn:focus-visible,
+.edit-habits-section .btn-focus-visible {
     outline: 2px solid #F59E0B;
     outline-offset: 2px;
 }
 
-.manage-habits .btn:disabled {
+.manage-habits .btn:disabled,
+.edit-habits-section .btn:disabled {
     opacity: 0.7;
     cursor: not-allowed;
 }
 
 /* Main action, same as the register button */
-.manage-habits .btn-primary {
+.manage-habits .btn-primary,
+.edit-habits-section .btn-primary {
     background-color: #F59E0B;
     color: #ffffff;
 }
 
+.edit-habits-section .btn-primary:hover:not(:disabled),
 .manage-habits .btn-primary:hover:not(:disabled) {
     background-color: #C57F08;
 }
 
 /* Secondary action: outlined in the primary color, with room for an icon */
-.manage-habits .btn-secondary {
+.edit-habits-section .btn-secondary {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -173,25 +187,33 @@ html {
     border-color: #F59E0B;
     background-color:var(--card-bg);
     color: #F59E0B;
+    margin: auto;
 }
 
-.manage-habits .btn-secondary:hover:not(:disabled) {
-    background-color: var(--bg-color);
+.edit-habits-section .btn-secondary-add{
+    margin-bottom: 5px;
+    width:100%;
 }
 
-.manage-habits .btn-secondary svg {
+.edit-habits-section .btn-secondary:hover:not(:disabled) {
+    background-color: var(--card-bg);
+}
+
+.edit-habits-section .btn-secondary svg {
     padding-top: 2px;
 }
 
 .manage-habits .form-actions,
-.manage-habits .custom-habit-form-actions {
+.edit-habits-section .form-actions,
+.edit-habits-section .custom-habit-form-actions {
     display: flex;
-    flex-wrap: wrap;
     gap: 8px;
 }
 
 /* The submit button fills the width, like on the register page */
-.manage-habits .form-actions .btn-primary {
+.manage-habits .form-actions .btn-primary,
+.edit-habits-section .form-actions .btn-primary,
+.edit-habits-section .custom-habit-form-actions .btn-primary {
     flex: 1;
 }
 
@@ -309,7 +331,7 @@ html {
 
 /* ---- Custom habit form ---- */
 
-.manage-habits .custom-habit-form {
+.edit-habits-section .custom-habit-form {
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
@@ -319,8 +341,8 @@ html {
     background-color: var(--card-bg);
 }
 
-.manage-habits .custom-habit-form input,
-.manage-habits .custom-habit-form textarea {
+.edit-habits-section .custom-habit-form input,
+.edit-habits-section .custom-habit-form textarea {
     margin-bottom: 0.6rem;
 }
 
@@ -343,20 +365,20 @@ html {
     color: #dc2626;
 }
 
-.manage-habits .habit-limit-text {
+.edit-habits-section .habit-limit-text {
     padding-top: 0;
     text-align: center;
     font-size: 0.75rem;
     color: var(--text-muted);
 }
 
-.manage-habits .habit-limit-text--reached {
+.edit-habits-section .habit-limit-text--reached {
     padding: 0px 12px 8px;
     border-radius: 6px;
     background-color: var(--bg-color);
 }
 
-.manage-habits .habit-limit-link:hover {
+.edit-habits-section .habit-limit-link:hover {
     text-decoration: underline;
 }
 

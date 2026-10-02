@@ -168,7 +168,7 @@ export default function CalendarDatepicker({
                 <div className="tier-notice" role="status">
                     <Info size="16" />
                     <span>
-                        Your current tier lets you plan until {format(horizon.end, "d MMM", { locale: enUS })}. <Link to="/tier">Upgrade tier</Link> for a longer horizon.
+                        Your current membership lets you plan until {format(horizon.end, "d MMM", { locale: enUS })}. <Link to="/tier">Upgrade</Link> for a longer horizon.
                     </span>
                 </div>
             )}

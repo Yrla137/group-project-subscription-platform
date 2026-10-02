@@ -39,7 +39,7 @@ const PaymentsPage = () => {
             </h2>
 
             <p className="payments-subtitle">
-                View your payment history and subscription details.
+                View your payment history and membership details.
             </p>
             </div>
 
@@ -55,15 +55,14 @@ const PaymentsPage = () => {
             </div>
             ) : payments.length === 0 ? (
             <div className="payments-empty">
-                <h3>No Payments Yet</h3>
-                <p>You have no payments yet.</p>
+                <h3>You have no payments yet</h3>
             </div>
             ) : (
             <section className="payments-card">
 
                 <div className="payments-card-header">
                 <h2>Your Payments</h2>
-                <p>Your previous subscription payments.</p>
+                     <p>Your previous membership payments.</p>
                 </div>
 
                 <div className="payments-table-wrapper">

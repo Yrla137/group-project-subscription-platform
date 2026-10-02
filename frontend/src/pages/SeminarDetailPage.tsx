@@ -46,7 +46,7 @@ const SeminarDetailPage = () => {
                 <div className="seminar-detail-locked">
                     <Lock size={24} aria-hidden="true" />
                     <h2>This seminar is part of {requiredTier ?? "a higher plan"}</h2>
-                    <p>Upgrade your subscription to join this seminar and others like it.</p>
+                    <p>Upgrade your membership to join this seminar and others like it.</p>
                     <div>
                         <Link to="/tiers" className="primary-btn">
                             See plans
